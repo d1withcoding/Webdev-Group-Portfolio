@@ -1,0 +1,9 @@
+﻿Requirement,Implementation
+**1. Homepage with group profiles**,"index.html with all 4 members (photos, names, IDs, roles)"
+**2. Company information page**,"about.html with company history, vision, values"
+**3. Contact page**,contact.html with validated form
+**4. Three pop-ups**,JavaScript modals on homepage and about page
+**5. Scrolling text**,CSS animation marquee on homepage
+**6. Image swap (max 5)**,JavaScript setInterval cycling 5 hero images
+**7. Login & Registration**,login.html with toggle between forms
+**8. Database with CRUD**,"dashboard.html using localStorage (Add, Retrieve, Update, Delete)"

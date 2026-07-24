@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chief Alltechs Ventures - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Chief Alltechs Ventures</div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="admin-dashboard.html">Admin</a></li>
+            <li><a href="member-dashboard.html">My Profile</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Scrolling Text -->
+    <div class="scroll-container">
+        <div class="scroll-text" id="scrollText">
+            Welcome to Chief Alltechs Ventures - Your Trusted IT Solutions Partner - Network Administration - System Administration - Cyber Security - Hardware Installation - IT Consulting - General Sales - Professional IT Services
+        </div>
+    </div>
+
+    <!-- Hero Section with Custom Background -->
+    <section class="hero" style="background-image: url('images/background.png'); background-size: cover; background-position: center;">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Chief Alltechs Ventures</h1>
+            <p class="hero-tagline">IT Solutions</p>
+            <p>Complete IT Solutions for Your Business</p>
+            <p class="hero-subtitle">Network | Systems | Security | Hardware | Consulting | Sales</p>
+            <a href="services.html" class="btn">Our Services</a>
+        </div>
+    </section>
+
+    <!-- Group Members Section -->
+    <section class="members">
+        <h2>Our Team</h2>
+        <div class="member-grid">
+            <div class="member-card" data-member-id="001">
+                <div class="member-photo">
+                    <img src="images/member1.jpg" alt="Ebenezer Nana Annan">
+                </div>
+                <h3>Ebenezer Nana Annan</h3>
+                <p>ID: 001</p>
+                <p>Network Administrator</p>
+            </div>
+            <div class="member-card" data-member-id="002">
+                <div class="member-photo">
+                    <img src="images/member2.jpg" alt="Okyere-Darko Addai">
+                </div>
+                <h3>Okyere-Darko Addai</h3>
+                <p>ID: 002</p>
+                <p>System Administrator</p>
+            </div>
+            <div class="member-card" data-member-id="003">
+                <div class="member-photo">
+                    <img src="images/member3.jpg" alt="Frank Akrasi Antwi">
+                </div>
+                <h3>Frank Akrasi Antwi</h3>
+                <p>ID: 003</p>
+                <p>Cyber Security Specialist</p>
+            </div>
+            <div class="member-card" data-member-id="004">
+                <div class="member-photo">
+                    <img src="images/member4.jpg" alt="Michael Essel">
+                </div>
+                <h3>Michael Essel</h3>
+                <p>ID: 004</p>
+                <p>IT Consultant</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pop-up Buttons -->
+    <section class="popup-section">
+        <h2>Quick Information</h2>
+        <button class="btn" onclick="showPopup('popup1')">Our Mission</button>
+        <button class="btn" onclick="showPopup('popup2')">Why Choose Us</button>
+        <button class="btn" onclick="showPopup('popup3')">Get Started</button>
+    </section>
+
+    <!-- Pop-up Modals -->
+    <div id="popup1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('popup1')">&times;</span>
+            <h3>Our Mission</h3>
+            <p>To provide top-tier IT solutions that empower businesses to thrive in the digital age through reliable network administration, robust system management, and cutting-edge cyber security.</p>
+        </div>
+    </div>
+
+    <div id="popup2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('popup2')">&times;</span>
+            <h3>Why Choose Us</h3>
+            <p>Chief Alltechs Ventures combines technical expertise with personalized service. We understand your business needs and deliver tailored IT solutions that drive growth and security.</p>
+        </div>
+    </div>
+
+    <div id="popup3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('popup3')">&times;</span>
+            <h3>Get Started</h3>
+            <p>Contact us today for a free consultation. Let us assess your IT infrastructure and recommend the best solutions for your organization.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Chief Alltechs Ventures. All rights reserved.</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

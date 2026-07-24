@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Chief Alltechs Ventures</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Chief Alltechs Ventures</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="admin-dashboard.html">Admin</a></li>
+            <li><a href="member-dashboard.html">My Profile</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>About Chief Alltechs Ventures</h1>
+    </section>
+
+    <section class="about-content">
+        <div class="about-section">
+            <h2>Who We Are</h2>
+            <p>Chief Alltechs Ventures is a leading IT firm dedicated to providing comprehensive technology solutions for businesses of all sizes. Founded by a team of passionate technology professionals, we have built a reputation for excellence, reliability, and innovation in the IT industry.</p>
+            <p>Our company brings together expertise across multiple IT disciplines to deliver end-to-end solutions that address the complex technology challenges facing modern organizations.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Vision</h2>
+            <p>To become the most trusted IT partner for businesses across Ghana and beyond, known for delivering transformative technology solutions that drive operational excellence and sustainable growth.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Core Values</h2>
+            <ul>
+                <li><strong>Integrity:</strong> We operate with honesty and transparency in all our dealings.</li>
+                <li><strong>Excellence:</strong> We strive for the highest standards in every project we undertake.</li>
+                <li><strong>Innovation:</strong> We embrace new technologies and creative solutions.</li>
+                <li><strong>Customer Focus:</strong> Your success is our priority.</li>
+                <li><strong>Reliability:</strong> We deliver on our promises, every time.</li>
+            </ul>
+        </div>
+
+        <div class="about-section">
+            <h2>What We Do</h2>
+            <p>Chief Alltechs Ventures offers a full spectrum of IT services designed to meet the diverse needs of our clients. From network infrastructure to cyber security, from hardware procurement to strategic IT consulting, we provide the expertise and support your business needs to stay ahead in a competitive digital landscape.</p>
+        </div>
+    </section>
+
+    <!-- Pop-up on About Page -->
+    <section class="popup-section">
+        <h2>Learn More</h2>
+        <button class="btn" onclick="showPopup('popupAbout1')">Company History</button>
+        <button class="btn" onclick="showPopup('popupAbout2')">Our Approach</button>
+    </section>
+
+    <div id="popupAbout1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('popupAbout1')">&times;</span>
+            <h3>Company History</h3>
+            <p>Chief Alltechs Ventures was established by a group of IT professionals who recognized the growing need for reliable, comprehensive technology services in the region. Since our founding, we have grown from a small consultancy to a full-service IT firm serving clients across multiple industries.</p>
+        </div>
+    </div>
+
+    <div id="popupAbout2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup('popupAbout2')">&times;</span>
+            <h3>Our Approach</h3>
+            <p>We take a client-centered approach to every project. We begin by understanding your business objectives, then design and implement IT solutions that align with your goals. Our methodology ensures that technology serves as an enabler of business success, not just a cost center.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Chief Alltechs Ventures. All rights reserved.</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        loadAboutInfo();
+    </script>
+</body>
+</html>

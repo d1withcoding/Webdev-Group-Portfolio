@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pillarPills: document.querySelectorAll('.pillar-pill'),
         marqueeContent: document.getElementById('marqueeContent'),
         modals: document.querySelectorAll('.modal-overlay'),
-        memberCards: document.querySelectorAll('.store-utility-card, .member-portfolio-card'),
+        memberCards: document.querySelectorAll('.member-portfolio-card'),
         authSection: document.getElementById('authSection'),
         dashboardSection: document.getElementById('dashboardSection'),
         logoutBtn: document.getElementById('logoutBtn'),
@@ -704,7 +704,7 @@ function saveRecords(records) {
 }
 
 function syncHomepageMembers(DOM) {
-    const cards = DOM && DOM.memberCards && DOM.memberCards.length ? DOM.memberCards : document.querySelectorAll('.store-utility-card, .member-portfolio-card');
+    const cards = DOM && DOM.memberCards && DOM.memberCards.length ? DOM.memberCards : document.querySelectorAll('.member-portfolio-card');
     if (!cards.length) return;
     
     const records = DEFAULT_MEMBERS;

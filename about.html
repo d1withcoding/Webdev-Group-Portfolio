@@ -3,21 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAV - About The Company</title>
+    <title>About Us - Chief Alltechs Ventures</title>
+    <script>(function(){const t=localStorage.getItem('cav_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" role="group" aria-label="Theme selector">
-        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
-        <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
-    </div>
-
-    <!-- Glassmorphic Top Navigation -->
     <nav class="global-nav" aria-label="Main navigation">
         <a href="index.html" class="brand-logo">
             CAV.
@@ -29,6 +21,10 @@
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
+            <div class="theme-toggle" role="group" aria-label="Theme selector">
+                <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+                <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+            </div>
         </div>
         <button class="hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
             <span class="hamburger-line"></span>
@@ -37,7 +33,6 @@
         </button>
     </nav>
 
-    <!-- Mobile Navigation Overlay -->
     <div id="mobile-nav-overlay" class="mobile-nav-overlay">
         <ul class="mobile-nav-links">
             <li><a href="index.html">Home</a></li>
@@ -48,25 +43,92 @@
         </ul>
     </div>
 
-    <section class="product-tile product-tile-dark" style="min-height: 55vh; justify-content: center; border-bottom: 1px solid var(--glass-border);">
-        <div class="tile-content text-center">
-            <span class="tagline">ABOUT CHIEF ALLTECHS VENTURES</span>
-            <h1 class="hero-display mt-2">Pioneers of digital architecture.</h1>
-            <p class="lead mt-4" style="margin-left: auto; margin-right: auto;">We build the invisible infrastructure that powers tomorrow's enterprise.</p>
-        </div>
-    </section>
+    <main id="main-content">
+        <section class="product-tile product-tile-dark" style="min-height: 50vh; justify-content: center;">
+            <div class="tile-content text-center">
+                <span class="tagline">ABOUT CHIEF ALLTECHS VENTURES</span>
+                <h1 class="hero-display mt-2">Comprehensive Technology Solutions.</h1>
+                <p class="lead mt-4" style="margin-left: auto; margin-right: auto;">Chief Alltechs Ventures is a leading IT firm dedicated to providing comprehensive technology solutions for businesses of all sizes. Founded by a team of passionate technology professionals, we have built a reputation for excellence, reliability, and innovation in the IT industry.</p>
+            </div>
+        </section>
 
-    <section class="product-tile product-tile-parchment">
-        <div class="tile-content text-left" style="max-width: 850px; padding: var(--spacing-lg) 0;">
-            <h2 class="display-lg mb-8" style="color: var(--ink-dark);">The Company Heritage</h2>
-            <p class="body-strong mb-4" style="font-size: 20px; color: var(--ink-dark); line-height: 1.5;">Founded by a team of highly specialized network architects from UCC (Cape Coast), Chief Alltechs Ventures was built on a single premise: digital infrastructure should be invisible, unbreakable, and infinitely scalable.</p>
-            <p class="mb-4" style="color: var(--ink-dark); font-size: 16px;">We specialize in designing enterprise-grade networks and zero-trust security environments for organizations that cannot afford downtime. Our team brings deep technical mastery across routing protocols, switching backbones, multi-cloud integration, and proactive threat mitigation.</p>
-            <p style="color: var(--ink-dark); font-size: 16px;">From our headquarters to our global deployments, we don't just maintain networks—we architect the future of digital connectivity.</p>
+        <section class="product-tile product-tile-dark">
+            <div class="tile-content text-left" style="max-width: 900px; padding: var(--spacing-lg) 0;">
+                <p class="body-strong mb-8" style="font-size: 20px; line-height: 1.6;">Our company brings together expertise across multiple IT disciplines to deliver end-to-end solutions that address the complex technology challenges facing modern organizations.</p>
+
+                <div class="store-utility-card mb-8">
+                    <span class="tagline">STRATEGIC PURPOSE</span>
+                    <h2 class="display-md mt-2 mb-2">Our Vision</h2>
+                    <p class="body-strong" style="font-size: 18px; line-height: 1.5; color: var(--theme-accent);">To become the most trusted IT partner for businesses across Ghana and beyond, known for delivering transformative technology solutions that drive operational excellence and sustainable growth.</p>
+                </div>
+
+                <div class="mb-8">
+                    <span class="tagline">GUIDING PRINCIPLES</span>
+                    <h2 class="display-lg mt-2 mb-4">Our Core Values</h2>
+                    
+                    <div class="store-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="store-utility-card">
+                            <span class="tagline">01. INTEGRITY</span>
+                            <h3 class="mt-2">Integrity</h3>
+                            <p class="caption mt-2">We operate with honesty and transparency in all our dealings.</p>
+                        </div>
+                        <div class="store-utility-card">
+                            <span class="tagline">02. EXCELLENCE</span>
+                            <h3 class="mt-2">Excellence</h3>
+                            <p class="caption mt-2">We strive for the highest standards in every project we undertake.</p>
+                        </div>
+                        <div class="store-utility-card">
+                            <span class="tagline">03. INNOVATION</span>
+                            <h3 class="mt-2">Innovation</h3>
+                            <p class="caption mt-2">We embrace new technologies and creative solutions.</p>
+                        </div>
+                        <div class="store-utility-card">
+                            <span class="tagline">04. CUSTOMER FOCUS</span>
+                            <h3 class="mt-2">Customer Focus</h3>
+                            <p class="caption mt-2">Your success is our priority.</p>
+                        </div>
+                        <div class="store-utility-card">
+                            <span class="tagline">05. RELIABILITY</span>
+                            <h3 class="mt-2">Reliability</h3>
+                            <p class="caption mt-2">We deliver on our promises, every time.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="store-utility-card">
+                    <span class="tagline">SOLUTIONS OVERVIEW</span>
+                    <h2 class="display-md mt-2 mb-2">What We Do</h2>
+                    <p class="caption mt-2" style="font-size: 16px; line-height: 1.6;">Chief Alltechs Ventures offers a full spectrum of IT services designed to meet the diverse needs of our clients. From network infrastructure to cyber security, from hardware procurement to strategic IT consulting, we provide the expertise and support your business needs to stay ahead in a competitive digital landscape.</p>
+                    
+                    <div class="tile-actions" style="justify-content: flex-start; margin-top: 24px;">
+                        <button class="button-primary" onclick="openModal('historyModal')">Company History</button>
+                        <button class="button-secondary-pill" onclick="openModal('approachModal')">Our Approach</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="historyModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+        <div class="modal-card text-left">
+            <button class="modal-close" onclick="closeModal('historyModal')" aria-label="Close modal">×</button>
+            <span class="tagline text-center" style="display:block;">OUR JOURNEY</span>
+            <h3 id="historyTitle" class="display-md mt-2 mb-4 text-center">Company History</h3>
+            <p>Chief Alltechs Ventures was established by a group of IT professionals who recognized the growing need for reliable, comprehensive technology services in the region. Since our founding, we have grown from a small consultancy to a full-service IT firm serving clients across multiple industries.</p>
         </div>
-    </section>
+    </div>
+
+    <div id="approachModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="approachTitle">
+        <div class="modal-card text-left">
+            <button class="modal-close" onclick="closeModal('approachModal')" aria-label="Close modal">×</button>
+            <span class="tagline text-center" style="display:block;">METHODOLOGY</span>
+            <h3 id="approachTitle" class="display-md mt-2 mb-4 text-center">Our Approach</h3>
+            <p>We take a client-centered approach to every project. We begin by understanding your business objectives, then design and implement IT solutions that align with your goals. Our methodology ensures that technology serves as an enabler of business success, not just a cost center.</p>
+        </div>
+    </div>
 
     <footer class="footer">
-        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
+        <p>&copy; 2026 Chief Alltechs Ventures. All rights reserved.</p>
     </footer>
     <script src="js/scripts.js"></script>
 </body>

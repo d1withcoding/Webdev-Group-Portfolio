@@ -1,66 +1,75 @@
-// ==========================================================================
-// Chief Alltechs Ventures - Luxury Scrollytelling Engine & Core Logic
-// with Light-Dark Mode Theme Support & Performance Optimizations
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize theme from localStorage or system preference
+    const DOM = {
+        html: document.documentElement,
+        themeLight: document.getElementById('themeLight'),
+        themeDark: document.getElementById('themeDark'),
+        hamburgers: document.querySelectorAll('.hamburger'),
+        mobileOverlay: document.getElementById('mobile-nav-overlay') || document.getElementById('mobileNavOverlay'),
+        wrapper: document.getElementById('scrollyWrapper'),
+        canvas: document.getElementById('scrollyCanvas'),
+        pillarPills: document.querySelectorAll('.pillar-pill'),
+        marqueeContent: document.getElementById('marqueeContent'),
+        modals: document.querySelectorAll('.modal-overlay'),
+        memberCards: document.querySelectorAll('.store-utility-card, .member-portfolio-card'),
+        authSection: document.getElementById('authSection'),
+        dashboardSection: document.getElementById('dashboardSection'),
+        logoutBtn: document.getElementById('logoutBtn'),
+        userWelcome: document.getElementById('userWelcome'),
+        loginCard: document.getElementById('loginCard'),
+        registerCard: document.getElementById('registerCard'),
+        tabLoginBtn: document.getElementById('tabLoginBtn'),
+        tabRegisterBtn: document.getElementById('tabRegisterBtn'),
+        dataTableBody: document.getElementById('dataTableBody'),
+        recordId: document.getElementById('recordId'),
+        empName: document.getElementById('empName'),
+        empRole: document.getElementById('empRole'),
+        empDepartment: document.getElementById('empDepartment'),
+        btnAdd: document.getElementById('btnAdd'),
+        btnUpdate: document.getElementById('btnUpdate'),
+        retrieveStatus: document.getElementById('retrieveStatus'),
+        retrieveStatusText: document.getElementById('retrieveStatusText'),
+        contactForm: document.getElementById('contactForm'),
+        contactName: document.getElementById('contactName'),
+        contactEmail: document.getElementById('contactEmail'),
+        contactMessage: document.getElementById('contactMessage'),
+        nameError: document.getElementById('nameError'),
+        emailError: document.getElementById('emailError'),
+        messageError: document.getElementById('messageError'),
+        contactSuccess: document.getElementById('contactSuccess'),
+        submissionsSection: document.getElementById('submissionsSection'),
+        submissionsList: document.getElementById('submissionsList')
+    };
+    
     initTheme();
-    
-    // Initialize mobile navigation
-    initMobileNavigation();
-    
-    // Initialize scrollytelling with performance optimizations
-    initCanvasScrollytelling();
-    
-    // Initialize pillar switcher
+    initMobileNavigation(DOM);
+    initCanvasScrollytelling(DOM);
     initPillarSwitcher();
+    initMarqueeJS(DOM);
+    initModals(DOM);
+    syncHomepageMembers(DOM);
+    initImageSwap();
     
-    // Initialize marquee
-    initMarquee();
-    
-    // Initialize modals
-    initModals();
-    
-    // Sync homepage members
-    syncHomepageMembers();
-    
-    // Auth checks on database portal
     if (window.location.pathname.includes('database.html')) {
-        checkAuth();
-        renderTable();
-    }
-
-    // Contact page render past submissions
-    if (window.location.pathname.includes('contact.html')) {
-        renderSubmissions();
+        checkAuth(DOM);
+        renderTable(DOM);
     }
     
-    // Check for canvas support and add fallback class
+    if (window.location.pathname.includes('contact.html')) {
+        renderSubmissions(DOM);
+    }
+    
     if (!document.createElement('canvas').getContext) {
         document.body.classList.add('no-canvas');
     }
 });
 
-// ==========================================
-// THEME MANAGEMENT (Light/Dark Mode)
-// ==========================================
-
 function initTheme() {
-    // Check for saved theme preference or use system preference
     const savedTheme = localStorage.getItem('cav_theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
-    // Default to dark for this luxury aesthetic
-    if (!savedTheme) {
-        theme = 'dark';
-    }
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
     
     setTheme(theme, false);
     
-    // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('cav_theme')) {
             setTheme(e.matches ? 'dark' : 'light', false);
@@ -70,129 +79,92 @@ function initTheme() {
 
 function setTheme(mode, save = true) {
     const html = document.documentElement;
-    
-    // Update data-theme attribute
     html.setAttribute('data-theme', mode);
     
-    // Update button active states
-    const lightBtn = document.getElementById('themeLight');
-    const darkBtn = document.getElementById('themeDark');
+    const lightBtns = document.querySelectorAll('#themeLight, .theme-light-btn');
+    const darkBtns = document.querySelectorAll('#themeDark, .theme-dark-btn');
     
-    if (lightBtn && darkBtn) {
-        if (mode === 'light') {
-            lightBtn.classList.add('active');
-            darkBtn.classList.remove('active');
-        } else {
-            lightBtn.classList.remove('active');
-            darkBtn.classList.add('active');
-        }
-    }
+    lightBtns.forEach(btn => {
+        if (mode === 'light') btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
     
-    // Update theme-accent based on mode
-    const root = document.documentElement;
-    if (mode === 'light') {
-        // Use gold as primary accent for light mode
-        root.style.setProperty('--theme-accent', '#D8B36A');
-        root.style.setProperty('--theme-accent-rgb', '216, 179, 106');
-    } else {
-        // Keep existing pillar-based accent system for dark mode
-        const currentPillar = root.style.getPropertyValue('--theme-accent') || '#D8B36A';
-        root.style.setProperty('--theme-accent', currentPillar);
-    }
-    
-    // Save preference
+    darkBtns.forEach(btn => {
+        if (mode === 'dark') btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+
     if (save) {
         localStorage.setItem('cav_theme', mode);
     }
 }
 
-// ==========================================
-// MOBILE NAVIGATION
-// ==========================================
-
-function initMobileNavigation() {
-    const hamburgers = document.querySelectorAll('.hamburger');
-    const mobileOverlay = document.getElementById('mobile-nav-overlay');
+function initMobileNavigation(DOM) {
+    const hamburgers = DOM && DOM.hamburgers && DOM.hamburgers.length ? DOM.hamburgers : document.querySelectorAll('.hamburger');
+    const mobileOverlay = (DOM && DOM.mobileOverlay) ? DOM.mobileOverlay : (document.getElementById('mobile-nav-overlay') || document.getElementById('mobileNavOverlay'));
+    
+    if (!hamburgers.length || !mobileOverlay) return;
     
     hamburgers.forEach(hamburger => {
-        hamburger.addEventListener('click', () => {
-            toggleMobileNav();
-        });
+        hamburger.addEventListener('click', () => toggleMobileNav());
     });
     
-    // Close when clicking on links
-    if (mobileOverlay) {
-        const links = mobileOverlay.querySelectorAll('a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                closeMobileNav();
-            });
-        });
-        
-        // Close when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mobileOverlay.contains(e.target) && 
-                !Array.from(hamburgers).some(h => h.contains(e.target))) {
-                closeMobileNav();
-            }
-        });
-    }
+    const links = mobileOverlay.querySelectorAll('a');
+    links.forEach(link => {
+        link.addEventListener('click', () => closeMobileNav());
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (mobileOverlay && !mobileOverlay.contains(e.target) && 
+            !Array.from(hamburgers).some(h => h.contains(e.target))) {
+            closeMobileNav();
+        }
+    });
 }
 
 function toggleMobileNav() {
     const hamburger = document.querySelector('.hamburger');
-    const mobileOverlay = document.getElementById('mobile-nav-overlay');
-    
+    const mobileOverlay = document.getElementById('mobile-nav-overlay') || document.getElementById('mobileNavOverlay');
     if (hamburger && mobileOverlay) {
-        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-        
-        if (isExpanded) {
-            closeMobileNav();
-        } else {
-            openMobileNav();
-        }
+        const isExpanded = hamburger.classList.contains('active');
+        isExpanded ? closeMobileNav() : openMobileNav();
     }
 }
 
 function openMobileNav() {
-    const hamburger = document.querySelector('.hamburger');
-    const mobileOverlay = document.getElementById('mobile-nav-overlay');
-    
-    if (hamburger && mobileOverlay) {
-        hamburger.classList.add('active');
+    const hamburgers = document.querySelectorAll('.hamburger');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay') || document.getElementById('mobileNavOverlay');
+    hamburgers.forEach(h => {
+        h.classList.add('active');
+        h.setAttribute('aria-expanded', 'true');
+    });
+    if (mobileOverlay) {
         mobileOverlay.classList.add('active');
-        hamburger.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
     }
+    document.body.style.overflow = 'hidden';
 }
 
 function closeMobileNav() {
     const hamburgers = document.querySelectorAll('.hamburger');
-    const mobileOverlay = document.getElementById('mobile-nav-overlay');
-    
-    hamburgers.forEach(hamburger => {
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay') || document.getElementById('mobileNavOverlay');
+    hamburgers.forEach(h => {
+        h.classList.remove('active');
+        h.setAttribute('aria-expanded', 'false');
     });
-    
     if (mobileOverlay) {
         mobileOverlay.classList.remove('active');
     }
-    
     document.body.style.overflow = '';
 }
 
-// ==========================================
-// 1. Pillar Data & State Machine
-// ==========================================
 const PILLARS = {
     network: {
         id: "network",
         name: "Network Architecture",
         tagline: "Regal. Rare. Unbreakable.",
-        color: "#D8B36A",
-        colorRgb: "216, 179, 106",
-        gradient: "linear-gradient(135deg, #0B0B0F 0%, #1a160d 50%, #0B0B0F 100%)",
+        color: "#143A72",
+        colorRgb: "20, 58, 114",
+        gradient: "linear-gradient(135deg, #F7F9FC 0%, #EEF3F9 50%, #F7F9FC 100%)",
         stage1Title: "Architecting the digital future.",
         stage1Sub: "Chief Alltechs Ventures delivers high-end network architecture, unbreachable cybersecurity, and expert systems administration.",
         stage2Title: "Unbreakable topology by design.",
@@ -206,9 +178,9 @@ const PILLARS = {
         id: "security",
         name: "Cyber Security",
         tagline: "Zero-Trust. High-Shield. Unbreachable.",
-        color: "#3FE3D1",
-        colorRgb: "63, 227, 209",
-        gradient: "linear-gradient(135deg, #041012 0%, #08262a 50%, #0B0B0F 100%)",
+        color: "#143A72",
+        colorRgb: "20, 58, 114",
+        gradient: "linear-gradient(135deg, #F7F9FC 0%, #EEF3F9 50%, #F7F9FC 100%)",
         stage1Title: "Zero-Trust Defense Systems.",
         stage1Sub: "Quantum-grade encryption, continuous threat intelligence, and immutable security perimeters.",
         stage2Title: "Shielding enterprise assets.",
@@ -222,9 +194,9 @@ const PILLARS = {
         id: "systems",
         name: "Systems Administration",
         tagline: "High-Availability. Cloud Velocity. Unrivaled.",
-        color: "#2B57FF",
-        colorRgb: "43, 87, 255",
-        gradient: "linear-gradient(135deg, #050A18 0%, #0d1a45 50%, #0B0B0F 100%)",
+        color: "#143A72",
+        colorRgb: "20, 58, 114",
+        gradient: "linear-gradient(135deg, #F7F9FC 0%, #EEF3F9 50%, #F7F9FC 100%)",
         stage1Title: "Orchestrating Cloud Velocity.",
         stage1Sub: "Automated multi-cloud infrastructure, Linux kernel optimization, and resilient enterprise DevOps.",
         stage2Title: "Hyper-scalable server clusters.",
@@ -243,12 +215,9 @@ function switchPillar(key) {
     currentPillarKey = key;
     const data = PILLARS[key];
 
-    // Morph Root CSS Variables
     document.documentElement.style.setProperty('--theme-accent', data.color);
     document.documentElement.style.setProperty('--theme-accent-rgb', data.colorRgb);
-    document.documentElement.style.setProperty('--theme-gradient', data.gradient);
 
-    // Update Switcher Pills Active State
     document.querySelectorAll('.pillar-pill').forEach(btn => {
         if (btn.dataset.pillar === key) {
             btn.classList.add('active');
@@ -257,7 +226,6 @@ function switchPillar(key) {
         }
     });
 
-    // Update Text Content on Hero Stages
     const s1Title = document.getElementById('stage1Title');
     const s1Sub = document.getElementById('stage1Sub');
     const s2Title = document.getElementById('stage2Title');
@@ -286,22 +254,13 @@ function initPillarSwitcher() {
     });
 }
 
-// ==========================================
-// 2. Interactive Canvas 3D Particle Scrollytelling Engine
-// with Performance Optimizations & Accessibility
-// ==========================================
-function initCanvasScrollytelling() {
-    const canvas = document.getElementById('scrollyCanvas');
-    const wrapper = document.getElementById('scrollyWrapper');
+function initCanvasScrollytelling(DOM) {
+    const canvas = DOM.canvas || document.getElementById('scrollyCanvas');
+    const wrapper = DOM.wrapper || document.getElementById('scrollyWrapper');
     if (!canvas || !wrapper) return;
 
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-        return;
-    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Performance optimization: reduce particle count on mobile
     const isMobile = window.innerWidth < 768;
     const particleCount = isMobile ? 50 : 140;
     const connectionSkip = isMobile ? 10 : 6;
@@ -310,8 +269,6 @@ function initCanvasScrollytelling() {
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    // Animation state for performance
-    let isAnimating = true;
     let lastFrameTime = 0;
     let animationId = null;
 
@@ -320,7 +277,6 @@ function initCanvasScrollytelling() {
         height = canvas.height = window.innerHeight;
     });
 
-    // Create particles
     const particles = [];
     for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -354,7 +310,6 @@ function initCanvasScrollytelling() {
     }
 
     function render(timestamp) {
-        // Throttle frame rate for performance on mobile
         if (isMobile && timestamp - lastFrameTime < 16) {
             animationId = requestAnimationFrame(render);
             return;
@@ -367,10 +322,8 @@ function initCanvasScrollytelling() {
             scrollProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
         }
 
-        // Update stage classes
         updateStageClasses();
 
-        // Only render if canvas is visible
         const canvasRect = canvas.getBoundingClientRect();
         if (canvasRect.width === 0 || canvasRect.height === 0) {
             animationId = requestAnimationFrame(render);
@@ -391,7 +344,6 @@ function initCanvasScrollytelling() {
 
         for (let i = 0; i < particleCount; i++) {
             const p = particles[i];
-
             const rx = p.x * cosAngle - p.z * sinAngle;
             const rz = p.x * sinAngle + p.z * cosAngle + 800 - (scrollProgress * 200);
             const ry = p.y + Math.sin(scrollProgress * Math.PI * 2 + i) * 50;
@@ -400,7 +352,6 @@ function initCanvasScrollytelling() {
                 const scale = focalLength / rz;
                 const projX = width / 2 + rx * scale;
                 const projY = height / 2 + ry * scale;
-
                 const alpha = Math.min(Math.max((1 - rz / 1600), 0.1), 0.85);
 
                 ctx.beginPath();
@@ -434,10 +385,8 @@ function initCanvasScrollytelling() {
         animationId = requestAnimationFrame(render);
     }
 
-    // Start animation
     animationId = requestAnimationFrame(render);
     
-    // Pause animation when tab is not visible
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             if (animationId) {
@@ -450,279 +399,490 @@ function initCanvasScrollytelling() {
     });
 }
 
-// ==========================================
-// 3. Marquee Scrolling Text (CSS-based)
-// ==========================================
-function initMarquee() {
-    // Marquee is handled by CSS animation
-    // This function is kept for backwards compatibility
-    const content = document.getElementById('marqueeContent');
-    if (!content) return;
+/* =========================================
+   JavaScript-Driven Scrolling Marquee
+   Uses requestAnimationFrame for smooth scroll
+   ========================================= */
+function initMarqueeJS(DOM) {
+    const marqueeContent = DOM.marqueeContent || document.getElementById('marqueeContent');
+    if (!marqueeContent) return;
     
-    // Clone content for seamless CSS animation
-    const clone = content.cloneNode(true);
-    clone.id = 'marqueeClone';
-    content.parentElement.appendChild(clone);
+    // Clone items to create seamless loop
+    if (marqueeContent.children.length === 6) {
+        const items = Array.from(marqueeContent.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            marqueeContent.appendChild(clone);
+        });
+    }
+
+    // Switch from CSS animation to JS-driven scroll
+    marqueeContent.classList.add('js-driven');
+
+    let scrollPosition = 0;
+    let isPaused = false;
+    const scrollSpeed = 0.8; // pixels per frame
+    let marqueeAnimId = null;
+
+    // Get the width of the original items (first half)
+    function getHalfWidth() {
+        const items = marqueeContent.children;
+        let totalWidth = 0;
+        for (let i = 0; i < items.length / 2; i++) {
+            totalWidth += items[i].offsetWidth;
+        }
+        // Add gaps (48px gap between items)
+        totalWidth += (items.length / 2) * 48;
+        return totalWidth;
+    }
+
+    function animateMarquee() {
+        if (!isPaused) {
+            scrollPosition += scrollSpeed;
+            const halfWidth = getHalfWidth();
+            if (scrollPosition >= halfWidth) {
+                scrollPosition = 0;
+            }
+            marqueeContent.style.transform = `translateX(-${scrollPosition}px)`;
+        }
+        marqueeAnimId = requestAnimationFrame(animateMarquee);
+    }
+
+    // Pause on hover
+    marqueeContent.parentElement.addEventListener('mouseenter', () => {
+        isPaused = true;
+    });
+
+    marqueeContent.parentElement.addEventListener('mouseleave', () => {
+        isPaused = false;
+    });
+
+    // Start the JS-driven animation
+    marqueeAnimId = requestAnimationFrame(animateMarquee);
+
+    // Pause when page is hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && marqueeAnimId) {
+            cancelAnimationFrame(marqueeAnimId);
+            marqueeAnimId = null;
+        } else if (!document.hidden && !marqueeAnimId) {
+            marqueeAnimId = requestAnimationFrame(animateMarquee);
+        }
+    });
 }
 
-// ==========================================
-// 4. Modals Engine
-// ==========================================
-function initModals() {
-    const modals = document.querySelectorAll('.modal-overlay');
+/* =========================================
+   Image Swap Carousel (5 images)
+   Auto-rotates every 4 seconds with crossfade
+   ========================================= */
+let currentImageIndex = 0;
+let imageSwapInterval = null;
+
+const IMAGE_LABELS = [
+    'Network Architecture Infrastructure',
+    'Cybersecurity Operations Center',
+    'Cloud Systems Dashboard',
+    'Server Cluster Management',
+    'Enterprise Data Center'
+];
+
+function initImageSwap() {
+    const viewport = document.getElementById('imageSwapViewport');
+    if (!viewport) return;
+
+    const images = viewport.querySelectorAll('img');
+    if (images.length === 0) return;
+
+    // Set first image as active
+    currentImageIndex = 0;
+    updateImageDisplay();
+
+    // Auto-rotate every 4 seconds
+    startAutoRotation();
+
+    // Pause auto-rotation on hover
+    viewport.addEventListener('mouseenter', () => {
+        if (imageSwapInterval) {
+            clearInterval(imageSwapInterval);
+            imageSwapInterval = null;
+        }
+    });
+
+    viewport.addEventListener('mouseleave', () => {
+        startAutoRotation();
+    });
+}
+
+function startAutoRotation() {
+    if (imageSwapInterval) clearInterval(imageSwapInterval);
+    imageSwapInterval = setInterval(() => {
+        swapImage(1);
+    }, 4000);
+}
+
+function swapImage(direction) {
+    const viewport = document.getElementById('imageSwapViewport');
+    if (!viewport) return;
+
+    const images = viewport.querySelectorAll('img');
+    const totalImages = images.length;
+
+    currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
+    updateImageDisplay();
+
+    // Reset auto-rotation timer
+    startAutoRotation();
+}
+
+function goToImage(index) {
+    currentImageIndex = index;
+    updateImageDisplay();
+    startAutoRotation();
+}
+
+function updateImageDisplay() {
+    const viewport = document.getElementById('imageSwapViewport');
+    if (!viewport) return;
+
+    const images = viewport.querySelectorAll('img');
+    const dots = document.querySelectorAll('.swap-dot');
+    const label = document.getElementById('imageSwapLabel');
+
+    // Update images (crossfade)
+    images.forEach((img, i) => {
+        if (i === currentImageIndex) {
+            img.classList.add('active');
+        } else {
+            img.classList.remove('active');
+        }
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => {
+        if (i === currentImageIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
+    // Update label
+    if (label && IMAGE_LABELS[currentImageIndex]) {
+        label.textContent = `Image ${currentImageIndex + 1} of ${images.length} \u2014 ${IMAGE_LABELS[currentImageIndex]}`;
+    }
+}
+
+function initModals(DOM) {
+    const modals = DOM.modals || document.querySelectorAll('.modal-overlay');
     modals.forEach(modal => {
+        const closeBtn = modal.querySelector('.modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => closeModal(modal.id));
+        }
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('active');
+                closeModal(modal.id);
             }
         });
     });
-}
-
-function showModal(id) {
-    const modal = document.getElementById(id);
-    if (modal) modal.classList.add('active');
-}
-
-function closeModal(id) {
-    const modal = document.getElementById(id);
-    if (modal) modal.classList.remove('active');
-}
-
-// ==========================================
-// 5. Team Members Initialization & Homepage Sync
-// ==========================================
-const DEFAULT_MEMBERS = [
-    { id: "MS/ITE/25/0041", name: "Ebenezer Nana Annan", role: "Network Administrator", photo: "images/member1.jpg" },
-    { id: "MS/ITE/25/0044", name: "Okyere-Darko Addai", role: "System Administrator", photo: "images/member2.jpg" },
-    { id: "MS/ITE/25/0051", name: "Frank Akrasi Antwi", role: "Cyber Security Specialist", photo: "images/member3.jpg" },
-    { id: "MS/ITE/25/0053", name: "Michael Essel", role: "IT Consultant", photo: "images/member4.jpg" }
-];
-
-function initMembers() {
-    if (!localStorage.getItem('cav_members')) {
-        localStorage.setItem('cav_members', JSON.stringify(DEFAULT_MEMBERS));
-    }
-}
-
-function syncHomepageMembers() {
-    initMembers();
-    const members = JSON.parse(localStorage.getItem('cav_members'));
-
-    members.forEach((m, i) => {
-        const cards = document.querySelectorAll('.store-utility-card');
-        if (cards[i] && (window.location.pathname.includes('index.html') || window.location.pathname === '/')) {
-            const img = cards[i].querySelector('img');
-            const name = cards[i].querySelector('h3');
-            const p = cards[i].querySelector('p.caption');
-
-            if (img) img.src = m.photo;
-            if (name) name.textContent = m.name;
-            if (p) p.innerHTML = `ID: ${m.id}<br>${m.role}`;
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            modals.forEach(modal => {
+                if (modal.classList.contains('active')) {
+                    closeModal(modal.id);
+                }
+            });
         }
     });
 }
 
-// ==========================================
-// 6. Authentication & Registration (Database Portal)
-// ==========================================
-function switchAuthTab(tab) {
-    const loginCard = document.getElementById('loginCard');
-    const registerCard = document.getElementById('registerCard');
-    const tabLoginBtn = document.getElementById('tabLoginBtn');
-    const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+let confirmCallback = null;
 
-    if (!loginCard || !registerCard) return;
+function showAlert(message, title = 'Notice') {
+    const modal = document.getElementById('alertModal');
+    const msgEl = document.getElementById('alertModalMessage');
+    const titleEl = document.getElementById('alertModalTitle');
+    if (!modal) { window.alert(message); return; }
+    if (msgEl) msgEl.textContent = message;
+    if (titleEl) titleEl.textContent = title;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
 
-    if (tab === 'login') {
-        loginCard.style.display = 'block';
-        registerCard.style.display = 'none';
-        tabLoginBtn.style.background = 'rgba(255,255,255,0.15)';
-        tabLoginBtn.style.color = 'white';
-        tabRegisterBtn.style.background = 'transparent';
-        tabRegisterBtn.style.color = 'rgba(255,255,255,0.7)';
-    } else {
-        loginCard.style.display = 'none';
-        registerCard.style.display = 'block';
-        tabRegisterBtn.style.background = 'rgba(255,255,255,0.15)';
-        tabRegisterBtn.style.color = 'white';
-        tabLoginBtn.style.background = 'transparent';
-        tabLoginBtn.style.color = 'rgba(255,255,255,0.7)';
+function closeAlert() {
+    const modal = document.getElementById('alertModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
     }
 }
 
-function handleLogin(event) {
-    if (event) event.preventDefault();
-
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value;
-    const errorEl = document.getElementById('loginError');
-    if (errorEl) errorEl.textContent = '';
-
-    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
-    const registeredUser = users.find(u => u.username === user && u.password === pass);
-
-    if ((user === 'admin' && pass === 'admin123') || registeredUser) {
-        const currentUser = registeredUser ? registeredUser.fullName : 'Administrator';
-        localStorage.setItem('cav_auth', 'true');
-        localStorage.setItem('cav_current_user', currentUser);
-        checkAuth();
-    } else {
-        if (errorEl) errorEl.textContent = 'Invalid credentials. Hint: admin / admin123';
-        else alert('Invalid credentials. Hint: admin / admin123');
+function showConfirm(message, onConfirm, title = 'Confirm Action') {
+    const modal = document.getElementById('confirmModal');
+    const msgEl = document.getElementById('confirmModalMessage');
+    const titleEl = document.getElementById('confirmModalTitle');
+    if (!modal) {
+        if (window.confirm(message)) onConfirm();
+        return;
     }
-    return false;
+    if (msgEl) msgEl.textContent = message;
+    if (titleEl) titleEl.textContent = title;
+    confirmCallback = onConfirm;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-function handleRegister(event) {
-    if (event) event.preventDefault();
-
-    const fullName = document.getElementById('regFullName').value.trim();
-    const username = document.getElementById('regUsername').value.trim();
-    const password = document.getElementById('regPassword').value;
-    const confirm = document.getElementById('regConfirm').value;
-    const errorEl = document.getElementById('regError');
-
-    if (errorEl) errorEl.textContent = '';
-
-    if (password !== confirm) {
-        if (errorEl) errorEl.textContent = 'Passkeys do not match.';
-        return false;
+function closeConfirm(accepted) {
+    const modal = document.getElementById('confirmModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
     }
-
-    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
-    if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-        if (errorEl) errorEl.textContent = 'System ID / Username is already registered.';
-        return false;
+    if (accepted && typeof confirmCallback === 'function') {
+        confirmCallback();
     }
-
-    users.push({ fullName, username, password });
-    localStorage.setItem('cav_users', JSON.stringify(users));
-
-    alert('Registration successful! You may now log in.');
-    switchAuthTab('login');
-    document.getElementById('username').value = username;
-    document.getElementById('password').value = password;
-    return false;
+    confirmCallback = null;
 }
 
-function handleLogout() {
-    localStorage.removeItem('cav_auth');
-    localStorage.removeItem('cav_current_user');
-    checkAuth();
-}
-
-function checkAuth() {
-    const isAuth = localStorage.getItem('cav_auth');
-    const authSection = document.getElementById('authSection');
-    const dashboardSection = document.getElementById('dashboardSection');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userWelcome = document.getElementById('userWelcome');
-
-    if (authSection && dashboardSection) {
-        if (isAuth) {
-            authSection.style.display = 'none';
-            dashboardSection.style.display = 'flex';
-            if (logoutBtn) logoutBtn.style.display = 'inline-block';
-            if (userWelcome) {
-                const currentUser = localStorage.getItem('cav_current_user') || 'Administrator';
-                userWelcome.textContent = `Authenticated Session: ${currentUser}`;
-            }
-            renderTable();
-        } else {
-            authSection.style.display = 'flex';
-            dashboardSection.style.display = 'none';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-        }
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 }
 
-// ==========================================
-// 7. Database CRUD Operations & Retrieve Records
-// ==========================================
-const DEFAULT_RECORDS = [
-    { id: "EMP-0041", name: "Ebenezer Nana Annan", role: "Network Administrator", dept: "Network Ops" },
-    { id: "EMP-0044", name: "Okyere-Darko Addai", role: "System Administrator", dept: "IT Infrastructure" },
-    { id: "EMP-0051", name: "Frank Akrasi Antwi", role: "Cyber Security Specialist", dept: "Cyber Security" },
-    { id: "EMP-0053", name: "Michael Essel", role: "IT Consultant", dept: "Administration" }
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+const DEFAULT_MEMBERS = [
+    { id: 'CAV-001', studentId: 'MS/ITE/25/0041', name: 'Ebenezer Nana Annan', role: 'Lead Network Infrastructure Architect', department: 'Network Ops', location: 'UCC Campus (Cape Coast)' },
+    { id: 'CAV-002', studentId: 'MS/ITE/25/0044', name: 'Okyere-Darko Addai', role: 'Chief Systems & Cloud Architect', department: 'IT Infrastructure', location: 'UCC Campus (Cape Coast)' },
+    { id: 'CAV-003', studentId: 'MS/ITE/25/0051', name: 'Frank Akrasi Antwi', role: 'Cyber Security Operations Head', department: 'Cyber Security', location: 'UCC Campus (Cape Coast)' },
+    { id: 'CAV-004', studentId: 'MS/ITE/25/0053', name: 'Michael Essel', role: 'Full-Stack & Systems Engineer', department: 'Systems Administration', location: 'UCC Campus (Cape Coast)' }
 ];
 
 function getRecords() {
-    let raw = localStorage.getItem('cav_records');
-    if (!raw) {
-        localStorage.setItem('cav_records', JSON.stringify(DEFAULT_RECORDS));
-        return DEFAULT_RECORDS;
+    const stored = localStorage.getItem('cav_records');
+    if (!stored) {
+        localStorage.setItem('cav_records', JSON.stringify(DEFAULT_MEMBERS));
+        return DEFAULT_MEMBERS;
     }
-    return JSON.parse(raw);
+    try {
+        return JSON.parse(stored);
+    } catch (e) {
+        return DEFAULT_MEMBERS;
+    }
 }
 
 function saveRecords(records) {
     localStorage.setItem('cav_records', JSON.stringify(records));
 }
 
-function renderTable() {
-    const tbody = document.getElementById('dataTableBody');
-    if (!tbody) return;
-
-    const records = getRecords();
-    tbody.innerHTML = '';
-
-    if (records.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No records found in database.</td></tr>';
-        return;
-    }
-
-    records.forEach(r => {
-        tbody.innerHTML += `
-            <tr>
-                <td><strong>${r.id}</strong></td>
-                <td>${r.name}</td>
-                <td>${r.role}</td>
-                <td>${r.dept}</td>
-                <td>
-                    <button class="button-utility" onclick="editRecord('${r.id}')">Edit</button>
-                    <button class="button-utility" style="background: #ff3b30;" onclick="deleteRecord('${r.id}')">Delete</button>
-                </td>
-            </tr>
-        `;
+function syncHomepageMembers(DOM) {
+    const cards = DOM && DOM.memberCards && DOM.memberCards.length ? DOM.memberCards : document.querySelectorAll('.store-utility-card, .member-portfolio-card');
+    if (!cards.length) return;
+    
+    const records = DEFAULT_MEMBERS;
+    cards.forEach((card, index) => {
+        if (records[index]) {
+            const member = records[index];
+            const h3 = card.querySelector('h3');
+            const caption = card.querySelector('.caption');
+            const tagline = card.querySelector('.tagline');
+            const badge = card.querySelector('.student-id-badge');
+            
+            if (h3) h3.textContent = member.name;
+            if (caption) caption.textContent = `${member.role} • ${member.location || 'UCC Campus (Cape Coast)'}`;
+            if (tagline) tagline.textContent = member.department.toUpperCase();
+            if (badge) badge.textContent = member.studentId || `MS/ITE/25/004${member.id}`;
+        }
     });
 }
 
-function retrieveRecords() {
-    renderTable();
-    const records = getRecords();
-    const statusBanner = document.getElementById('retrieveStatus');
-    const statusText = document.getElementById('retrieveStatusText');
+function checkAuth(DOM) {
+    const loggedInUser = localStorage.getItem('cav_logged_user');
+    const authSection = DOM.authSection || document.getElementById('authSection');
+    const dashboardSection = DOM.dashboardSection || document.getElementById('dashboardSection');
+    const logoutBtn = DOM.logoutBtn || document.getElementById('logoutBtn');
+    const userWelcome = DOM.userWelcome || document.getElementById('userWelcome');
 
-    if (statusBanner && statusText) {
-        statusText.textContent = `Successfully retrieved ${records.length} record(s) from database.`;
-        statusBanner.style.display = 'flex';
-        setTimeout(() => {
-            statusBanner.style.display = 'none';
-        }, 4000);
-    } else {
-        alert(`Retrieved ${records.length} record(s) from database.`);
+    if (loggedInUser && dashboardSection && authSection) {
+        authSection.style.display = 'none';
+        dashboardSection.style.display = 'flex';
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+        if (userWelcome) userWelcome.textContent = `Welcome back, ${loggedInUser}`;
+    } else if (dashboardSection && authSection) {
+        authSection.style.display = 'flex';
+        dashboardSection.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'none';
     }
 }
 
+function switchAuthTab(tab) {
+    const loginCard = document.getElementById('loginCard');
+    const registerCard = document.getElementById('registerCard');
+    const tabLoginBtn = document.getElementById('tabLoginBtn');
+    const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+    if (tab === 'login') {
+        if (loginCard) loginCard.style.display = 'flex';
+        if (registerCard) registerCard.style.display = 'none';
+        if (tabLoginBtn) {
+            tabLoginBtn.style.borderColor = 'var(--theme-accent)';
+            tabLoginBtn.style.background = 'var(--glass-bg)';
+        }
+        if (tabRegisterBtn) {
+            tabRegisterBtn.style.borderColor = 'var(--glass-border)';
+            tabRegisterBtn.style.background = 'transparent';
+        }
+    } else {
+        if (loginCard) loginCard.style.display = 'none';
+        if (registerCard) registerCard.style.display = 'flex';
+        if (tabRegisterBtn) {
+            tabRegisterBtn.style.borderColor = 'var(--theme-accent)';
+            tabRegisterBtn.style.background = 'var(--glass-bg)';
+        }
+        if (tabLoginBtn) {
+            tabLoginBtn.style.borderColor = 'var(--glass-border)';
+            tabLoginBtn.style.background = 'transparent';
+        }
+    }
+}
+
+function handleLogin(e) {
+    if (e) e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value.trim();
+    const err = document.getElementById('loginError');
+
+    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
+    const found = users.find(user => user.username === u && user.password === p) || (u === 'admin' && p === 'admin123');
+
+    if (found) {
+        localStorage.setItem('cav_logged_user', u);
+        if (err) err.textContent = '';
+        showAlert('Authentication successful. Redirecting to portal…', 'Welcome');
+        setTimeout(() => { window.location.href = 'database.html'; }, 600);
+    } else {
+        if (err) err.textContent = 'Invalid credentials. Try admin / admin123';
+    }
+    return false;
+}
+
+function handleRegister(e) {
+    if (e) e.preventDefault();
+    const name = document.getElementById('regFullName').value.trim();
+    const u = document.getElementById('regUsername').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const p = document.getElementById('regPassword').value.trim();
+    const c = document.getElementById('regConfirm').value.trim();
+    const err = document.getElementById('regError');
+
+    if (!name || !u || !email.includes('@')) {
+        if (err) err.textContent = 'Enter full name, username, and valid email address.';
+        return false;
+    }
+
+    if (p !== c) {
+        if (err) err.textContent = 'Passwords do not match.';
+        return false;
+    }
+
+    if (p.length < 6) {
+        if (err) err.textContent = 'Password must be at least 6 characters.';
+        return false;
+    }
+
+    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
+    if (users.some(user => user.username === u)) {
+        if (err) err.textContent = 'Username already taken.';
+        return false;
+    }
+
+    users.push({ name, username: u, email, password: p });
+    localStorage.setItem('cav_users', JSON.stringify(users));
+    localStorage.setItem('cav_logged_user', u);
+    if (err) err.textContent = '';
+
+    showAlert(`Account created successfully for ${name}. Redirecting to portal…`, 'Welcome');
+    setTimeout(() => { window.location.href = 'database.html'; }, 600);
+    return false;
+}
+
+function handleLogout() {
+    localStorage.removeItem('cav_logged_user');
+    checkAuth({});
+}
+
+function retrieveRecords() {
+    const status = document.getElementById('retrieveStatus');
+    const text = document.getElementById('retrieveStatusText');
+    const recordId = (document.getElementById('recordId')?.value || '').trim();
+    renderTable({}, recordId);
+    if (status && text) {
+        text.textContent = recordId ? 'Matching record retrieved.' : 'All employee records retrieved in table.';
+        status.style.display = 'flex';
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 3000);
+    }
+}
+
+function renderTable(DOM, requestedId = '') {
+    const tbody = (DOM && DOM.dataTableBody) ? DOM.dataTableBody : document.getElementById('dataTableBody');
+    if (!tbody) return;
+
+    const records = getRecords();
+    const visibleRecords = requestedId ? records.filter(record => record.id.toLowerCase() === requestedId.toLowerCase()) : records;
+    tbody.innerHTML = '';
+
+    if (!visibleRecords.length) {
+        tbody.innerHTML = '<tr><td colspan="5">No employee record found. Clear Employee ID, then choose Retrieve Record to view all records.</td></tr>';
+        return;
+    }
+
+    visibleRecords.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${r.id}</td>
+            <td><strong>${r.name}</strong></td>
+            <td>${r.role}</td>
+            <td><span class="tagline">${r.department}</span></td>
+            <td>
+                <div style="display: flex; gap: 8px;">
+                    <button class="button-utility" onclick="editRecord('${r.id}')">Load</button>
+                    <button class="button-utility button-danger" onclick="deleteRecord('${r.id}')">Delete</button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
 function addRecord() {
+    const id = document.getElementById('recordId').value.trim().toUpperCase();
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
 
-    if (!name || !role) {
-        alert("Please fill in Name and Role fields.");
+    if (!id || !name || !role) {
+        showAlert('Enter Employee ID, name, role, and department before adding.', 'Required Fields');
         return;
     }
 
     const records = getRecords();
-    records.push({
-        id: 'EMP-' + Date.now().toString().slice(-4),
-        name: name,
-        role: role,
-        dept: dept
-    });
-
+    if (records.some(record => record.id.toLowerCase() === id.toLowerCase())) {
+        showAlert('Employee ID already exists. Use Update Record instead.', 'Duplicate ID');
+        return;
+    }
+    records.push({ id, name, role, department: dept });
     saveRecords(records);
     resetForm();
     retrieveRecords();
@@ -730,16 +890,14 @@ function addRecord() {
 
 function editRecord(id) {
     const records = getRecords();
-    const r = records.find(x => x.id === id);
-    if (!r) return;
-
-    document.getElementById('recordId').value = r.id;
-    document.getElementById('empName').value = r.name;
-    document.getElementById('empRole').value = r.role;
-    document.getElementById('empDepartment').value = r.dept;
-
-    document.getElementById('btnAdd').style.display = 'none';
-    document.getElementById('btnUpdate').style.display = 'inline-block';
+    const r = records.find(item => item.id === id);
+    if (r) {
+        document.getElementById('recordId').value = r.id;
+        document.getElementById('empName').value = r.name;
+        document.getElementById('empRole').value = r.role;
+        document.getElementById('empDepartment').value = r.department;
+        document.getElementById('recordId').focus();
+    }
 }
 
 function updateRecord() {
@@ -748,120 +906,127 @@ function updateRecord() {
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
 
-    let records = getRecords();
-    const idx = records.findIndex(x => x.id === id);
+    if (!id || !name || !role) {
+        showAlert('Enter Employee ID, name, role, and department before updating.', 'Required Fields');
+        return;
+    }
 
-    if (idx > -1) {
-        records[idx] = { id, name, role, dept };
+    let records = getRecords();
+    if (!records.some(record => record.id.toLowerCase() === id.toLowerCase())) {
+        showAlert('Employee ID not found. Add it as a new record instead.', 'Record Not Found');
+        return;
+    }
+    records = records.map(r => r.id.toLowerCase() === id.toLowerCase() ? { ...r, name, role, department: dept } : r);
+    saveRecords(records);
+    resetForm();
+    retrieveRecords();
+}
+
+function deleteRecord(selectedId = '') {
+    const id = selectedId || document.getElementById('recordId').value.trim();
+    if (!id) {
+        showAlert('Enter or load an Employee ID before deleting.', 'Required Fields');
+        return;
+    }
+    showConfirm('Confirm permanent deletion of this system record?', () => {
+        let records = getRecords();
+        records = records.filter(r => r.id.toLowerCase() !== id.toLowerCase());
         saveRecords(records);
         resetForm();
         retrieveRecords();
-    }
-}
-
-function deleteRecord(id) {
-    if (confirm("Are you sure you want to delete this record?")) {
-        let records = getRecords();
-        records = records.filter(x => x.id !== id);
-        saveRecords(records);
-        retrieveRecords();
-    }
+    }, 'Delete Record');
 }
 
 function resetForm() {
     document.getElementById('recordId').value = '';
     document.getElementById('empName').value = '';
     document.getElementById('empRole').value = '';
-    document.getElementById('empDepartment').value = 'IT Infrastructure';
-
-    document.getElementById('btnAdd').style.display = 'inline-block';
-    document.getElementById('btnUpdate').style.display = 'none';
 }
 
-// ==========================================
-// 8. Contact Form Logic (Validation + localStorage)
-// ==========================================
-function handleContactSubmit(event) {
-    event.preventDefault();
-
+function handleContactSubmit(e) {
+    if (e) e.preventDefault();
     const name = document.getElementById('contactName');
     const email = document.getElementById('contactEmail');
     const message = document.getElementById('contactMessage');
-
+    const success = document.getElementById('contactSuccess');
+    
     const nameErr = document.getElementById('nameError');
     const emailErr = document.getElementById('emailError');
     const msgErr = document.getElementById('messageError');
 
-    [nameErr, emailErr, msgErr].forEach(el => el.textContent = '');
-    [name, email, message].forEach(el => el.classList.remove('input-error'));
+    let valid = true;
 
-    let isValid = true;
-
-    if (name.value.trim().length < 2) {
-        nameErr.textContent = 'Name must be at least 2 characters.';
-        name.classList.add('input-error');
-        isValid = false;
+    if (!name.value.trim()) {
+        if (nameErr) nameErr.textContent = 'Name is required.';
+        valid = false;
+    } else {
+        if (nameErr) nameErr.textContent = '';
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.value.trim())) {
-        emailErr.textContent = 'Please enter a valid email address.';
-        email.classList.add('input-error');
-        isValid = false;
+    if (!email.value.trim() || !email.value.includes('@')) {
+        if (emailErr) emailErr.textContent = 'Valid corporate email required.';
+        valid = false;
+    } else {
+        if (emailErr) emailErr.textContent = '';
     }
 
-    if (message.value.trim().length < 10) {
-        msgErr.textContent = 'Message must be at least 10 characters.';
-        message.classList.add('input-error');
-        isValid = false;
+    if (!message.value.trim()) {
+        if (msgErr) msgErr.textContent = 'Project requirements details required.';
+        valid = false;
+    } else {
+        if (msgErr) msgErr.textContent = '';
     }
 
-    if (!isValid) return false;
+    if (!valid) return false;
 
-    const submissions = JSON.parse(localStorage.getItem('cav_contact') || '[]');
+    const submissions = JSON.parse(localStorage.getItem('cav_submissions') || '[]');
     submissions.unshift({
-        id: 'INQ-' + Date.now().toString().slice(-6),
+        id: Date.now(),
         name: name.value.trim(),
         email: email.value.trim(),
         message: message.value.trim(),
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleDateString()
     });
-    localStorage.setItem('cav_contact', JSON.stringify(submissions));
+    localStorage.setItem('cav_submissions', JSON.stringify(submissions));
 
-    const successBanner = document.getElementById('contactSuccess');
-    if (successBanner) {
-        successBanner.style.display = 'flex';
-        setTimeout(() => { successBanner.style.display = 'none'; }, 5000);
-    }
+    if (success) success.style.display = 'flex';
+    name.value = '';
+    email.value = '';
+    message.value = '';
 
-    document.getElementById('contactForm').reset();
-    renderSubmissions();
+    setTimeout(() => {
+        if (success) success.style.display = 'none';
+    }, 4000);
+
+    renderSubmissions({});
+    openModal('contactConfirmModal');
     return false;
 }
 
-function renderSubmissions() {
-    const section = document.getElementById('submissionsSection');
-    const list = document.getElementById('submissionsList');
-    if (!section || !list) return;
+function renderSubmissions(DOM) {
+    const list = (DOM && DOM.submissionsList) ? DOM.submissionsList : document.getElementById('submissionsList');
+    const section = (DOM && DOM.submissionsSection) ? DOM.submissionsSection : document.getElementById('submissionsSection');
+    if (!list) return;
 
-    const submissions = JSON.parse(localStorage.getItem('cav_contact') || '[]');
-    if (submissions.length === 0) {
-        section.style.display = 'none';
+    const submissions = JSON.parse(localStorage.getItem('cav_submissions') || '[]');
+    if (!submissions.length) {
+        if (section) section.style.display = 'none';
         return;
     }
 
-    section.style.display = 'block';
+    if (section) section.style.display = 'block';
     list.innerHTML = '';
+
     submissions.forEach(s => {
-        list.innerHTML += `
-            <div class="submission-card">
-                <div class="submission-meta">
-                    <span class="body-strong" style="color: var(--ink-dark);">${s.name}</span>
-                    <span class="caption">${s.date}</span>
-                </div>
-                <p class="caption" style="margin-bottom: 4px;">${s.email}</p>
-                <p style="font-size: 14px; color: var(--ink-dark);">${s.message}</p>
+        const div = document.createElement('div');
+        div.className = 'submission-card';
+        div.innerHTML = `
+            <div class="submission-meta">
+                <span class="body-strong">${s.name} (${s.email})</span>
+                <span class="caption">${s.date}</span>
             </div>
+            <p>${s.message}</p>
         `;
+        list.appendChild(div);
     });
 }

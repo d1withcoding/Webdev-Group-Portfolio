@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAV - Enterprise Services</title>
+    <script>(function(){const t=localStorage.getItem('cav_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -12,9 +13,9 @@
 
     <!-- Theme Toggle -->
     <div class="theme-toggle" role="group" aria-label="Theme selector">
-        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+        <button onclick="setTheme('light', true)" id="themeLight" aria-label="Light mode">Light</button>
         <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+        <button onclick="setTheme('dark', true)" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
     </div>
 
     <!-- Glassmorphic Top Navigation -->
@@ -48,37 +49,58 @@
         </ul>
     </div>
 
-    <section class="product-tile product-tile-dark" style="min-height: 50vh; justify-content: center;">
+    <section class="product-tile product-tile-dark min-h-50vh justify-center">
         <div class="tile-content text-center">
             <span class="tagline">ENTERPRISE CAPABILITIES</span>
             <h1 class="hero-display mt-2">Unrivaled Infrastructure Solutions.</h1>
         </div>
     </section>
 
-    <section class="product-tile product-tile-dark" style="background: var(--void-surface);">
+    <section class="product-tile product-tile-dark bg-void-surface">
         <div class="tile-content">
             <div class="store-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
                 <div class="store-utility-card">
-                    <span class="tagline" style="color: var(--accent-gold);">01. PILLAR</span>
+                    <span class="tagline">01. PILLAR</span>
                     <h3 class="display-md mt-2 mb-2">Network Architecture</h3>
                     <p class="caption mt-2">High-availability topology design, BGP/OSPF core routing, zero-latency interconnects, and seamless hybrid cloud integration built for 99.999% uptime.</p>
-                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
+                    <a href="contact.html" class="button-secondary-pill mt-4">Inquire Solution</a>
                 </div>
                 <div class="store-utility-card">
-                    <span class="tagline" style="color: var(--accent-cyan);">02. PILLAR</span>
+                    <span class="tagline">02. PILLAR</span>
                     <h3 class="display-md mt-2 mb-2">Cyber Security</h3>
                     <p class="caption mt-2">Zero-trust architecture, continuous vulnerability scanning, penetration testing, endpoint threat elimination, and immutable security perimeters.</p>
-                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
+                    <a href="contact.html" class="button-secondary-pill mt-4">Inquire Solution</a>
                 </div>
                 <div class="store-utility-card">
-                    <span class="tagline" style="color: var(--accent-blue);">03. PILLAR</span>
+                    <span class="tagline">03. PILLAR</span>
                     <h3 class="display-md mt-2 mb-2">Systems Admin</h3>
                     <p class="caption mt-2">Automated multi-cloud cluster orchestration, Linux kernel tuning, high-performance database cluster management, and automated disaster recovery pipelines.</p>
-                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
+                    <a href="contact.html" class="button-secondary-pill mt-4">Inquire Solution</a>
                 </div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-xl);">
+                <button class="button-primary" onclick="openModal('whyChooseModal')">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    Why Choose CAV?
+                </button>
             </div>
         </div>
     </section>
+
+    <!-- Third Pop-up Modal: Why Choose CAV? -->
+    <div id="whyChooseModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="whyChooseTitle">
+        <div class="modal-card text-left">
+            <button class="modal-close" onclick="closeModal('whyChooseModal')" aria-label="Close modal">×</button>
+            <span class="tagline text-center" style="display:block;">COMPETITIVE EDGE</span>
+            <h3 id="whyChooseTitle" class="display-md mt-2 mb-4 text-center">Why Choose CAV?</h3>
+            <p>Chief Alltechs Ventures stands apart through our three-pillar approach. We don't just provide services — we architect complete technology ecosystems. Our team combines deep expertise in network infrastructure, zero-trust cybersecurity, and enterprise systems administration to deliver solutions that are resilient, scalable, and future-proof. With 99.999% uptime commitment and 24/7 threat monitoring, we ensure your digital infrastructure operates at peak performance.</p>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>

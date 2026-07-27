@@ -4,20 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAV - Database & Information System</title>
+    <script>(function(){const t=localStorage.getItem('cav_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" role="group" aria-label="Theme selector">
-        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
-        <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
-    </div>
-
-    <!-- Glassmorphic Top Navigation -->
     <nav class="global-nav" aria-label="Main navigation">
         <a href="index.html" class="brand-logo">
             CAV.
@@ -28,7 +20,11 @@
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
-            <a href="#" id="logoutBtn" onclick="handleLogout()" class="button-utility" style="display: none; background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,0.3);">Logout</a>
+            <a href="#" id="logoutBtn" onclick="handleLogout()" class="button-utility" style="display: none; background: transparent;">Logout</a>
+            <div class="theme-toggle" role="group" aria-label="Theme selector">
+                <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+                <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+            </div>
         </div>
         <button class="hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
             <span class="hamburger-line"></span>
@@ -37,7 +33,6 @@
         </button>
     </nav>
 
-    <!-- Mobile Navigation Overlay -->
     <div id="mobile-nav-overlay" class="mobile-nav-overlay">
         <ul class="mobile-nav-links">
             <li><a href="index.html">Home</a></li>
@@ -48,142 +43,167 @@
         </ul>
     </div>
 
-    <!-- Login & Registration Section -->
-    <section id="authSection" class="product-tile product-tile-dark" style="min-height: 85vh; justify-content: center;">
-        <div class="tile-content text-center" style="max-width: 440px; width: 100%;">
-            
-            <!-- Auth Toggle Header -->
-            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: var(--spacing-md);">
-                <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="button-secondary-pill" style="border-color: var(--theme-accent); color: #FFFFFF; background: rgba(255,255,255,0.15);">System Login</button>
-                <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="button-secondary-pill" style="border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7);">Register User</button>
-            </div>
+    <main id="main-content">
+        <section id="authSection" class="product-tile product-tile-dark" style="min-height: 85vh; justify-content: center;">
+            <div class="tile-content text-center" style="max-width: 440px; width: 100%;">
+                
+                <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: var(--spacing-md);">
+                    <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="button-secondary-pill" style="border-color: var(--theme-accent);">System Login</button>
+                    <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="button-secondary-pill">Register User</button>
+                </div>
 
-            <!-- Login Card -->
-            <div id="loginCard" class="store-utility-card" style="text-align: left;">
-                <span class="tagline">SECURE GATEWAY</span>
-                <h2 class="display-md mt-2 mb-4">Authenticate</h2>
-                <form onsubmit="return handleLogin(event);">
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">System ID / Username</label>
-                        <input type="text" id="username" class="form-input" required placeholder="e.g. admin">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">Passkey</label>
-                        <input type="password" id="password" class="form-input" required placeholder="••••••••">
-                    </div>
-                    <span id="loginError" class="form-error" style="margin-bottom: 12px;"></span>
-                    <button type="submit" class="button-primary" style="width: 100%;">Access Database Portal</button>
-                </form>
-                <p class="caption mt-4" style="color: var(--ink-muted);">Default Demo Hint: admin / admin123</p>
-            </div>
+                <div id="loginCard" class="store-utility-card" style="text-align: left;">
+                    <span class="tagline">SECURE GATEWAY</span>
+                    <h2 class="display-md mt-2 mb-4">Authenticate</h2>
+                    <form onsubmit="return handleLogin(event);">
+                        <div class="form-group">
+                            <label>System ID / Username</label>
+                            <input type="text" id="username" class="form-input" required placeholder="e.g. admin">
+                        </div>
+                        <div class="form-group">
+                            <label>Passkey</label>
+                            <input type="password" id="password" class="form-input" required placeholder="••••••••">
+                        </div>
+                        <span id="loginError" class="form-error mb-2"></span>
+                        <button type="submit" class="button-primary button-block">Access Database Portal</button>
+                    </form>
+                    <p class="caption mt-4">Default Demo Hint: admin / admin123</p>
+                </div>
 
-            <!-- Registration Card (Hidden by default) -->
-            <div id="registerCard" class="store-utility-card" style="display: none; text-align: left;">
-                <span class="tagline">NEW USER ACCOUNT</span>
-                <h2 class="display-md mt-2 mb-4">Registration</h2>
-                <form onsubmit="return handleRegister(event);">
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">Full Name</label>
-                        <input type="text" id="regFullName" class="form-input" required placeholder="e.g. Ebenezer Annan">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">System ID / Username</label>
-                        <input type="text" id="regUsername" class="form-input" required placeholder="e.g. eannan">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">Passkey</label>
-                        <input type="password" id="regPassword" class="form-input" required placeholder="••••••••">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-muted);">Confirm Passkey</label>
-                        <input type="password" id="regConfirm" class="form-input" required placeholder="••••••••">
-                    </div>
-                    <span id="regError" class="form-error" style="margin-bottom: 12px;"></span>
-                    <button type="submit" class="button-primary" style="width: 100%;">Create Account</button>
-                </form>
-            </div>
+                <div id="registerCard" class="store-utility-card" style="display: none; text-align: left;">
+                    <span class="tagline">NEW USER ACCOUNT</span>
+                    <h2 class="display-md mt-2 mb-4">Registration</h2>
+                    <form onsubmit="return handleRegister(event);">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="regFullName" class="form-input" required placeholder="e.g. Ebenezer Annan">
+                        </div>
+                        <div class="form-group">
+                            <label>System ID / Username</label>
+                            <input type="text" id="regUsername" class="form-input" required placeholder="e.g. eannan">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="regEmail" class="form-input" required placeholder="e.g. eannan@cav.demo">
+                        </div>
+                        <div class="form-group">
+                            <label>Passkey</label>
+                            <input type="password" id="regPassword" class="form-input" required placeholder="••••••••">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Passkey</label>
+                            <input type="password" id="regConfirm" class="form-input" required placeholder="••••••••">
+                        </div>
+                        <span id="regError" class="form-error mb-2"></span>
+                        <button type="submit" class="button-primary button-block">Create Account</button>
+                    </form>
+                </div>
 
+            </div>
+        </section>
+
+        <section id="dashboardSection" class="product-tile product-tile-dark" style="display: none; min-height: 85vh; align-items: flex-start;">
+            <div class="tile-content" style="width: 100%; max-width: 1200px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: 16px;">
+                    <div>
+                        <span class="tagline text-accent">CAV ENTERPRISE DATABASE</span>
+                        <h1 class="display-lg">Information System</h1>
+                        <p id="userWelcome" class="caption" style="font-size: 15px; margin-top: 4px; font-weight: 600;"></p>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button id="btnRetrieve" class="button-primary" onclick="retrieveRecords()">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
+                            </svg>
+                            Retrieve Record
+                        </button>
+                    </div>
+                </div>
+
+                <div id="retrieveStatus" class="contact-success" style="display: none; margin-bottom: var(--spacing-md);">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span id="retrieveStatusText" class="body-strong">Records retrieved successfully.</span>
+                </div>
+                
+                <div class="store-grid" style="grid-template-columns: 1fr 2.2fr;">
+                    <div class="store-utility-card">
+                        <h3 class="body-strong mb-4" style="font-size: 20px;">Record Management</h3>
+                        <div class="form-group">
+                            <label for="recordId">Employee ID</label>
+                            <input type="text" id="recordId" class="form-input" placeholder="e.g. CAV-005">
+                        </div>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="empName" class="form-input" placeholder="e.g. Ebenezer Annan">
+                        </div>
+                        <div class="form-group">
+                            <label>Role / Position</label>
+                            <input type="text" id="empRole" class="form-input" placeholder="e.g. Systems Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="empDepartment" class="form-input">
+                                <option value="IT Infrastructure">IT Infrastructure</option>
+                                <option value="Cyber Security">Cyber Security</option>
+                                <option value="Network Ops">Network Ops</option>
+                                <option value="Administration">Administration</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md); flex-wrap: wrap;">
+                            <button id="btnAdd" class="button-primary" onclick="addRecord()" style="flex: 1;">Add Record</button>
+                            <button id="btnUpdate" class="button-secondary-pill" onclick="updateRecord()" style="flex: 1;">Update Record</button>
+                            <button id="btnDelete" class="button-danger" onclick="deleteRecord()" style="flex: 1;">Delete Record</button>
+                            <button class="button-utility" onclick="resetForm()">Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Department</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <div id="alertModal" class="modal-overlay" role="alertdialog" aria-modal="true" aria-labelledby="alertModalTitle" aria-describedby="alertModalMessage">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeAlert()" aria-label="Close">&times;</button>
+            <span class="tagline text-danger" style="display:block;">NOTICE</span>
+            <h3 id="alertModalTitle" class="display-md mt-2 mb-4">Notice</h3>
+            <p id="alertModalMessage" style="font-size: 16px; line-height: 1.6; text-align: left;"></p>
+            <div class="mt-8" style="text-align: right;">
+                <button onclick="closeAlert()" class="button-primary">OK</button>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Dashboard Section -->
-    <section id="dashboardSection" class="product-tile product-tile-parchment" style="display: none; min-height: 85vh; align-items: flex-start;">
-        <div class="tile-content" style="width: 100%; max-width: 1200px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: 16px;">
-                <div>
-                    <span class="tagline" style="color: var(--primary, #3139fb);">CAV ENTERPRISE DATABASE</span>
-                    <h1 class="display-lg" style="color: var(--ink-dark);">Information System</h1>
-                    <p id="userWelcome" class="caption" style="font-size: 15px; margin-top: 4px; color: var(--ink-dark); font-weight: 600;"></p>
-                </div>
-
-                <!-- Retrieve Records Button -->
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <button id="btnRetrieve" class="button-primary" onclick="retrieveRecords()">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
-                        </svg>
-                        Retrieve Records
-                    </button>
-                </div>
-            </div>
-
-            <!-- Status Banner for Retrieval -->
-            <div id="retrieveStatus" class="contact-success" style="display: none; margin-bottom: var(--spacing-md);">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                <span id="retrieveStatusText" class="body-strong" style="font-size: 14px; color: #2e7d32;">Records retrieved successfully.</span>
-            </div>
-            
-            <div class="store-grid" style="grid-template-columns: 1fr 2.2fr;">
-                <!-- Record Form Area -->
-                <div class="store-utility-card" style="background: #FFFFFF;">
-                    <h3 class="body-strong mb-4" style="color: var(--ink-dark); font-size: 20px;">Record Management</h3>
-                    <input type="hidden" id="recordId">
-                    <div class="form-group">
-                        <label style="color: var(--ink-dark);">Full Name</label>
-                        <input type="text" id="empName" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="e.g. Ebenezer Annan">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-dark);">Role / Position</label>
-                        <input type="text" id="empRole" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="e.g. Systems Engineer">
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--ink-dark);">Department</label>
-                        <select id="empDepartment" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);">
-                            <option value="IT Infrastructure">IT Infrastructure</option>
-                            <option value="Cyber Security">Cyber Security</option>
-                            <option value="Network Ops">Network Ops</option>
-                            <option value="Administration">Administration</option>
-                        </select>
-                    </div>
-                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md); flex-wrap: wrap;">
-                        <button id="btnAdd" class="button-primary" onclick="addRecord()" style="flex: 1;">Add Record</button>
-                        <button id="btnUpdate" class="button-primary" onclick="updateRecord()" style="display:none; flex: 1;">Update Record</button>
-                        <button class="button-utility" onclick="resetForm()" style="background: transparent; color: var(--ink-dark); border: 1px solid var(--divider-light);">Clear</button>
-                    </div>
-                </div>
-
-                <!-- Table View Area -->
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Employee ID</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Department</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dataTableBody">
-                            <!-- JS populated -->
-                        </tbody>
-                    </table>
-                </div>
+    <div id="confirmModal" class="modal-overlay" role="alertdialog" aria-modal="true" aria-labelledby="confirmModalTitle" aria-describedby="confirmModalMessage">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeConfirm(false)" aria-label="Close">&times;</button>
+            <span class="tagline text-danger" style="display:block;">CONFIRM</span>
+            <h3 id="confirmModalTitle" class="display-md mt-2 mb-4">Confirm Action</h3>
+            <p id="confirmModalMessage" style="font-size: 16px; line-height: 1.6; text-align: left;"></p>
+            <div class="mt-8" style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button onclick="closeConfirm(false)" class="button-secondary-pill">Cancel</button>
+                <button onclick="closeConfirm(true)" class="button-primary button-danger">Confirm</button>
             </div>
         </div>
-    </section>
+    </div>
+
+    </main>
 
     <footer class="footer">
         <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>

@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAV - Contact & Inquiries</title>
+    <script>(function(){const t=localStorage.getItem('cav_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Theme Toggle -->
     <div class="theme-toggle" role="group" aria-label="Theme selector">
-        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+        <button onclick="setTheme('light', true)" id="themeLight" aria-label="Light mode">Light</button>
         <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+        <button onclick="setTheme('dark', true)" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
     </div>
 
     <!-- Glassmorphic Top Navigation -->
@@ -50,12 +49,12 @@
         </ul>
     </div>
 
-    <section class="product-tile product-tile-parchment" style="min-height: 85vh;">
-        <div class="tile-content text-center" style="max-width: 620px; width: 100%;">
-            <span class="tagline" style="color: var(--primary, #3139fb);">DIRECT INQUIRY CHANNEL</span>
-            <h1 class="display-lg mb-8" style="color: var(--ink-dark);">Let's build.</h1>
+    <section class="product-tile product-tile-parchment min-h-85vh">
+        <div class="tile-content text-center max-w-620">
+            <span class="tagline">DIRECT INQUIRY CHANNEL</span>
+            <h1 class="display-lg mb-8 text-ink-dark">Let's build.</h1>
 
-            <div class="store-utility-card" style="text-align: left; background: #FFFFFF;">
+            <div class="store-utility-card text-left bg-white">
                 <!-- Success Banner -->
                 <div id="contactSuccess" class="contact-success" style="display: none;">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,49 +62,58 @@
                         <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
                     <div>
-                        <p class="body-strong" style="color: #2e7d32; font-size: 16px;">Message sent securely.</p>
-                        <p class="caption" style="color: #388e3c;">Our lead architect will review within 24 hours.</p>
+                        <p class="body-strong text-ink-dark">Message sent securely.</p>
+                        <p class="caption text-ink-dark">Our lead architect will review within 24 hours.</p>
                     </div>
                 </div>
 
                 <form id="contactForm" onsubmit="return handleContactSubmit(event);" novalidate>
                     <div class="form-group">
-                        <label for="contactName" style="color: var(--ink-dark);">Full Name</label>
-                        <input type="text" id="contactName" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="e.g. Ebenezer Annan">
+                        <label for="contactName" class="text-ink-dark">Full Name</label>
+                        <input type="text" id="contactName" class="form-input form-input-light" placeholder="e.g. Ebenezer Annan">
                         <span id="nameError" class="form-error"></span>
                     </div>
                     <div class="form-group">
-                        <label for="contactEmail" style="color: var(--ink-dark);">Corporate Email</label>
-                        <input type="email" id="contactEmail" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="you@company.com">
+                        <label for="contactEmail" class="text-ink-dark">Corporate Email</label>
+                        <input type="email" id="contactEmail" class="form-input form-input-light" placeholder="you@company.com">
                         <span id="emailError" class="form-error"></span>
                     </div>
                     <div class="form-group">
-                        <label for="contactMessage" style="color: var(--ink-dark);">Project Requirements</label>
-                        <textarea id="contactMessage" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="Describe your network or security objectives..."></textarea>
+                        <label for="contactMessage" class="text-ink-dark">Project Requirements</label>
+                        <textarea id="contactMessage" class="form-input form-input-light" placeholder="Describe your network or security objectives..."></textarea>
                         <span id="messageError" class="form-error"></span>
                     </div>
-                    <button type="submit" class="button-primary" style="width: 100%;">Transmit Message</button>
+                    <button type="submit" class="button-primary button-block">Transmit Message</button>
                 </form>
             </div>
 
             <div class="mt-8">
-                <p class="body-strong" style="color: var(--ink-dark);">HQ Location</p>
+                <p class="body-strong text-ink-dark">HQ Location</p>
                 <p class="caption">UCC Campus (Cape Coast), Ghana</p>
-                <p class="caption mt-2"><a href="mailto:contact@chiefalltechs.com" style="color: var(--primary, #3139fb); text-decoration: none; font-weight: 600;">contact@chiefalltechs.com</a></p>
+                <p class="caption mt-2"><a href="mailto:contact@chiefalltechs.com" class="text-primary font-600">contact@chiefalltechs.com</a></p>
             </div>
 
             <!-- Stored Inquiries Section -->
-            <div id="submissionsSection" style="display: none; margin-top: var(--spacing-xl); width: 100%;">
-                <h2 class="display-md mb-4" style="font-size: 28px; color: var(--ink-dark);">Logged Inquiries</h2>
+            <div id="submissionsSection" class="submissions-section" style="display: none;">
+                <h2 class="display-md mb-4 text-ink-dark" style="font-size: 28px;">Logged Inquiries</h2>
                 <div id="submissionsList"></div>
             </div>
         </div>
     </section>
+
+    <div id="contactConfirmModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contactConfirmTitle">
+        <div class="modal-card text-left">
+            <button class="modal-close" onclick="closeModal('contactConfirmModal')" aria-label="Close confirmation">×</button>
+            <span class="tagline">INQUIRY RECEIVED</span>
+            <h2 id="contactConfirmTitle" class="display-md mt-2 mb-4">Message sent.</h2>
+            <p>Your inquiry is saved in this browser demo. CAV team will review your project requirements within one business day.</p>
+            <button class="button-primary mt-4" onclick="closeModal('contactConfirmModal')">Continue</button>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
     </footer>
     <script src="js/scripts.js"></script>
 </body>
-
 </html>

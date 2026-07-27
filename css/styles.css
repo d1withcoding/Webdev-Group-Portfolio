@@ -1445,11 +1445,20 @@ body, button, input, select, textarea, .brand-logo, .tagline, .lead, .caption,
 .services-heading { margin-bottom: 26px; }
 .services-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .services-grid .store-utility-card { min-height: 230px; }
+.service-list { display: flex; flex-direction: column; width: 100%; max-width: 1120px; margin: 0 auto; }
+.service-list .store-utility-card { display: grid; grid-template-columns: 72px minmax(220px, 0.8fr) minmax(300px, 1.5fr) auto; align-items: center; gap: 24px; min-height: 0; padding: 30px 0; background: transparent; border: 0; border-top: 1px solid var(--glass-border); border-radius: 0; box-shadow: none; }
+.service-list .store-utility-card:last-child { border-bottom: 1px solid var(--glass-border); }
+.service-list .store-utility-card:hover { transform: none; border-color: var(--glass-border); box-shadow: none; }
+.service-list .store-utility-card .tagline { margin: 0; }
+.service-list .store-utility-card h3, .service-list .store-utility-card p { margin: 0; }
+.service-list .store-utility-card a { justify-self: end; white-space: nowrap; }
 .mobile-theme-control { display: none; }
 
 @media (max-width: 768px) {
     .hero-marquee { margin-top: 38px; }
     .company-mission-grid, .services-grid { grid-template-columns: 1fr; }
+    .service-list .store-utility-card { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+    .service-list .store-utility-card a { justify-self: start; margin-top: 8px; }
     .company-intro { margin-bottom: 42px; }
     .services-heading { margin-top: 56px; }
     .mobile-theme-control { display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid var(--glass-border); }

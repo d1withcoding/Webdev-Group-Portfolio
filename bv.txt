@@ -1,1 +1,20 @@
 In a group of 10 develop an information system website for a company of your choice and include the following:  1. Home Page with group members Profile (Picture, Full names and ID). Save it as index page.   The homepage should contain menu/navigation items for the following (2 – 6).  2. Information about the company Page 3. Contact Page 4. Demonstration of the three pop-ups on some pages (Use JavaScript)  5. Scrolling text on the homepage. (Use JavaScript) 6. Swap of at most five images on the homepage. (Use JavaScript) 7. Login & Registration Option to access a page with the following capabilities:  8. Database with tables for the company’s information system (With Add Record, Retrieve Record, Update Record, and Delete Record buttons. The retrieve record button should display the record in a table.  OR Database with tables for the company’s products etc.  (With Add Record, Retrieve Record, Update Record, and Delete Record buttons. The retrieve record button should display the record in a tabular form
+
+Our Services
+Network Administration
+We design, implement, and maintain robust network infrastructures that ensure seamless connectivity and optimal performance. Our network solutions include LAN/WAN setup, wireless networks, network security, and ongoing monitoring.
+
+System Administration
+Our system administration services cover server management, operating system configuration, virtualization, cloud services, and system optimization. We ensure your IT systems run efficiently and securely around the clock.
+
+Cyber Security
+Protect your business from digital threats with our comprehensive cyber security solutions. We offer vulnerability assessments, penetration testing, firewall configuration, intrusion detection, and security awareness training.
+
+Hardware Installation
+From servers and workstations to networking equipment and peripherals, we handle the complete hardware lifecycle including procurement, installation, configuration, and maintenance.
+
+IT Consulting
+Our experienced consultants provide strategic guidance on technology investments, digital transformation, IT governance, and process optimization. We help you make informed decisions that drive business value.
+
+General Sales
+We supply a wide range of IT hardware and software products including computers, servers, networking equipment, security solutions, and licensed software. All products come with warranty and technical support.

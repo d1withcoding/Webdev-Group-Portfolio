@@ -243,6 +243,9 @@ function switchPillar(key) {
     if (s3Sub) s3Sub.textContent = data.stage3Sub;
     if (s4Title) s4Title.textContent = data.stage4Title;
     if (s4Sub) s4Sub.textContent = data.stage4Sub;
+
+    const pillarImage = { network: 0, security: 1, systems: 2 };
+    if (Object.prototype.hasOwnProperty.call(pillarImage, key)) goToImage(pillarImage[key]);
 }
 
 function initPillarSwitcher() {
@@ -486,6 +489,14 @@ const IMAGE_LABELS = [
     'Enterprise Data Center'
 ];
 
+const HERO_SLIDES = [
+    { title: 'Technology systems, made dependable.', copy: 'Network architecture, cybersecurity, and systems support for organisations that need clarity and continuity.' },
+    { title: 'Security designed for real work.', copy: 'Practical cyber defence that protects people, data, and daily operations without slowing teams down.' },
+    { title: 'Cloud operations with clear control.', copy: 'Reliable systems, measured performance, and infrastructure that scales with your organisation.' },
+    { title: 'Infrastructure that stays ready.', copy: 'Resilient server operations and responsive support for systems your business relies on.' },
+    { title: 'Information, connected.', copy: 'One focused technology partner for network, data, and operations behind modern work.' }
+];
+
 function initImageSwap() {
     const viewport = document.getElementById('imageSwapViewport');
     if (!viewport) return;
@@ -514,6 +525,7 @@ function initImageSwap() {
 }
 
 function startAutoRotation() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (imageSwapInterval) clearInterval(imageSwapInterval);
     imageSwapInterval = setInterval(() => {
         swapImage(1);
@@ -568,8 +580,14 @@ function updateImageDisplay() {
 
     // Update label
     if (label && IMAGE_LABELS[currentImageIndex]) {
-        label.textContent = `Image ${currentImageIndex + 1} of ${images.length} \u2014 ${IMAGE_LABELS[currentImageIndex]}`;
+        label.textContent = `0${currentImageIndex + 1} / 0${images.length} · ${IMAGE_LABELS[currentImageIndex]}`;
     }
+
+    const slide = HERO_SLIDES[currentImageIndex];
+    const title = document.getElementById('stage1Title');
+    const copy = document.getElementById('stage1Sub');
+    if (slide && title) title.textContent = slide.title;
+    if (slide && copy) copy.textContent = slide.copy;
 }
 
 function initModals(DOM) {

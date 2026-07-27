@@ -3,257 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chief Alltechs Ventures | High-End IT Architecture</title>
+    <title>Chief Alltechs Ventures | Information Systems</title>
     <script>(function(){const t=localStorage.getItem('cav_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <nav class="global-nav" aria-label="Main navigation">
-        <a href="index.html" class="brand-logo">
-            CAV.
-            <span class="brand-badge">EST. 2026</span>
-        </a>
+        <a href="index.html" class="brand-logo">CAV.<span class="brand-badge">EST. 2026</span></a>
         <div class="nav-links">
             <a href="index.html" class="active" aria-current="page">Home</a>
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
-            <div class="theme-toggle" role="group" aria-label="Theme selector">
-                <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
-                <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
-            </div>
         </div>
         <button class="hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
         </button>
     </nav>
-
     <div id="mobile-nav-overlay" class="mobile-nav-overlay">
         <ul class="mobile-nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="database.html">Portal Access</a></li>
+            <li><a href="index.html" class="active">Home</a></li><li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li><li><a href="database.html">Portal Access</a></li>
         </ul>
     </div>
 
-    <div id="scrollyWrapper" class="scrolly-wrapper">
-        <div class="scrolly-sticky">
-            <canvas id="scrollyCanvas" class="scrolly-canvas" role="img" aria-label="3D network topology visualization"></canvas>
-            <div class="ambient-glow"></div>
-
-            <div id="stage1" class="scrolly-stage active">
-                <span class="tagline">EXCELLENCE IN ARCHITECTURE</span>
-                <h1 id="stage1Title" class="hero-display mt-2">Architecting the digital future.</h1>
-                <p id="stage1Sub" class="lead mt-4 mx-auto">Chief Alltechs Ventures delivers high-end network architecture, unbreachable cybersecurity, and expert systems administration.</p>
-                <div class="tile-actions">
-                    <a href="#team-portfolios" class="button-primary">View Team Portfolios</a>
-                    <a href="services.html" class="button-secondary-pill">Explore Capabilities</a>
-                    <button onclick="openModal('briefModal')" class="button-secondary-pill" aria-label="Open company brief">Company Brief</button>
-                </div>
-            </div>
-
-            <div id="stage2" class="scrolly-stage">
-                <span class="tagline">NETWORK ARCHITECTURE</span>
-                <h1 id="stage2Title" class="hero-display mt-2">Unbreakable topology by design.</h1>
-                <p id="stage2Sub" class="lead mt-4 mx-auto">High-availability routing, BGP/OSPF core optimization, and zero-latency interconnects built for global scale.</p>
-                <div class="tile-actions">
-                    <a href="services.html" class="button-primary">View Core Pillars</a>
-                </div>
-            </div>
-
-            <div id="stage3" class="scrolly-stage">
-                <span class="tagline">ZERO-TRUST SECURITY</span>
-                <h1 id="stage3Title" class="hero-display mt-2">A signature that lingers in uptime.</h1>
-                <p id="stage3Sub" class="lead mt-4 mx-auto">99.999% availability crafted with high-jewelry precision and enterprise rigor.</p>
-                <div class="tile-actions">
-                    <a href="contact.html" class="button-primary">Contact Architects</a>
-                </div>
-            </div>
-
-            <div id="stage4" class="scrolly-stage">
-                <span class="tagline">SYSTEMS ADMINISTRATION</span>
-                <h1 id="stage4Title" class="hero-display mt-2">Unrivaled Digital Presence.</h1>
-                <p id="stage4Sub" class="lead mt-4 mx-auto">You just enter the market—and the standard is set.</p>
-                <div class="tile-actions">
-                    <a href="database.html" class="button-primary">Access System Portal</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="pillar-switcher-container" role="region" aria-label="Pillar Selector">
-        <button class="pillar-pill active" data-pillar="network">
-            Network Architecture
-        </button>
-        <button class="pillar-pill" data-pillar="security">
-            Cyber Security
-        </button>
-        <button class="pillar-pill" data-pillar="systems">
-            Systems Admin
-        </button>
-    </div>
-
     <main id="main-content">
-        <!-- Image Swap Carousel Section (JavaScript-driven, 5 images) -->
-        <section class="image-swap-section" id="imageSwapSection">
-            <div class="tile-content text-center">
-                <span class="tagline">INFRASTRUCTURE SHOWCASE</span>
-                <h2 class="display-lg mt-2">Enterprise Solutions Gallery</h2>
-                <p class="caption mt-2" style="margin-bottom: 32px;">Auto-rotating showcase powered by JavaScript — 5 high-end infrastructure visuals.</p>
+        <section class="hero-gallery" aria-label="Chief Alltechs Ventures service showcase">
+            <div class="image-swap-viewport hero-gallery-images" id="imageSwapViewport">
+                <img src="images/hero1.jpg" alt="Network architecture infrastructure" class="active">
+                <img src="images/hero2.jpg" alt="Cybersecurity operations centre">
+                <img src="images/hero3.jpg" alt="Cloud systems dashboard">
+                <img src="images/hero4.jpg" alt="Server cluster management">
+                <img src="images/hero5.jpg" alt="Enterprise data centre">
             </div>
-            <div class="image-swap-container">
-                <div class="image-swap-viewport" id="imageSwapViewport">
-                    <img src="images/hero1.jpg" alt="Network Architecture Infrastructure" class="active">
-                    <img src="images/hero2.jpg" alt="Cybersecurity Operations Center">
-                    <img src="images/hero3.jpg" alt="Cloud Systems Dashboard">
-                    <img src="images/hero4.jpg" alt="Server Cluster Management">
-                    <img src="images/hero5.jpg" alt="Enterprise Data Center">
+            <div class="hero-gallery-scrim"></div>
+            <div class="hero-gallery-content">
+                <span class="tagline">CHIEF ALLTECHS VENTURES</span>
+                <p id="imageSwapLabel" class="hero-gallery-label">01 / 05 · Network architecture</p>
+                <h1 id="stage1Title" class="hero-display">Technology systems, made dependable.</h1>
+                <p id="stage1Sub" class="lead">Network architecture, cybersecurity, and systems support for organisations that need clarity and continuity.</p>
+                <div class="tile-actions">
+                    <a href="#team-portfolios" class="button-primary">Meet group</a>
+                    <button onclick="openModal('briefModal')" class="button-secondary-pill">Company brief</button>
                 </div>
-                <div class="image-swap-controls">
-                    <button class="swap-arrow" id="swapPrev" onclick="swapImage(-1)" aria-label="Previous image">&#8249;</button>
-                    <div class="swap-dots" id="swapDots">
-                        <button class="swap-dot active" onclick="goToImage(0)" aria-label="Image 1"></button>
-                        <button class="swap-dot" onclick="goToImage(1)" aria-label="Image 2"></button>
-                        <button class="swap-dot" onclick="goToImage(2)" aria-label="Image 3"></button>
-                        <button class="swap-dot" onclick="goToImage(3)" aria-label="Image 4"></button>
-                        <button class="swap-dot" onclick="goToImage(4)" aria-label="Image 5"></button>
+                <div class="hero-gallery-footer">
+                    <div class="swap-dots" aria-label="Select showcase image">
+                        <button class="swap-dot active" onclick="goToImage(0)" aria-label="Show network architecture"></button>
+                        <button class="swap-dot" onclick="goToImage(1)" aria-label="Show cybersecurity"></button>
+                        <button class="swap-dot" onclick="goToImage(2)" aria-label="Show cloud systems"></button>
+                        <button class="swap-dot" onclick="goToImage(3)" aria-label="Show server clusters"></button>
+                        <button class="swap-dot" onclick="goToImage(4)" aria-label="Show data centre"></button>
                     </div>
-                    <button class="swap-arrow" id="swapNext" onclick="swapImage(1)" aria-label="Next image">&#8250;</button>
+                    <div class="image-swap-controls">
+                        <button class="swap-arrow" onclick="swapImage(-1)" aria-label="Previous showcase image">‹</button>
+                        <button class="swap-arrow" onclick="swapImage(1)" aria-label="Next showcase image">›</button>
+                    </div>
                 </div>
-                <p class="image-swap-label" id="imageSwapLabel">Image 1 of 5 — Network Architecture Infrastructure</p>
             </div>
         </section>
-        <!-- Scroll-Based Team Member Portfolios Section -->
+
+        <div class="pillar-switcher-container" role="group" aria-label="Service spotlight">
+            <button class="pillar-pill active" data-pillar="network">Network architecture</button>
+            <button class="pillar-pill" data-pillar="security">Cyber security</button>
+            <button class="pillar-pill" data-pillar="systems">Systems administration</button>
+        </div>
+
         <section id="team-portfolios" class="member-portfolio-section">
             <div class="tile-content text-center">
-                <span class="tagline">ENGINEERING TEAM PORTFOLIOS</span>
-                <h2 class="display-lg mt-2">Group Members Portfolio</h2>
-                <p class="caption mt-2">Scroll or click to view individual profile cards for each group member.</p>
-
-                <div class="member-nav-pills" role="navigation" aria-label="Member quick scroll">
-                    <a href="#member-annan" class="member-nav-pill">Ebenezer Nana Annan</a>
-                    <a href="#member-addai" class="member-nav-pill">Okyere-Darko Addai</a>
-                    <a href="#member-antwi" class="member-nav-pill">Frank Akrasi Antwi</a>
-                    <a href="#member-essel" class="member-nav-pill">Michael Essel</a>
-                </div>
-
+                <span class="tagline">GROUP MEMBERS</span>
+                <h2 class="display-lg mt-2">People behind CAV.</h2>
+                <p class="caption mt-2">UCC Campus, Cape Coast</p>
                 <div class="member-card-grid">
-                    <!-- Member 1: Ebenezer Nana Annan -->
-                    <div id="member-annan" class="member-portfolio-card" data-member-id="1">
-                        <div class="member-photo-wrapper">
-                            <img src="images/member1.jpg" alt="Ebenezer Nana Annan" class="member-photo">
-                        </div>
-                        <span class="student-id-badge">MS/ITE/25/0041</span>
-                        <span class="tagline">NETWORK OPERATIONS</span>
-                        <h3 class="display-md mt-2">Ebenezer Nana Annan</h3>
-                        <p class="body-strong text-accent mt-1">Lead Network Infrastructure Architect</p>
-                        <p class="member-location-tag">📍 UCC Campus (Cape Coast)</p>
-                        <p class="caption mt-4">Specializes in enterprise-grade BGP/OSPF core routing, zero-latency interconnects, and high-availability network topologies built for continuous 99.999% uptime.</p>
-
-                        <div class="member-skills-list">
-                            <span class="skill-tag">BGP & OSPF Routing</span>
-                            <span class="skill-tag">Topology Design</span>
-                            <span class="skill-tag">Zero-Latency Interconnects</span>
-                            <span class="skill-tag">VLAN & Firewalling</span>
-                        </div>
-                    </div>
-
-                    <!-- Member 2: Okyere-Darko Addai -->
-                    <div id="member-addai" class="member-portfolio-card" data-member-id="2">
-                        <div class="member-photo-wrapper">
-                            <img src="images/member2.jpg" alt="Okyere-Darko Addai" class="member-photo">
-                        </div>
-                        <span class="student-id-badge">MS/ITE/25/0044</span>
-                        <span class="tagline">IT INFRASTRUCTURE</span>
-                        <h3 class="display-md mt-2">Okyere-Darko Addai</h3>
-                        <p class="body-strong text-accent mt-1">Chief Systems & Cloud Architect</p>
-                        <p class="member-location-tag">📍 UCC Campus (Cape Coast)</p>
-                        <p class="caption mt-4">Expert in multi-cloud velocity orchestration, high-availability Kubernetes cluster management, Linux kernel tuning, and automated DevOps deployment pipelines.</p>
-
-                        <div class="member-skills-list">
-                            <span class="skill-tag">Cloud Orchestration</span>
-                            <span class="skill-tag">Kubernetes DevOps</span>
-                            <span class="skill-tag">Linux Kernel Tuning</span>
-                            <span class="skill-tag">Infrastructure Automation</span>
-                        </div>
-                    </div>
-
-                    <!-- Member 3: Frank Akrasi Antwi -->
-                    <div id="member-antwi" class="member-portfolio-card" data-member-id="3">
-                        <div class="member-photo-wrapper">
-                            <img src="images/member3.jpg" alt="Frank Akrasi Antwi" class="member-photo">
-                        </div>
-                        <span class="student-id-badge">MS/ITE/25/0051</span>
-                        <span class="tagline">CYBER SECURITY</span>
-                        <h3 class="display-md mt-2">Frank Akrasi Antwi</h3>
-                        <p class="body-strong text-accent mt-1">Cyber Security Operations Head</p>
-                        <p class="member-location-tag">📍 UCC Campus (Cape Coast)</p>
-                        <p class="caption mt-4">Leads Zero-Trust defense systems, real-time SOC threat intelligence monitoring, continuous vulnerability mitigation, and penetration testing for enterprise assets.</p>
-
-                        <div class="member-skills-list">
-                            <span class="skill-tag">Zero-Trust Security</span>
-                            <span class="skill-tag">SOC Monitoring</span>
-                            <span class="skill-tag">Penetration Testing</span>
-                            <span class="skill-tag">Threat Mitigation</span>
-                        </div>
-                    </div>
-
-                    <!-- Member 4: Michael Essel -->
-                    <div id="member-essel" class="member-portfolio-card" data-member-id="4">
-                        <div class="member-photo-wrapper">
-                            <img src="images/member4.jpg" alt="Michael Essel" class="member-photo">
-                        </div>
-                        <span class="student-id-badge">MS/ITE/25/0053</span>
-                        <span class="tagline">SYSTEMS ADMINISTRATION</span>
-                        <h3 class="display-md mt-2">Michael Essel</h3>
-                        <p class="body-strong text-accent mt-1">Full-Stack & Systems Engineer</p>
-                        <p class="member-location-tag">📍 UCC Campus (Cape Coast)</p>
-                        <p class="caption mt-4">Specializes in relational database engineering, information systems management, interactive client-side web applications, and backend automation APIs.</p>
-
-                        <div class="member-skills-list">
-                            <span class="skill-tag">Database Architecture</span>
-                            <span class="skill-tag">Full-Stack Web</span>
-                            <span class="skill-tag">Information Systems</span>
-                            <span class="skill-tag">Automation APIs</span>
-                        </div>
-                    </div>
+                    <article class="member-portfolio-card" id="member-annan"><div class="member-photo-wrapper"><img src="images/member1.jpg" alt="Ebenezer Nana Annan" class="member-photo"></div><span class="student-id-badge">MS/ITE/25/0041</span><span class="tagline">NETWORK OPERATIONS</span><h3 class="display-md mt-2">Ebenezer Nana Annan</h3><p class="body-strong text-accent mt-1">Lead Network Infrastructure Architect</p><p class="member-location-tag">UCC Campus, Cape Coast</p></article>
+                    <article class="member-portfolio-card" id="member-addai"><div class="member-photo-wrapper"><img src="images/member2.jpg" alt="Okyere-Darko Addai" class="member-photo"></div><span class="student-id-badge">MS/ITE/25/0044</span><span class="tagline">IT INFRASTRUCTURE</span><h3 class="display-md mt-2">Okyere-Darko Addai</h3><p class="body-strong text-accent mt-1">Chief Systems & Cloud Architect</p><p class="member-location-tag">UCC Campus, Cape Coast</p></article>
+                    <article class="member-portfolio-card" id="member-antwi"><div class="member-photo-wrapper"><img src="images/member3.jpg" alt="Frank Akrasi Antwi" class="member-photo"></div><span class="student-id-badge">MS/ITE/25/0051</span><span class="tagline">CYBER SECURITY</span><h3 class="display-md mt-2">Frank Akrasi Antwi</h3><p class="body-strong text-accent mt-1">Cyber Security Operations Head</p><p class="member-location-tag">UCC Campus, Cape Coast</p></article>
+                    <article class="member-portfolio-card" id="member-essel"><div class="member-photo-wrapper"><img src="images/member4.jpg" alt="Michael Essel" class="member-photo"></div><span class="student-id-badge">MS/ITE/25/0053</span><span class="tagline">SYSTEMS ADMINISTRATION</span><h3 class="display-md mt-2">Michael Essel</h3><p class="body-strong text-accent mt-1">Full-Stack & Systems Engineer</p><p class="member-location-tag">UCC Campus, Cape Coast</p></article>
                 </div>
             </div>
         </section>
-
-        <section class="marquee-container" aria-label="Technologies">
-            <div id="marqueeContent" class="marquee-content">
-                <div class="marquee-item">ROUTING & SWITCHING</div>
-                <div class="marquee-item">ZERO-TRUST SECURITY</div>
-                <div class="marquee-item">CLOUD INFRASTRUCTURE</div>
-                <div class="marquee-item">DEVOPS AUTOMATION</div>
-                <div class="marquee-item">HIGH AVAILABILITY</div>
-                <div class="marquee-item">PENETRATION TESTING</div>
-            </div>
-        </section>
+        <section class="marquee-container" aria-label="Company capabilities"><div id="marqueeContent" class="marquee-content"><div class="marquee-item">ROUTING & SWITCHING</div><div class="marquee-item">ZERO-TRUST SECURITY</div><div class="marquee-item">CLOUD INFRASTRUCTURE</div><div class="marquee-item">DEVOPS AUTOMATION</div><div class="marquee-item">HIGH AVAILABILITY</div><div class="marquee-item">PENETRATION TESTING</div></div></section>
     </main>
 
-    <div id="briefModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="briefTitle">
-        <div class="modal-card text-left">
-            <button class="modal-close" onclick="closeModal('briefModal')" aria-label="Close modal">×</button>
-            <span class="tagline text-center" style="display:block;">COMPANY BRIEF</span>
-            <h3 id="briefTitle" class="display-md mt-2 mb-4 text-center">Chief Alltechs Ventures at a Glance</h3>
-            <p>CAV delivers enterprise-grade network architecture, zero-trust cybersecurity, and resilient systems administration across Ghana and beyond. Our flagship three-pillar framework ensures 99.999% uptime, continuous threat mitigation, and seamless cloud orchestration for clients in finance, healthcare, and public-sector industries.</p>
-            <p class="mt-4">Founded by UCC graduates, we combine academic rigor with hands-on operational expertise to architect technology ecosystems that scale.</p>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
-    </footer>
-
+    <div id="briefModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="briefTitle"><div class="modal-card text-left"><button class="modal-close" onclick="closeModal('briefModal')" aria-label="Close modal">×</button><span class="tagline">COMPANY BRIEF</span><h2 id="briefTitle" class="display-md mt-2 mb-4">CAV at a glance.</h2><p>Chief Alltechs Ventures delivers enterprise network architecture, cybersecurity, and systems administration for organisations across Ghana and beyond.</p></div></div>
+    <footer class="footer"><p>© 2026 Chief Alltechs Ventures (CAV). Designed by Group Members, UCC.</p></footer>
     <script src="js/scripts.js"></script>
 </body>
 </html>

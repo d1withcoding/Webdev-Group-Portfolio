@@ -1455,7 +1455,21 @@ body, button, input, select, textarea, .brand-logo, .tagline, .lead, .caption,
 .mobile-theme-control { display: none; }
 
 @media (max-width: 768px) {
-    .hero-marquee { margin-top: 38px; }
+    .hero-marquee,
+    .pillar-switcher-container,
+    .company-overview .services-heading,
+    .company-overview .services-grid {
+        display: none;
+    }
+
+    .hero-gallery {
+        min-height: 600px;
+    }
+
+    .hero-gallery-footer {
+        margin-top: 26px;
+    }
+
     .company-mission-grid, .services-grid { grid-template-columns: 1fr; }
     .service-list .store-utility-card { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
     .service-list .store-utility-card a { justify-self: start; margin-top: 8px; }

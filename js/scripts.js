@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardSection: document.getElementById('dashboardSection'),
         logoutBtn: document.getElementById('logoutBtn'),
         userWelcome: document.getElementById('userWelcome'),
+        securityStatus: document.getElementById('securityStatus'),
+        csrfToken: document.getElementById('csrfToken'),
         loginCard: document.getElementById('loginCard'),
         registerCard: document.getElementById('registerCard'),
         tabLoginBtn: document.getElementById('tabLoginBtn'),
@@ -51,7 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (window.location.pathname.includes('database.html')) {
         checkAuth(DOM);
-        renderTable(DOM);
+        if (localStorage.getItem('cav_logged_user')) {
+            renderTable(DOM);
+        }
     }
     
     if (window.location.pathname.includes('contact.html')) {
@@ -703,23 +707,120 @@ function saveRecords(records) {
     localStorage.setItem('cav_records', JSON.stringify(records));
 }
 
+function getUsers() {
+    return JSON.parse(localStorage.getItem('cav_users') || '[]');
+}
+
+function saveUsers(users) {
+    localStorage.setItem('cav_users', JSON.stringify(users));
+}
+
+function bytesToHex(bytes) {
+    return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function createRandomToken() {
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    return bytesToHex(bytes);
+}
+
+async function hashPassword(password, salt) {
+    const source = new TextEncoder().encode(`${salt}:${password}`);
+    const digest = await window.crypto.subtle.digest('SHA-256', source);
+    return bytesToHex(new Uint8Array(digest));
+}
+
+async function ensureDefaultAdmin() {
+    const users = getUsers();
+    if (users.some(user => user.username === 'admin')) return users;
+
+    const salt = createRandomToken();
+    const passwordHash = await hashPassword('admin123', salt);
+    users.push({
+        name: 'System Administrator',
+        username: 'admin',
+        email: 'admin@cav.demo',
+        salt,
+        passwordHash,
+        role: 'Administrator'
+    });
+    saveUsers(users);
+    return users;
+}
+
+function createAuthenticatedSession(username) {
+    const csrfToken = createRandomToken();
+    localStorage.setItem('cav_logged_user', username);
+    sessionStorage.setItem('cav_csrf_token', csrfToken);
+    const tokenInput = document.getElementById('csrfToken');
+    if (tokenInput) tokenInput.value = csrfToken;
+}
+
+function getCsrfToken() {
+    let token = sessionStorage.getItem('cav_csrf_token');
+    if (!token && localStorage.getItem('cav_logged_user')) {
+        token = createRandomToken();
+        sessionStorage.setItem('cav_csrf_token', token);
+    }
+    const tokenInput = document.getElementById('csrfToken');
+    if (tokenInput) tokenInput.value = token || '';
+    return token;
+}
+
+function requireProtectedAction() {
+    const user = localStorage.getItem('cav_logged_user');
+    const token = getCsrfToken();
+    const tokenInput = document.getElementById('csrfToken');
+
+    if (!user) {
+        showAlert('Please log in before using the protected information-system dashboard.', 'Authentication Required');
+        checkAuth({});
+        return false;
+    }
+
+    if (!token || !tokenInput || tokenInput.value !== token) {
+        showAlert('CSRF validation failed. Reload the dashboard and try again.', 'Security Check Failed');
+        return false;
+    }
+
+    return true;
+}
+
+function runPreparedRecordStatement(action, params) {
+    const statements = {
+        insert: 'INSERT INTO company_records (id, name, role, department) VALUES (?, ?, ?, ?)',
+        select: 'SELECT id, name, role, department FROM company_records WHERE id = ?',
+        selectAll: 'SELECT id, name, role, department FROM company_records',
+        update: 'UPDATE company_records SET name = ?, role = ?, department = ? WHERE id = ?',
+        delete: 'DELETE FROM company_records WHERE id = ?'
+    };
+
+    const preparedStatement = { sql: statements[action], params };
+    sessionStorage.setItem('cav_last_prepared_statement', JSON.stringify(preparedStatement));
+    return preparedStatement;
+}
+
 function syncHomepageMembers(DOM) {
     const cards = DOM && DOM.memberCards && DOM.memberCards.length ? DOM.memberCards : document.querySelectorAll('.member-portfolio-card');
     if (!cards.length) return;
     
-    const records = DEFAULT_MEMBERS;
+    const records = getRecords().slice(0, 4);
     cards.forEach((card, index) => {
         if (records[index]) {
             const member = records[index];
+            const fallback = DEFAULT_MEMBERS[index] || {};
             const h3 = card.querySelector('h3');
             const caption = card.querySelector('.caption');
+            const roleText = card.querySelector('.body-strong');
             const tagline = card.querySelector('.tagline');
             const badge = card.querySelector('.student-id-badge');
             
             if (h3) h3.textContent = member.name;
-            if (caption) caption.textContent = `${member.role} • ${member.location || 'UCC Campus (Cape Coast)'}`;
-            if (tagline) tagline.textContent = member.department.toUpperCase();
-            if (badge) badge.textContent = member.studentId || `MS/ITE/25/004${member.id}`;
+            if (caption) caption.textContent = member.location || fallback.location || 'UCC Campus (Cape Coast)';
+            if (roleText) roleText.textContent = member.role || fallback.role || 'Company Profile';
+            if (tagline) tagline.textContent = (member.department || fallback.department || 'Company').toUpperCase();
+            if (badge) badge.textContent = member.studentId || fallback.studentId || member.id;
         }
     });
 }
@@ -730,16 +831,22 @@ function checkAuth(DOM) {
     const dashboardSection = DOM.dashboardSection || document.getElementById('dashboardSection');
     const logoutBtn = DOM.logoutBtn || document.getElementById('logoutBtn');
     const userWelcome = DOM.userWelcome || document.getElementById('userWelcome');
+    const securityStatus = DOM.securityStatus || document.getElementById('securityStatus');
 
     if (loggedInUser && dashboardSection && authSection) {
         authSection.style.display = 'none';
         dashboardSection.style.display = 'flex';
         if (logoutBtn) logoutBtn.style.display = 'inline-flex';
         if (userWelcome) userWelcome.textContent = `Welcome back, ${loggedInUser}`;
+        getCsrfToken();
+        if (securityStatus) {
+            securityStatus.textContent = 'Secure session: hashed login, CSRF-checked actions, prepared record operations.';
+        }
     } else if (dashboardSection && authSection) {
         authSection.style.display = 'flex';
         dashboardSection.style.display = 'none';
         if (logoutBtn) logoutBtn.style.display = 'none';
+        if (securityStatus) securityStatus.textContent = '';
     }
 }
 
@@ -774,19 +881,37 @@ function switchAuthTab(tab) {
     }
 }
 
-function handleLogin(e) {
+async function handleLogin(e) {
     if (e) e.preventDefault();
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value.trim();
     const err = document.getElementById('loginError');
 
-    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
-    const found = users.find(user => user.username === u && user.password === p) || (u === 'admin' && p === 'admin123');
+    if (!window.crypto || !window.crypto.subtle) {
+        if (err) err.textContent = 'Password hashing requires a secure browser context.';
+        return false;
+    }
 
-    if (found) {
-        localStorage.setItem('cav_logged_user', u);
+    const users = await ensureDefaultAdmin();
+    const found = users.find(user => user.username === u);
+    let authenticated = false;
+
+    if (found && found.passwordHash && found.salt) {
+        const inputHash = await hashPassword(p, found.salt);
+        authenticated = inputHash === found.passwordHash;
+    } else if (found && found.password === p) {
+        const salt = createRandomToken();
+        found.salt = salt;
+        found.passwordHash = await hashPassword(p, salt);
+        delete found.password;
+        saveUsers(users);
+        authenticated = true;
+    }
+
+    if (authenticated) {
+        createAuthenticatedSession(u);
         if (err) err.textContent = '';
-        showAlert('Authentication successful. Redirecting to portal…', 'Welcome');
+        showAlert('Authentication successful. Redirecting to portal...', 'Welcome');
         setTimeout(() => { window.location.href = 'database.html'; }, 600);
     } else {
         if (err) err.textContent = 'Invalid credentials. Try admin / admin123';
@@ -794,7 +919,7 @@ function handleLogin(e) {
     return false;
 }
 
-function handleRegister(e) {
+async function handleRegister(e) {
     if (e) e.preventDefault();
     const name = document.getElementById('regFullName').value.trim();
     const u = document.getElementById('regUsername').value.trim();
@@ -802,6 +927,11 @@ function handleRegister(e) {
     const p = document.getElementById('regPassword').value.trim();
     const c = document.getElementById('regConfirm').value.trim();
     const err = document.getElementById('regError');
+
+    if (!window.crypto || !window.crypto.subtle) {
+        if (err) err.textContent = 'Password hashing requires a secure browser context.';
+        return false;
+    }
 
     if (!name || !u || !email.includes('@')) {
         if (err) err.textContent = 'Enter full name, username, and valid email address.';
@@ -818,34 +948,39 @@ function handleRegister(e) {
         return false;
     }
 
-    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
+    const users = await ensureDefaultAdmin();
     if (users.some(user => user.username === u)) {
         if (err) err.textContent = 'Username already taken.';
         return false;
     }
 
-    users.push({ name, username: u, email, password: p });
-    localStorage.setItem('cav_users', JSON.stringify(users));
-    localStorage.setItem('cav_logged_user', u);
+    const salt = createRandomToken();
+    const passwordHash = await hashPassword(p, salt);
+    users.push({ name, username: u, email, salt, passwordHash });
+    saveUsers(users);
+    createAuthenticatedSession(u);
     if (err) err.textContent = '';
 
-    showAlert(`Account created successfully for ${name}. Redirecting to portal…`, 'Welcome');
+    showAlert(`Account created successfully for ${name}. Redirecting to portal...`, 'Welcome');
     setTimeout(() => { window.location.href = 'database.html'; }, 600);
     return false;
 }
 
 function handleLogout() {
     localStorage.removeItem('cav_logged_user');
+    sessionStorage.removeItem('cav_csrf_token');
     checkAuth({});
 }
 
 function retrieveRecords() {
+    if (!requireProtectedAction()) return;
     const status = document.getElementById('retrieveStatus');
     const text = document.getElementById('retrieveStatusText');
     const recordId = (document.getElementById('recordId')?.value || '').trim();
+    runPreparedRecordStatement(recordId ? 'select' : 'selectAll', recordId ? [recordId] : []);
     renderTable({}, recordId);
     if (status && text) {
-        text.textContent = recordId ? 'Matching record retrieved.' : 'All employee records retrieved in table.';
+        text.textContent = recordId ? 'Matching company record retrieved.' : 'All company records retrieved in table.';
         status.style.display = 'flex';
         setTimeout(() => {
             status.style.display = 'none';
@@ -862,44 +997,76 @@ function renderTable(DOM, requestedId = '') {
     tbody.innerHTML = '';
 
     if (!visibleRecords.length) {
-        tbody.innerHTML = '<tr><td colspan="5">No employee record found. Clear Employee ID, then choose Retrieve Record to view all records.</td></tr>';
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.textContent = 'No company record found. Clear Record ID, then choose Retrieve Record to view all records.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
         return;
     }
 
     visibleRecords.forEach(r => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${r.id}</td>
-            <td><strong>${r.name}</strong></td>
-            <td>${r.role}</td>
-            <td><span class="tagline">${r.department}</span></td>
-            <td>
-                <div style="display: flex; gap: 8px;">
-                    <button class="button-utility" onclick="editRecord('${r.id}')">Load</button>
-                    <button class="button-utility button-danger" onclick="deleteRecord('${r.id}')">Delete</button>
-                </div>
-            </td>
-        `;
+        const idCell = document.createElement('td');
+        const nameCell = document.createElement('td');
+        const roleCell = document.createElement('td');
+        const deptCell = document.createElement('td');
+        const actionCell = document.createElement('td');
+        const nameStrong = document.createElement('strong');
+        const deptTag = document.createElement('span');
+        const actionWrap = document.createElement('div');
+        const loadBtn = document.createElement('button');
+        const deleteBtn = document.createElement('button');
+
+        idCell.textContent = r.id;
+        nameStrong.textContent = r.name;
+        roleCell.textContent = r.role;
+        deptTag.className = 'tagline';
+        deptTag.textContent = r.department;
+        actionWrap.style.display = 'flex';
+        actionWrap.style.gap = '8px';
+        loadBtn.className = 'button-utility';
+        loadBtn.type = 'button';
+        loadBtn.textContent = 'Load';
+        loadBtn.addEventListener('click', () => editRecord(r.id));
+        deleteBtn.className = 'button-utility button-danger';
+        deleteBtn.type = 'button';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => deleteRecord(r.id));
+
+        nameCell.appendChild(nameStrong);
+        deptCell.appendChild(deptTag);
+        actionWrap.append(loadBtn, deleteBtn);
+        actionCell.appendChild(actionWrap);
+        tr.append(idCell, nameCell, roleCell, deptCell, actionCell);
         tbody.appendChild(tr);
     });
 }
 
 function addRecord() {
+    if (!requireProtectedAction()) return;
     const id = document.getElementById('recordId').value.trim().toUpperCase();
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
 
     if (!id || !name || !role) {
-        showAlert('Enter Employee ID, name, role, and department before adding.', 'Required Fields');
+        showAlert('Enter Record ID, name, role, and department before adding.', 'Required Fields');
+        return;
+    }
+
+    if (!/^[A-Z0-9-]{3,20}$/.test(id)) {
+        showAlert('Record ID can only contain letters, numbers, and hyphens.', 'Invalid Record ID');
         return;
     }
 
     const records = getRecords();
     if (records.some(record => record.id.toLowerCase() === id.toLowerCase())) {
-        showAlert('Employee ID already exists. Use Update Record instead.', 'Duplicate ID');
+        showAlert('Record ID already exists. Use Update Record instead.', 'Duplicate ID');
         return;
     }
+    runPreparedRecordStatement('insert', [id, name, role, dept]);
     records.push({ id, name, role, department: dept });
     saveRecords(records);
     resetForm();
@@ -919,21 +1086,28 @@ function editRecord(id) {
 }
 
 function updateRecord() {
+    if (!requireProtectedAction()) return;
     const id = document.getElementById('recordId').value;
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
 
     if (!id || !name || !role) {
-        showAlert('Enter Employee ID, name, role, and department before updating.', 'Required Fields');
+        showAlert('Enter Record ID, name, role, and department before updating.', 'Required Fields');
+        return;
+    }
+
+    if (!/^[A-Z0-9-]{3,20}$/i.test(id)) {
+        showAlert('Record ID can only contain letters, numbers, and hyphens.', 'Invalid Record ID');
         return;
     }
 
     let records = getRecords();
     if (!records.some(record => record.id.toLowerCase() === id.toLowerCase())) {
-        showAlert('Employee ID not found. Add it as a new record instead.', 'Record Not Found');
+        showAlert('Record ID not found. Add it as a new record instead.', 'Record Not Found');
         return;
     }
+    runPreparedRecordStatement('update', [name, role, dept, id]);
     records = records.map(r => r.id.toLowerCase() === id.toLowerCase() ? { ...r, name, role, department: dept } : r);
     saveRecords(records);
     resetForm();
@@ -941,18 +1115,35 @@ function updateRecord() {
 }
 
 function deleteRecord(selectedId = '') {
+    if (!requireProtectedAction()) return;
     const id = selectedId || document.getElementById('recordId').value.trim();
     if (!id) {
-        showAlert('Enter or load an Employee ID before deleting.', 'Required Fields');
+        showAlert('Enter or load a Record ID before deleting.', 'Required Fields');
         return;
     }
     showConfirm('Confirm permanent deletion of this system record?', () => {
         let records = getRecords();
+        runPreparedRecordStatement('delete', [id]);
         records = records.filter(r => r.id.toLowerCase() !== id.toLowerCase());
         saveRecords(records);
         resetForm();
         retrieveRecords();
     }, 'Delete Record');
+}
+
+function demoConfirmPopup() {
+    showConfirm('This is the JavaScript confirm pop-up demonstration. Continue?', () => {
+        showAlert('Confirm accepted.', 'Confirm Result');
+    }, 'Confirm Demo');
+}
+
+function demoPromptPopup() {
+    const response = window.prompt('This is the JavaScript prompt pop-up demonstration. Enter a sample department:', 'Cyber Security');
+    if (response && response.trim()) {
+        showAlert(`Prompt received: ${response.trim()}`, 'Prompt Result');
+    } else {
+        showAlert('Prompt cancelled or left empty.', 'Prompt Result');
+    }
 }
 
 function resetForm() {
@@ -1037,14 +1228,20 @@ function renderSubmissions(DOM) {
 
     submissions.forEach(s => {
         const div = document.createElement('div');
+        const meta = document.createElement('div');
+        const sender = document.createElement('span');
+        const date = document.createElement('span');
+        const message = document.createElement('p');
+
         div.className = 'submission-card';
-        div.innerHTML = `
-            <div class="submission-meta">
-                <span class="body-strong">${s.name} (${s.email})</span>
-                <span class="caption">${s.date}</span>
-            </div>
-            <p>${s.message}</p>
-        `;
+        meta.className = 'submission-meta';
+        sender.className = 'body-strong';
+        date.className = 'caption';
+        sender.textContent = `${s.name} (${s.email})`;
+        date.textContent = s.date;
+        message.textContent = s.message;
+        meta.append(sender, date);
+        div.append(meta, message);
         list.appendChild(div);
     });
 }

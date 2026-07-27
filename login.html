@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Chief Alltechs Ventures</title>
+    <title>Authentication - Chief Alltechs Ventures</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">Chief Alltechs Ventures</div>
+    <!-- Floating Navigation -->
+    <nav class="nav-island reveal">
+        <a href="index.html" class="nav-brand">CAV.</a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -16,69 +17,107 @@
             <li><a href="contact.html">Contact</a></li>
             <li><a href="login.html" class="active">Login</a></li>
         </ul>
-        <div class="hamburger" onclick="toggleMenu()">
+        <button id="menuToggle" class="menu-toggle" aria-label="Toggle Menu">
             <span></span>
             <span></span>
-            <span></span>
-        </div>
+        </button>
     </nav>
 
-    <section class="auth-section">
-        <div class="auth-container">
-            <!-- Login Form -->
-            <div class="auth-form" id="loginForm">
-                <h2>Login</h2>
+    <!-- Mobile Nav Overlay -->
+    <div id="mobileNavOverlay" class="mobile-nav-overlay">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" class="active">Login</a></li>
+        </ul>
+    </div>
+
+    <section class="container" style="padding-top: 12rem; min-height: calc(100vh - 100px); display: flex; align-items: center; justify-content: center;">
+        
+        <!-- Login Card -->
+        <div id="loginCard" class="card-outer reveal" style="width: 100%; max-width: 450px;">
+            <div class="card-inner">
+                <div class="text-center mb-8">
+                    <span class="eyebrow">Authentication</span>
+                    <h3>Welcome Back</h3>
+                </div>
+                
                 <form onsubmit="return handleLogin(event)">
                     <div class="form-group">
-                        <label for="loginUsername">Username *</label>
-                        <input type="text" id="loginUsername" name="loginUsername" required>
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" required>
                     </div>
                     <div class="form-group">
-                        <label for="loginPassword">Password *</label>
-                        <input type="password" id="loginPassword" name="loginPassword" required>
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
                     </div>
-                    <button type="submit" class="btn">Login</button>
+                    
+                    <span id="loginError" class="form-error mb-4" style="text-align: center;"></span>
+                    
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                        Sign In
+                        <span class="btn-icon"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></span>
+                    </button>
                 </form>
-                <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
-                <div id="loginError" class="error-message"></div>
+                
+                <div class="text-center mt-8">
+                    <p style="font-size: 0.875rem;">Don't have an account? <a href="#" onclick="toggleAuth('registerCard', 'loginCard'); return false;" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Register here</a>.</p>
+                </div>
             </div>
+        </div>
 
-            <!-- Registration Form -->
-            <div class="auth-form hidden" id="registerForm">
-                <h2>Register</h2>
+        <!-- Register Card -->
+        <div id="registerCard" class="card-outer hidden" style="width: 100%; max-width: 500px;">
+            <div class="card-inner">
+                <div class="text-center mb-8">
+                    <span class="eyebrow">Join CAV</span>
+                    <h3>Create Account</h3>
+                </div>
+                
                 <form onsubmit="return handleRegister(event)">
                     <div class="form-group">
-                        <label for="regFullName">Full Name *</label>
-                        <input type="text" id="regFullName" name="regFullName" required>
+                        <label for="regFullName">Full Name</label>
+                        <input type="text" id="regFullName" required>
                     </div>
-                    <div class="form-group">
-                        <label for="regUsername">Username *</label>
-                        <input type="text" id="regUsername" name="regUsername" required>
+                    <div class="flex gap-4" style="flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="regUsername">Username</label>
+                            <input type="text" id="regUsername" required>
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="regEmail">Email Address</label>
+                            <input type="email" id="regEmail" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="regEmail">Email *</label>
-                        <input type="email" id="regEmail" name="regEmail" required>
+                    <div class="flex gap-4" style="flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="regPassword">Password</label>
+                            <input type="password" id="regPassword" required>
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="regConfirm">Confirm Password</label>
+                            <input type="password" id="regConfirm" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="regPassword">Password *</label>
-                        <input type="password" id="regPassword" name="regPassword" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="regConfirmPassword">Confirm Password *</label>
-                        <input type="password" id="regConfirmPassword" name="regConfirmPassword" required>
-                    </div>
-                    <button type="submit" class="btn">Register</button>
+                    
+                    <span id="regError" class="form-error" style="text-align: center;"></span>
+                    <span id="regSuccess" class="success-msg text-center display-block" style="display:block; margin-bottom:1rem;"></span>
+                    
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                        Create Account
+                        <span class="btn-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span>
+                    </button>
                 </form>
-                <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
-                <div id="registerError" class="error-message"></div>
-                <div id="registerSuccess" class="success-message"></div>
-            </div>
+                
+                <div class="text-center mt-8">
+                    <p style="font-size: 0.875rem;">Already have an account? <a href="#" onclick="toggleAuth('loginCard', 'registerCard'); return false;" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Sign in here</a>.</p>
                 </div>
+            </div>
+        </div>
+        
     </section>
-
-    <footer>
-        <p>Chief Alltechs Ventures. All rights reserved.</p>
-    </footer>
 
     <script src="js/scripts.js"></script>
 </body>

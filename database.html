@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAV - Database Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="global-nav">
+        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
+        <div class="nav-links"></div>
+    </nav>
+    <div class="sub-nav-frosted">
+        <span class="tagline">Secure Portal</span>
+        <div class="sub-nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" onclick="handleLogout()" class="button-utility" style="background: transparent; color: var(--ink-dark); border: 1px solid var(--divider-light);">Logout</a>
+        </div>
+    </div>
+
+    <!-- Login Section -->
+    <section id="authSection" class="product-tile product-tile-dark" style="min-height: 80vh;">
+        <div class="tile-content text-center" style="max-width: 400px; width: 100%;">
+            <h1 class="display-md mb-8">Authenticate</h1>
+            <div class="store-utility-card" style="text-align: left; background: var(--void-surface); border-color: var(--void-tile); color: white;">
+                <div class="form-group">
+                    <label style="color: var(--ink-muted);">System ID</label>
+                    <input type="text" id="username" class="form-input" style="background: var(--void-black); color: white; border-color: var(--void-tile);">
+                </div>
+                <div class="form-group">
+                    <label style="color: var(--ink-muted);">Passkey</label>
+                    <input type="password" id="password" class="form-input" style="background: var(--void-black); color: white; border-color: var(--void-tile);">
+                </div>
+                <button onclick="handleLogin()" class="button-primary" style="width: 100%;">Access Database</button>
+            </div>
+            <p class="caption mt-4">Hint: admin / admin123</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboardSection" class="product-tile product-tile-parchment" style="display: none; min-height: 80vh; align-items: flex-start;">
+        <div class="tile-content" style="width: 100%; max-width: 1200px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                <h1 class="display-lg">Information System</h1>
+            </div>
+            
+            <div class="store-grid" style="grid-template-columns: 1fr 2fr;">
+                <!-- Form Area -->
+                <div class="store-utility-card">
+                    <h3 class="body-strong mb-4">Record Management</h3>
+                    <input type="hidden" id="recordId">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="empName" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Role / Position</label>
+                        <input type="text" id="empRole" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select id="empDepartment" class="form-input">
+                            <option value="IT">IT Infrastructure</option>
+                            <option value="Security">Cyber Security</option>
+                            <option value="Network">Network Ops</option>
+                            <option value="Admin">Administration</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-md);">
+                        <button id="btnAdd" class="button-primary" onclick="addRecord()" style="flex: 1;">Add Record</button>
+                        <button id="btnUpdate" class="button-primary" onclick="updateRecord()" style="display:none; flex: 1; background: var(--ink-dark);">Update Record</button>
+                        <button class="button-utility" onclick="resetForm()" style="background: transparent; color: var(--ink-dark); border: 1px solid var(--divider-light);">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Table Area -->
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

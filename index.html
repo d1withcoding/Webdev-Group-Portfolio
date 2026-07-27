@@ -1,125 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chief Alltechs Ventures - Home</title>
+    <title>Chief Alltechs Ventures - Premium IT Solutions</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">Chief Alltechs Ventures</div>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="admin-dashboard.html">Admin</a></li>
-            <li><a href="member-dashboard.html">My Profile</a></li>
-        </ul>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- Global Navigation -->
+    <nav class="global-nav">
+        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
+        <div class="nav-links">
+            <!-- Global links or search could go here -->
         </div>
     </nav>
 
-    <!-- Scrolling Text -->
-    <div class="scroll-container">
-        <div class="scroll-text" id="scrollText">
-            Welcome to Chief Alltechs Ventures - Your Trusted IT Solutions Partner - Network Administration - System Administration - Cyber Security - Hardware Installation - IT Consulting - General Sales - Professional IT Services
+    <!-- Sub Navigation (Frosted Cream Glass) -->
+    <div class="sub-nav-frosted">
+        <span class="tagline">Chief Alltechs</span>
+        <div class="sub-nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+            <a href="database.html" class="button-utility">Login</a>
         </div>
     </div>
 
-    <!-- Hero Section with Custom Background -->
-    <section class="hero" style=" background-position: center;">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Chief Alltechs Ventures</h1>
-            <p class="hero-tagline">Trusted IT Partner</p>
-            <p>Reliable technology support for modern businesses</p>
-            <p class="hero-subtitle">Network | Systems | Security | Hardware | Consulting | Sales</p>
-            <a href="services.html" class="btn">Our Services</a>
+    <!-- Hero Section (OLED Black) -->
+    <section class="product-tile product-tile-dark">
+        <!-- Hero Slideshow Background -->
+        <div class="hero-slideshow">
+            <img src="images/hero1.jpg" alt="Data Center" class="hero-slide active">
+            <img src="images/hero2.jpg" alt="Cyber Security" class="hero-slide">
+            <img src="images/hero3.jpg" alt="IT Consulting" class="hero-slide">
+            <img src="images/hero4.jpg" alt="Hardware" class="hero-slide">
+            <img src="images/hero5.jpg" alt="Cloud Network" class="hero-slide">
         </div>
-    </section>
 
-    <!-- Group Members Section -->
-    <section class="members">
-        <h2>Our Team</h2>
-        <div class="member-grid">
-            <div class="member-card" data-member-id="001">
-                <div class="member-photo">
-                    <img src="images/member1.jpg" alt="Ebenezer Nana Annan">
-                </div>
-                <h3>Ebenezer Nana Annan</h3>
-                <p>ID: 001</p>
-                <p>Network Administrator</p>
-            </div>
-            <div class="member-card" data-member-id="002">
-                <div class="member-photo">
-                    <img src="images/member2.jpg" alt="Okyere-Darko Addai">
-                </div>
-                <h3>Okyere-Darko Addai</h3>
-                <p>ID: 002</p>
-                <p>System Administrator</p>
-            </div>
-            <div class="member-card" data-member-id="003">
-                <div class="member-photo">
-                    <img src="images/member3.jpg" alt="Frank Akrasi Antwi">
-                </div>
-                <h3>Frank Akrasi Antwi</h3>
-                <p>ID: 003</p>
-                <p>Cyber Security Specialist</p>
-            </div>
-            <div class="member-card" data-member-id="004">
-                <div class="member-photo">
-                    <img src="images/member4.jpg" alt="Michael Essel">
-                </div>
-                <h3>Michael Essel</h3>
-                <p>ID: 004</p>
-                <p>IT Consultant</p>
+        <div class="tile-content hero-tile-content text-center">
+            <h1 class="hero-display">Architecting the digital future.</h1>
+            <p class="lead mt-4 mb-8">Chief Alltechs Ventures delivers high-end network architecture, unbreachable
+                cybersecurity, and expert systems administration.</p>
+
+            <div class="tile-actions">
+                <a href="services.html" class="button-primary">Explore Solutions</a>
             </div>
         </div>
     </section>
 
-    <!-- Pop-up Buttons -->
-    <section class="popup-section">
-        <h2>Quick Information</h2>
-        <button class="btn" onclick="showPopup('popup1')">Our Mission</button>
-        <button class="btn" onclick="showPopup('popup2')">Why Choose Us</button>
-        <button class="btn" onclick="showPopup('popup3')">Get Started</button>
+    <!-- Marquee Section -->
+    <div class="marquee-container">
+        <div id="marqueeContent" class="marquee-content">
+            <div class="marquee-item">Network Architecture <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="2" fill="white" />
+                </svg></div>
+            <div class="marquee-item">Systems Administration <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="2" fill="white" />
+                </svg></div>
+            <div class="marquee-item">Cyber Security <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="2" fill="white" />
+                </svg></div>
+            <div class="marquee-item">Hardware Solutions <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="2" fill="white" />
+                </svg></div>
+            <div class="marquee-item">IT Consulting <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="2" fill="white" />
+                </svg></div>
+        </div>
+    </div>
+
+    <!-- Team Section (Warm Cream) -->
+    <section class="product-tile product-tile-parchment">
+        <div class="tile-content text-center">
+            <span class="tagline">The Architect Team</span>
+            <h2 class="display-lg mt-2">Meet the experts.</h2>
+
+            <div class="store-grid">
+                <!-- Javascript will inject data into these 4 utility cards -->
+                <div class="store-utility-card">
+                    <img src="" alt="Photo">
+                    <h3 class="body-strong ">Loading...</h3>
+                    <p class="caption">ID</p>
+                </div>
+                <div class="store-utility-card">
+                    <img src="" alt="Photo">
+                    <h3 class="body-strong">Loading...</h3>
+                    <p class="caption">ID</p>
+                </div>
+                <div class="store-utility-card">
+                    <img src="" alt="Photo">
+                    <h3 class="body-strong">Loading...</h3>
+                    <p class="caption">ID</p>
+                </div>
+                <div class="store-utility-card">
+                    <img src="" alt="Photo">
+                    <h3 class="body-strong">Loading...</h3>
+                    <p class="caption">ID</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Pop-up Modals -->
-    <div id="popup1" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePopup('popup1')">&times;</span>
-            <h3>Our Mission</h3>
-            <p>To provide top-tier IT solutions that empower businesses to thrive in the digital age through reliable network administration, robust system management, and cutting-edge cyber security.</p>
+    <!-- Modals Section (Pure White) -->
+    <section class="product-tile product-tile-light">
+        <div class="tile-content text-center">
+            <span class="tagline">Discover More</span>
+            <h2 class="display-lg mt-2 mb-8">Inside CAV.</h2>
+
+            <div class="tile-actions" style="flex-wrap: wrap;">
+                <button onclick="showModal('missionModal')" class="button-secondary-pill">Our Mission</button>
+                <button onclick="showModal('whyModal')" class="button-secondary-pill">Why Choose Us</button>
+                <button onclick="showModal('approachModal')" class="button-secondary-pill">Our Approach</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div id="missionModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('missionModal')">&times;</button>
+            <span class="tagline">Vision 2026</span>
+            <h3 class="display-md mt-2">Our Mission</h3>
+            <p class="mt-4">To deliver cutting-edge technology solutions that empower businesses to scale securely and
+                efficiently in the digital era.</p>
         </div>
     </div>
 
-    <div id="popup2" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePopup('popup2')">&times;</span>
-            <h3>Why Choose Us</h3>
-            <p>Chief Alltechs Ventures combines technical expertise with personalized service. We understand your business needs and deliver tailored IT solutions that drive growth and security.</p>
+    <div id="whyModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('whyModal')">&times;</button>
+            <span class="tagline">The Difference</span>
+            <h3 class="display-md mt-2">Why Choose Us</h3>
+            <p class="mt-4">We combine industry-leading expertise with a relentless commitment to innovation. Our
+                zero-trust security architecture ensures your business never sleeps.</p>
         </div>
     </div>
 
-    <div id="popup3" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePopup('popup3')">&times;</span>
-            <h3>Get Started</h3>
-            <p>Contact us today for a free consultation. Let us assess your IT infrastructure and recommend the best solutions for your organization.</p>
+    <div id="approachModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('approachModal')">&times;</button>
+            <span class="tagline">Methodology</span>
+            <h3 class="display-md mt-2">Our Approach</h3>
+            <p class="mt-4">Consult. Architect. Deploy. Secure. We follow a rigorous 4-step framework to ensure every
+                project exceeds enterprise standards from day one.</p>
         </div>
     </div>
 
-    <footer>
-        <p>Chief Alltechs Ventures. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
     </footer>
 
     <script src="js/scripts.js"></script>
 </body>
+
 </html>

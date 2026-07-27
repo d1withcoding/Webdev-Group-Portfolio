@@ -1,84 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Chief Alltechs Ventures</title>
+    <title>CAV - Contact</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">Chief Alltechs Ventures</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html" class="active">Contact</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="admin-dashboard.html">Admin</a></li>
-            <li><a href="member-dashboard.html">My Profile</a></li>
-        </ul>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <nav class="global-nav">
+        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
+        <div class="nav-links"></div>
     </nav>
+    <div class="sub-nav-frosted">
+        <span class="tagline">Chief Alltechs</span>
+        <div class="sub-nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+            <a href="database.html" class="button-utility">Login</a>
+        </div>
+    </div>
 
-    <section class="page-header">
-        <h1>Contact Us</h1>
+    <section class="product-tile product-tile-parchment" style="min-height: 80vh;">
+        <div class="tile-content text-center" style="max-width: 600px; width: 100%;">
+            <h1 class="display-lg mb-8">Let's build.</h1>
+
+            <div class="store-utility-card" style="text-align: left;">
+                <!-- Success Banner (hidden by default) -->
+                <div id="contactSuccess" class="contact-success" style="display: none;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <div>
+                        <p class="body-strong">Message sent securely.</p>
+                        <p class="caption">We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+
+                <form id="contactForm" onsubmit="return handleContactSubmit(event);" novalidate>
+                    <div class="form-group">
+                        <label for="contactName">Name</label>
+                        <input type="text" id="contactName" class="form-input" placeholder="Your full name">
+                        <span id="nameError" class="form-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email</label>
+                        <input type="email" id="contactEmail" class="form-input" placeholder="you@example.com">
+                        <span id="emailError" class="form-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" class="form-input" placeholder="Tell us about your project..."></textarea>
+                        <span id="messageError" class="form-error"></span>
+                    </div>
+                    <button type="submit" class="button-primary" style="width: 100%;">Send Inquiry</button>
+                </form>
+            </div>
+
+            <div class="mt-8">
+                <p class="body-strong">HQ Location</p>
+                <p class="caption">UCC Campus (Cape Coast), Ghana</p>
+                <p class="caption mt-2"><a href="mailto:contact@chiefalltechs.com" class="text-link">contact@chiefalltechs.com</a></p>
+            </div>
+
+            <!-- Past Submissions (visible when there are stored messages) -->
+            <div id="submissionsSection" style="display: none; margin-top: var(--spacing-xl); width: 100%;">
+                <h2 class="display-md mb-4" style="font-size: 28px;">Previous Inquiries</h2>
+                <div id="submissionsList"></div>
+            </div>
+        </div>
     </section>
 
-    <section class="contact-section">
-        <div class="contact-info">
-            <h2>Get In Touch</h2>
-            <p><strong>Company Name:</strong> <span id="contactCompanyName">Chief Alltechs Ventures</span></p>
-            <p><strong>Email:</strong> <span id="contactEmail">info@chiefalltechs.com</span></p>
-            <p><strong>Phone:</strong> <span id="contactPhone">+233 XX XXX XXXX</span></p>
-            <p><strong>Address:</strong> <span id="contactAddress">Ghana</span></p>
-            <p><strong>Business Hours:</strong> <span id="contactHours">Monday - Friday, 8:00 AM - 5:00 PM</span></p>
-        </div>
-
-        <div class="contact-form-container">
-            <h2>Send Us a Message</h2>
-            <form id="contactForm" onsubmit="return validateContactForm(event)">
-                <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" name="fullName" required>
-                    <span class="error" id="nameError"></span>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
-                    <span class="error" id="emailError"></span>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject *</label>
-                    <input type="text" id="subject" name="subject" required>
-                    <span class="error" id="subjectError"></span>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message *</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                    <span class="error" id="messageError"></span>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-            <div id="formSuccess" class="success-message"></div>
-        </div>
-    </section>
-
-    <footer>
-        <p>Chief Alltechs Ventures. All rights reserved.</p>
+    <footer class="footer">
+        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
     </footer>
-
     <script src="js/scripts.js"></script>
-    <script>
-        loadContactInfoToPage();
-    </script>
 </body>
+
 </html>

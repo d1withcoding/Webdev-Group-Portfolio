@@ -3,127 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Chief Alltechs Ventures</title>
+    <title>Member Dashboard - Chief Alltechs Ventures</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">Chief Alltechs Ventures</div>
+    <!-- Floating Navigation -->
+    <nav class="nav-island reveal">
+        <a href="index.html" class="nav-brand">CAV.</a>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="member-dashboard.html" class="active">My Profile</a></li>
-            <li><a href="dashboard.html">Admin Dashboard</a></li>
-            <li><a href="#" onclick="logout()">Logout</a></li>
+            <li><a href="dashboard.html">Product DB</a></li>
+            <li><a href="member-dashboard.html" class="active">Profile</a></li>
+            <li><a href="#" onclick="logout(); return false;">Logout</a></li>
         </ul>
-        <div class="hamburger" onclick="toggleMenu()">
+        <button id="menuToggle" class="menu-toggle" aria-label="Toggle Menu">
             <span></span>
             <span></span>
-            <span></span>
-        </div>
+        </button>
     </nav>
 
-    <section class="dashboard-header">
-        <h1>My Profile</h1>
-        <p>Manage your personal information</p>
-    </section>
+    <!-- Mobile Nav Overlay -->
+    <div id="mobileNavOverlay" class="mobile-nav-overlay">
+        <ul class="mobile-nav-links">
+            <li><a href="dashboard.html">Product DB</a></li>
+            <li><a href="member-dashboard.html" class="active">Profile</a></li>
+            <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+        </ul>
+    </div>
 
-    <section class="dashboard-content">
-        <div class="profile-container">
-            <!-- Profile Picture Section -->
-            <div class="profile-picture-section">
-                <div class="profile-picture-display">
-                    <img id="profilePicture" src="images/member1.jpg" alt="Profile Picture">
-                </div>
-                <div class="profile-picture-upload">
-                    <label for="profilePicInput" class="btn">Change Profile Picture</label>
-                    <input type="file" id="profilePicInput" accept="image/*" onchange="uploadProfilePicture(event)">
-                    <p class="upload-hint">Accepted formats: JPG, PNG, GIF. Max size: 2MB.</p>
-                </div>
-            </div>
-
-            <!-- Profile Edit Form -->
-            <div class="profile-form-section">
-                <h2>Edit Profile</h2>
-                <form id="profileForm" onsubmit="return saveProfile(event)">
-                    <div class="form-group">
-                        <label for="profileFullName">Full Name *</label>
-                        <input type="text" id="profileFullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="profileID">Member ID (Editable)</label>
-                        <input type="text" id="profileID">
-                    </div>
-                    <div class="form-group">
-                        <label for="profileRole">Role/Position</label>
-                        <input type="text" id="profileRole">
-                    </div>
-                    <div class="form-group">
-                        <label for="profileEmail">Email Address</label>
-                        <input type="email" id="profileEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="profilePhone">Phone Number</label>
-                        <input type="tel" id="profilePhone">
-                    </div>
-                    <div class="form-group">
-                        <label for="profileBio">Bio/Description</label>
-                        <textarea id="profileBio" rows="4" placeholder="Tell us about yourself..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="profileSkills">Skills (comma separated)</label>
-                        <input type="text" id="profileSkills" placeholder="e.g., Network Security, Server Management, Python">
-                    </div>
-                    <div class="form-group">
-                        <label for="profileLinkedIn">LinkedIn Profile</label>
-                        <input type="url" id="profileLinkedIn" placeholder="https://linkedin.com/in/yourprofile">
-                    </div>
-                    <div class="form-group">
-                        <label for="profileGithub">GitHub Profile</label>
-                        <input type="url" id="profileGithub" placeholder="https://github.com/yourusername">
-                    </div>
-                    <div class="form-buttons">
-                        <button type="submit" class="btn">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" onclick="resetProfileForm()">Reset</button>
-                    </div>
-                </form>
-                <div id="profileSuccess" class="success-message"></div>
-                <div id="profileError" class="error-message"></div>
-            </div>
+    <section class="container" style="padding-top: 12rem;">
+        <div class="text-center mb-8">
+            <span class="eyebrow reveal">Personal Settings</span>
+            <h1 class="reveal delay-100">Member Profile</h1>
         </div>
-
-        <!-- Profile Preview -->
-        <div class="profile-preview-section">
-            <h2>Profile Preview</h2>
-            <div class="profile-preview-card" id="profilePreview">
-                <div class="preview-picture">
-                    <img id="previewPicture" src="images/member1.jpg" alt="Profile Preview">
-                </div>
-                <div class="preview-info">
-                    <h3 id="previewName">Member Name</h3>
-                    <p id="previewRole">Role</p>
-                    <p id="previewID">ID: ---</p>
-                    <p id="previewBio">Bio will appear here...</p>
-                    <div class="preview-skills" id="previewSkills"></div>
-                    <div class="preview-links">
-                        <a id="previewLinkedIn" href="#" target="_blank" style="display:none;">LinkedIn</a>
-                        <a id="previewGithub" href="#" target="_blank" style="display:none;">GitHub</a>
+        
+        <div class="bento-grid mt-8">
+            <div class="bento-item reveal delay-100" style="grid-column: span 12;">
+                <div class="card-outer h-full">
+                    <div class="card-inner text-center">
+                        <span class="eyebrow">Notice</span>
+                        <h3>Profile Module</h3>
+                        <p class="mt-4">The core functionality for this assignment is implemented in the <a href="dashboard.html" style="color: var(--accent-blue); text-decoration: underline;">Product Dashboard</a> (CRUD operations) and the front-facing pages. The member profile syncs automatically on the homepage based on localStorage.</p>
+                        <div class="mt-8">
+                            <a href="dashboard.html" class="btn">Go to Product DB</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>Chief Alltechs Ventures. All rights reserved.</p>
+    <footer class="container text-center" style="padding-bottom: 4rem; padding-top: 4rem; border-top: 1px solid var(--glass-border); margin-top: 4rem;">
+        <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>
     </footer>
 
     <script src="js/scripts.js"></script>
-    <script>
-        checkAuth();
-        loadMemberProfile();
-    </script>
 </body>
 </html>

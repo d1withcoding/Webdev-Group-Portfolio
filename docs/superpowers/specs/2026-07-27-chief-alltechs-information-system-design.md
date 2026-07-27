@@ -44,7 +44,7 @@ The interface is coursework-first: each assessed function is easy to identify an
 ### Required demonstrations
 
 1. **Scrolling text:** a continuously moving operations/news notice on the home page.
-2. **Image swap:** home-page gallery cycles through no more than five provided hero images. Controls allow manual selection; automatic cycling pauses when reduced motion is preferred.
+2. **Image swap:** hero-background gallery cycles through no more than five provided hero images. Each slide provides its own heading, summary, and label; it replaces the former 3D-canvas hero animation so the home page has one visual focal point. Controls allow manual selection; automatic cycling pauses on hover and is disabled when reduced motion is preferred.
 3. **Three pop-ups:**
    - Home: company brief modal.
    - Services: service-detail modal.

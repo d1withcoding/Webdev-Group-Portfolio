@@ -1,47 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAV - About Us</title>
+    <title>CAV - About The Company</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <nav class="global-nav">
-        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
-        <div class="nav-links"></div>
-    </nav>
-    <div class="sub-nav-frosted">
-        <span class="tagline">Chief Alltechs</span>
-        <div class="sub-nav-links">
+        <a href="index.html" class="brand-logo">
+            CAV.
+            <span class="brand-badge">EST. 2026</span>
+        </a>
+        <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="about.html">About</a>
+            <a href="about.html" class="active">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
-            <a href="database.html" class="button-nav">Login</a>
+            <a href="database.html" class="button-utility">Portal Access</a>
         </div>
-        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sub-nav-links">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-        </button>
-    </div>
+    </nav>
 
-    <section class="product-tile product-tile-dark" style="min-height: 60vh; justify-content: center;">
-        <div class="tile-content text-center" style="z-index: 2; position: relative;">
-            <h1 class="hero-display">We build invisible infrastructure.</h1>
-            <p class="lead mt-4">Enterprise-grade networks and zero-trust security environments that power tomorrow's businesses.</p>
+    <section class="product-tile product-tile-dark" style="min-height: 55vh; justify-content: center; border-bottom: 1px solid var(--glass-border);">
+        <div class="tile-content text-center">
+            <span class="tagline">ABOUT CHIEF ALLTECHS VENTURES</span>
+            <h1 class="hero-display mt-2">Pioneers of digital architecture.</h1>
+            <p class="lead mt-4" style="margin-left: auto; margin-right: auto;">We build the invisible infrastructure that powers tomorrow's enterprise.</p>
         </div>
     </section>
 
     <section class="product-tile product-tile-parchment">
-        <div class="tile-content text-left" style="max-width: 800px; padding: var(--spacing-xl) 0;">
-            <h2 class="display-lg mb-8">Who We Are</h2>
-            <p class=" mb-4">Founded by specialized network architects from UCC, Chief Alltechs Ventures builds digital infrastructure that is invisible, unbreakable, and infinitely scalable.</p>
-            <p class="mb-4">We design enterprise-grade networks and zero-trust security environments for organizations that cannot afford downtime. Our team brings decades of combined experience in routing, switching, cloud integration, and threat mitigation.</p>
-            <p>We don't just maintain networks—we architect the future of digital connectivity.</p>
+        <div class="tile-content text-left" style="max-width: 850px; padding: var(--spacing-lg) 0;">
+            <h2 class="display-lg mb-8" style="color: var(--ink-dark);">The Company Heritage</h2>
+            <p class="body-strong mb-4" style="font-size: 20px; color: var(--ink-dark); line-height: 1.5;">Founded by a team of highly specialized network architects from UCC (Cape Coast), Chief Alltechs Ventures was built on a single premise: digital infrastructure should be invisible, unbreakable, and infinitely scalable.</p>
+            <p class="mb-4" style="color: var(--ink-dark); font-size: 16px;">We specialize in designing enterprise-grade networks and zero-trust security environments for organizations that cannot afford downtime. Our team brings deep technical mastery across routing protocols, switching backbones, multi-cloud integration, and proactive threat mitigation.</p>
+            <p style="color: var(--ink-dark); font-size: 16px;">From our headquarters to our global deployments, we don't just maintain networks—we architect the future of digital connectivity.</p>
         </div>
     </section>
 
@@ -50,5 +43,4 @@
     </footer>
     <script src="js/scripts.js"></script>
 </body>
-
 </html>

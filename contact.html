@@ -4,77 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAV - Contact</title>
+    <title>CAV - Contact & Inquiries</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
     <nav class="global-nav">
-        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
-        <div class="nav-links"></div>
-    </nav>
-    <div class="sub-nav-frosted">
-        <span class="tagline">Chief Alltechs</span>
-        <div class="sub-nav-links">
+        <a href="index.html" class="brand-logo">
+            CAV.
+            <span class="brand-badge">EST. 2026</span>
+        </a>
+        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
-            <a href="contact.html">Contact</a>
-            <a href="database.html" class="button-nav">Login</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="database.html" class="button-utility">Portal Access</a>
         </div>
-        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sub-nav-links">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-        </button>
-    </div>
+    </nav>
 
-    <section class="product-tile product-tile-parchment" style="min-height: 80vh;">
-        <div class="tile-content text-center" style="max-width: 600px; width: 100%;">
-            <h1 class="display-lg mb-8">Start a conversation.</h1>
+    <section class="product-tile product-tile-parchment" style="min-height: 85vh;">
+        <div class="tile-content text-center" style="max-width: 620px; width: 100%;">
+            <span class="tagline" style="color: var(--primary, #3139fb);">DIRECT INQUIRY CHANNEL</span>
+            <h1 class="display-lg mb-8" style="color: var(--ink-dark);">Let's build.</h1>
 
-            <div class="store-utility-card" style="text-align: left;">
-                <!-- Success Banner (hidden by default) -->
+            <div class="store-utility-card" style="text-align: left; background: #FFFFFF;">
+                <!-- Success Banner -->
                 <div id="contactSuccess" class="contact-success" style="display: none;">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                         <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
                     <div>
-                        <p class="body-strong">Message sent securely.</p>
-                        <p class="caption">We'll get back to you within 24 hours.</p>
+                        <p class="body-strong" style="color: #2e7d32; font-size: 16px;">Message sent securely.</p>
+                        <p class="caption" style="color: #388e3c;">Our lead architect will review within 24 hours.</p>
                     </div>
                 </div>
 
                 <form id="contactForm" onsubmit="return handleContactSubmit(event);" novalidate>
                     <div class="form-group">
-                        <label for="contactName">Name</label>
-                        <input type="text" id="contactName" class="form-input" placeholder="Your full name">
+                        <label for="contactName" style="color: var(--ink-dark);">Full Name</label>
+                        <input type="text" id="contactName" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="e.g. Ebenezer Annan">
                         <span id="nameError" class="form-error"></span>
                     </div>
                     <div class="form-group">
-                        <label for="contactEmail">Email</label>
-                        <input type="email" id="contactEmail" class="form-input" placeholder="you@example.com">
+                        <label for="contactEmail" style="color: var(--ink-dark);">Corporate Email</label>
+                        <input type="email" id="contactEmail" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="you@company.com">
                         <span id="emailError" class="form-error"></span>
                     </div>
                     <div class="form-group">
-                        <label for="contactMessage">Message</label>
-                        <textarea id="contactMessage" class="form-input" placeholder="Tell us about your project..."></textarea>
+                        <label for="contactMessage" style="color: var(--ink-dark);">Project Requirements</label>
+                        <textarea id="contactMessage" class="form-input" style="background: var(--surface-cream); color: var(--ink-dark); border-color: var(--divider-light);" placeholder="Describe your network or security objectives..."></textarea>
                         <span id="messageError" class="form-error"></span>
                     </div>
-                    <button type="submit" class="button-primary" style="width: 100%;">Send Inquiry</button>
+                    <button type="submit" class="button-primary" style="width: 100%;">Transmit Message</button>
                 </form>
             </div>
 
             <div class="mt-8">
-                <p class="body-strong">Headquarters</p>
-                <p class="caption">UCC Campus, Cape Coast, Ghana</p>
-                <p class="caption mt-2"><a href="mailto:contact@chiefalltechs.com" class="text-link">contact@chiefalltechs.com</a></p>
+                <p class="body-strong" style="color: var(--ink-dark);">HQ Location</p>
+                <p class="caption">UCC Campus (Cape Coast), Ghana</p>
+                <p class="caption mt-2"><a href="mailto:contact@chiefalltechs.com" style="color: var(--primary, #3139fb); text-decoration: none; font-weight: 600;">contact@chiefalltechs.com</a></p>
             </div>
 
-            <!-- Past Submissions (visible when there are stored messages) -->
+            <!-- Stored Inquiries Section -->
             <div id="submissionsSection" style="display: none; margin-top: var(--spacing-xl); width: 100%;">
-                <h2 class="display-md mb-4" style="font-size: 28px;">Your Previous Messages</h2>
+                <h2 class="display-md mb-4" style="font-size: 28px; color: var(--ink-dark);">Logged Inquiries</h2>
                 <div id="submissionsList"></div>
             </div>
         </div>

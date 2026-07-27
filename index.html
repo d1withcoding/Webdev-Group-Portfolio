@@ -1,106 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chief Alltechs Ventures - Premium IT Solutions</title>
+    <title>Chief Alltechs Ventures | High-End IT Architecture</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
-    <!-- Global Navigation -->
-    <nav class="global-nav">
-        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
-        <div class="nav-links">
-            <!-- Global links or search could go here -->
-        </div>
-    </nav>
 
-    <!-- Sub Navigation (Frosted Cream Glass) -->
-    <div class="sub-nav-frosted">
-        <span class="tagline">Chief Alltechs</span>
-        <div class="sub-nav-links">
-            <a href="index.html">Home</a>
+    <!-- Glassmorphic Top Navigation -->
+    <nav class="global-nav">
+        <a href="index.html" class="brand-logo">
+            CAV.
+            <span class="brand-badge">EST. 2026</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
-            <a href="database.html" class="button-nav">Login</a>
+            <a href="database.html" class="button-utility">Portal Access</a>
         </div>
-        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sub-nav-links">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
+    </nav>
+
+    <!-- Sub-Nav Bar -->
+    <div class="sub-nav-frosted">
+        <span id="currentPillarLabel" class="tagline">CHIEF ALLTECHS VENTURES</span>
+        <div class="nav-links">
+            <a href="about.html">The Company</a>
+            <a href="services.html">Solutions</a>
+            <a href="contact.html" class="button-primary" style="padding: 6px 18px; font-size: 13px;">Inquire</a>
+        </div>
+    </div>
+
+    <!-- 400vh Scrollytelling Sticky Container -->
+    <div id="scrollyWrapper" class="scrolly-wrapper">
+        <div class="scrolly-sticky">
+            <!-- HTML5 3D Matrix & Particle Canvas -->
+            <canvas id="scrollyCanvas" class="scrolly-canvas"></canvas>
+            <div class="ambient-glow"></div>
+
+            <!-- Stage 1 Narrative Overlay -->
+            <div id="stage1" class="scrolly-stage active">
+                <span class="tagline">EXCELLENCE IN ARCHITECTURE</span>
+                <h1 id="stage1Title" class="hero-display mt-2">Architecting the digital future.</h1>
+                <p id="stage1Sub" class="lead mt-4" style="margin-left: auto; margin-right: auto;">Chief Alltechs Ventures delivers high-end network architecture, unbreachable cybersecurity, and expert systems administration.</p>
+                <div class="tile-actions mt-8">
+                    <a href="services.html" class="button-primary">Explore Solutions</a>
+                    <a href="contact.html" class="button-secondary-pill">Schedule Audit</a>
+                </div>
+            </div>
+
+            <!-- Stage 2 Narrative Overlay -->
+            <div id="stage2" class="scrolly-stage">
+                <span class="tagline">UNCOMPROMISING PRECISION</span>
+                <h2 id="stage2Title" class="hero-display mt-2">Unbreakable topology by design.</h2>
+                <p id="stage2Sub" class="lead mt-4" style="margin-left: auto; margin-right: auto;">High-availability routing, BGP/OSPF core optimization, and zero-latency interconnects built for global scale.</p>
+            </div>
+
+            <!-- Stage 3 Narrative Overlay -->
+            <div id="stage3" class="scrolly-stage">
+                <span class="tagline">OPERATIONAL MASTERY</span>
+                <h2 id="stage3Title" class="hero-display mt-2">A signature that lingers in uptime.</h2>
+                <p id="stage3Sub" class="lead mt-4" style="margin-left: auto; margin-right: auto;">99.999% availability crafted with high-jewelry precision and enterprise rigor.</p>
+            </div>
+
+            <!-- Stage 4 Narrative Overlay -->
+            <div id="stage4" class="scrolly-stage">
+                <span class="tagline">ENTERPRISE COMMAND</span>
+                <h2 id="stage4Title" class="hero-display mt-2">Unrivaled Digital Presence.</h2>
+                <p id="stage4Sub" class="lead mt-4" style="margin-left: auto; margin-right: auto;">You just enter the market—and the standard is set.</p>
+                <div class="tile-actions mt-8">
+                    <a href="database.html" class="button-primary">Access Information System</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Pillar Switcher Bar -->
+    <div class="pillar-switcher-container">
+        <button class="pillar-pill active" data-pillar="network">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            Network Architecture
+        </button>
+        <button class="pillar-pill" data-pillar="security">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            Cyber Security
+        </button>
+        <button class="pillar-pill" data-pillar="systems">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            Systems Administration
         </button>
     </div>
 
-    <!-- Hero Section (OLED Black) -->
-    <section class="product-tile product-tile-dark">
-        <!-- Hero Slideshow Background -->
-        <div class="hero-slideshow">
-            <img src="images/hero1.jpg" alt="Data Center" class="hero-slide active">
-            <img src="images/hero2.jpg" alt="Cyber Security" class="hero-slide">
-            <img src="images/hero3.jpg" alt="IT Consulting" class="hero-slide">
-            <img src="images/hero4.jpg" alt="Hardware" class="hero-slide">
-            <img src="images/hero5.jpg" alt="Cloud Network" class="hero-slide">
-        </div>
-
-        <div class="tile-content hero-tile-content text-center">
-            <h1 class="hero-display">We architect digital futures.</h1>
-            <p class="lead mt-4 mb-8">Enterprise network architecture, zero-trust cybersecurity, and expert systems administration that scale with your business.</p>
-
-            <div class="tile-actions">
-                <a href="services.html" class="button-primary">Explore Solutions</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Marquee Section -->
+    <!-- Scrolling Text Marquee -->
     <div class="marquee-container">
         <div id="marqueeContent" class="marquee-content">
-            <div class="marquee-item">Network Architecture <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2" fill="white" />
-                </svg></div>
-            <div class="marquee-item">Systems Administration <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2" fill="white" />
-                </svg></div>
-            <div class="marquee-item">Cyber Security <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2" fill="white" />
-                </svg></div>
-            <div class="marquee-item">Hardware Solutions <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2" fill="white" />
-                </svg></div>
-            <div class="marquee-item">IT Consulting <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="2" fill="white" />
-                </svg></div>
+            <div class="marquee-item">NETWORK ARCHITECTURE <svg viewBox="0 0 24 24" width="10" height="10"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg></div>
+            <div class="marquee-item">SYSTEMS ADMINISTRATION <svg viewBox="0 0 24 24" width="10" height="10"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg></div>
+            <div class="marquee-item">CYBER SECURITY <svg viewBox="0 0 24 24" width="10" height="10"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg></div>
+            <div class="marquee-item">HARDWARE SOLUTIONS <svg viewBox="0 0 24 24" width="10" height="10"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg></div>
+            <div class="marquee-item">ENTERPRISE CONSULTING <svg viewBox="0 0 24 24" width="10" height="10"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg></div>
         </div>
     </div>
 
-    <!-- Team Section (Warm Cream) -->
+    <!-- Team Members Section (Requirement 1) -->
     <section class="product-tile product-tile-parchment">
         <div class="tile-content text-center">
-            <span class="tagline">Our Architects</span>
-            <h2 class="display-lg mt-2">Meet the team.</h2>
-
+            <span class="tagline" style="color: var(--primary, #3139fb);">THE ARCHITECT TEAM</span>
+            <h2 class="display-lg mt-2">Meet the experts.</h2>
+            
             <div class="store-grid">
-                <!-- Javascript will inject data into these 4 utility cards -->
+                <!-- Javascript injects group members into these 4 utility cards -->
                 <div class="store-utility-card">
-                    <img src="" alt="Photo">
-                    <h3 class="body-strong ">Loading...</h3>
-                    <p class="caption">ID</p>
-                </div>
-                <div class="store-utility-card">
-                    <img src="" alt="Photo">
+                    <img src="" alt="Ebenezer Nana Annan">
                     <h3 class="body-strong">Loading...</h3>
                     <p class="caption">ID</p>
                 </div>
                 <div class="store-utility-card">
-                    <img src="" alt="Photo">
+                    <img src="" alt="Okyere-Darko Addai">
                     <h3 class="body-strong">Loading...</h3>
                     <p class="caption">ID</p>
                 </div>
                 <div class="store-utility-card">
-                    <img src="" alt="Photo">
+                    <img src="" alt="Frank Akrasi Antwi">
+                    <h3 class="body-strong">Loading...</h3>
+                    <p class="caption">ID</p>
+                </div>
+                <div class="store-utility-card">
+                    <img src="" alt="Michael Essel">
                     <h3 class="body-strong">Loading...</h3>
                     <p class="caption">ID</p>
                 </div>
@@ -108,13 +136,13 @@
         </div>
     </section>
 
-    <!-- Modals Section (Pure White) -->
-    <section class="product-tile product-tile-light">
+    <!-- Modals Demonstration Section (Requirement 4) -->
+    <section class="product-tile product-tile-dark">
         <div class="tile-content text-center">
-            <span class="tagline">Learn More</span>
-            <h2 class="display-lg mt-2 mb-8">About our work.</h2>
-
-            <div class="tile-actions" style="flex-wrap: wrap;">
+            <span class="tagline">DISCOVER MORE</span>
+            <h2 class="display-lg mt-2 mb-8">Inside CAV.</h2>
+            
+            <div class="tile-actions">
                 <button onclick="showModal('missionModal')" class="button-secondary-pill">Our Mission</button>
                 <button onclick="showModal('whyModal')" class="button-secondary-pill">Why Choose Us</button>
                 <button onclick="showModal('approachModal')" class="button-secondary-pill">Our Approach</button>
@@ -122,31 +150,31 @@
         </div>
     </section>
 
-    <!-- Modals -->
+    <!-- 3 Pop-up Dialog Modals (JavaScript Powered) -->
     <div id="missionModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('missionModal')" aria-label="Close modal">&times;</button>
-            <span class="tagline">Vision 2026</span>
+            <button class="modal-close" onclick="closeModal('missionModal')">&times;</button>
+            <span class="tagline">VISION 2026</span>
             <h3 class="display-md mt-2">Our Mission</h3>
-            <p class="mt-4">We deliver cutting-edge technology solutions that empower businesses to scale securely and efficiently in the digital era.</p>
+            <p class="mt-4" style="color: rgba(255,255,255,0.85);">To deliver cutting-edge technology solutions that empower enterprise businesses to scale securely and efficiently in the digital era.</p>
         </div>
     </div>
 
     <div id="whyModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('whyModal')" aria-label="Close modal">&times;</button>
-            <span class="tagline">The Difference</span>
+            <button class="modal-close" onclick="closeModal('whyModal')">&times;</button>
+            <span class="tagline">THE CAV DIFFERENCE</span>
             <h3 class="display-md mt-2">Why Choose Us</h3>
-            <p class="mt-4">We combine industry-leading expertise with a relentless commitment to innovation. Our zero-trust security architecture ensures your business never sleeps.</p>
+            <p class="mt-4" style="color: rgba(255,255,255,0.85);">We combine industry-leading expertise with a relentless commitment to innovation. Our zero-trust security architecture ensures your operations never halt.</p>
         </div>
     </div>
 
     <div id="approachModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('approachModal')" aria-label="Close modal">&times;</button>
-            <span class="tagline">Methodology</span>
+            <button class="modal-close" onclick="closeModal('approachModal')">&times;</button>
+            <span class="tagline">METHODOLOGY</span>
             <h3 class="display-md mt-2">Our Approach</h3>
-            <p class="mt-4">We follow a rigorous 4-step framework to ensure every project exceeds enterprise standards from day one.</p>
+            <p class="mt-4" style="color: rgba(255,255,255,0.85);">Consult. Architect. Deploy. Secure. We follow a rigorous 4-step framework to ensure every network deployment exceeds enterprise standards from day one.</p>
         </div>
     </div>
 
@@ -157,5 +185,4 @@
 
     <script src="js/scripts.js"></script>
 </body>
-
 </html>

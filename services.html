@@ -3,54 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAV - Services</title>
+    <title>CAV - Enterprise Services</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <nav class="global-nav">
-        <a href="index.html" style="color: white; font-weight: 700;">CAV.</a>
-        <div class="nav-links"></div>
-    </nav>
-    <div class="sub-nav-frosted">
-        <span class="tagline">Chief Alltechs</span>
-        <div class="sub-nav-links">
+        <a href="index.html" class="brand-logo">
+            CAV.
+            <span class="brand-badge">EST. 2026</span>
+        </a>
+        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
-            <a href="services.html">Services</a>
+            <a href="services.html" class="active">Services</a>
             <a href="contact.html">Contact</a>
-            <a href="database.html" class="button-nav">Login</a>
+            <a href="database.html" class="button-utility">Portal Access</a>
         </div>
-        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sub-nav-links">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-        </button>
-    </div>
+    </nav>
 
     <section class="product-tile product-tile-dark" style="min-height: 50vh; justify-content: center;">
         <div class="tile-content text-center">
-            <h1 class="hero-display">Enterprise IT Solutions.</h1>
-            <p class="lead mt-4">Network architecture, cybersecurity, and systems administration for modern businesses.</p>
+            <span class="tagline">ENTERPRISE CAPABILITIES</span>
+            <h1 class="hero-display mt-2">Unrivaled Infrastructure Solutions.</h1>
         </div>
     </section>
 
-    <section class="product-tile product-tile-light">
+    <section class="product-tile product-tile-dark" style="background: var(--void-surface);">
         <div class="tile-content">
-            <div class="store-grid">
+            <div class="store-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
                 <div class="store-utility-card">
-                    <h3 class="display-md mb-2">01.</h3>
-                    <h4 class="body-strong">Network Architecture</h4>
-                    <p class="mt-2">High-availability topology design, BGP/OSPF routing, and seamless cloud integration for zero-latency operations.</p>
+                    <span class="tagline" style="color: var(--accent-gold);">01. PILLAR</span>
+                    <h3 class="display-md mt-2 mb-2">Network Architecture</h3>
+                    <p class="caption mt-2">High-availability topology design, BGP/OSPF core routing, zero-latency interconnects, and seamless hybrid cloud integration built for 99.999% uptime.</p>
+                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
                 </div>
                 <div class="store-utility-card">
-                    <h3 class="display-md mb-2">02.</h3>
-                    <h4 class="body-strong">Cyber Security</h4>
-                    <p class="mt-2">Zero-trust implementations, penetration testing, endpoint security, and real-time threat monitoring.</p>
+                    <span class="tagline" style="color: var(--accent-cyan);">02. PILLAR</span>
+                    <h3 class="display-md mt-2 mb-2">Cyber Security</h3>
+                    <p class="caption mt-2">Zero-trust architecture, continuous vulnerability scanning, penetration testing, endpoint threat elimination, and immutable security perimeters.</p>
+                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
                 </div>
                 <div class="store-utility-card">
-                    <h3 class="display-md mb-2">03.</h3>
-                    <h4 class="body-strong">Systems Admin</h4>
-                    <p class="mt-2">Linux/Windows server management, automated deployment pipelines, and disaster recovery planning.</p>
+                    <span class="tagline" style="color: var(--accent-blue);">03. PILLAR</span>
+                    <h3 class="display-md mt-2 mb-2">Systems Admin</h3>
+                    <p class="caption mt-2">Automated multi-cloud cluster orchestration, Linux kernel tuning, high-performance database cluster management, and automated disaster recovery pipelines.</p>
+                    <a href="contact.html" class="button-secondary-pill mt-4" style="align-self: flex-start;">Inquire Solution</a>
                 </div>
             </div>
         </div>

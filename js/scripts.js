@@ -1,60 +1,285 @@
-// Chief Alltechs Ventures - JavaScript Engine
+// ==========================================================================
+// Chief Alltechs Ventures - Luxury Scrollytelling Engine & Core Logic
+// Inspired by Maison Aura / Awwwards Aesthetics
+// ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    initHeroSlideshow();
+    initCanvasScrollytelling();
+    initPillarSwitcher();
+    initMarquee();
     initModals();
-    initMobileNav();
     syncHomepageMembers();
     
-    // Auth checks on specific pages
+    // Auth checks on database portal
     if (window.location.pathname.includes('database.html')) {
         checkAuth();
         renderTable();
     }
 
-    // Contact page: render past submissions
+    // Contact page render past submissions
     if (window.location.pathname.includes('contact.html')) {
         renderSubmissions();
     }
 });
 
 // ==========================================
-// 1. Hero Slideshow (Crossfade)
+// 1. Pillar Data & State Machine
 // ==========================================
-function initHeroSlideshow() {
-    const slides = document.querySelectorAll('.hero-slide');
-    if (slides.length === 0) return;
-    
-    let current = 0;
-    
-    setInterval(() => {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-    }, 4000); // 4 seconds per slide
+const PILLARS = {
+    network: {
+        id: "network",
+        name: "Network Architecture",
+        tagline: "Regal. Rare. Unbreakable.",
+        color: "#D8B36A",
+        colorRgb: "216, 179, 106",
+        gradient: "linear-gradient(135deg, #0B0B0F 0%, #1a160d 50%, #0B0B0F 100%)",
+        stage1Title: "Architecting the digital future.",
+        stage1Sub: "Chief Alltechs Ventures delivers high-end network architecture, unbreachable cybersecurity, and expert systems administration.",
+        stage2Title: "Unbreakable topology by design.",
+        stage2Sub: "High-availability routing, BGP/OSPF core optimization, and zero-latency interconnects built for global scale.",
+        stage3Title: "A signature that lingers in uptime.",
+        stage3Sub: "99.999% availability crafted with high-jewelry precision and enterprise rigor.",
+        stage4Title: "Unrivaled Digital Presence.",
+        stage4Sub: "You just enter the market—and the standard is set."
+    },
+    security: {
+        id: "security",
+        name: "Cyber Security",
+        tagline: "Zero-Trust. High-Shield. Unbreachable.",
+        color: "#3FE3D1",
+        colorRgb: "63, 227, 209",
+        gradient: "linear-gradient(135deg, #041012 0%, #08262a 50%, #0B0B0F 100%)",
+        stage1Title: "Zero-Trust Defense Systems.",
+        stage1Sub: "Quantum-grade encryption, continuous threat intelligence, and immutable security perimeters.",
+        stage2Title: "Shielding enterprise assets.",
+        stage2Sub: "Proactive penetration testing, real-time SOC monitoring, and endpoint vulnerability annihilation.",
+        stage3Title: "Silent, impenetrable authority.",
+        stage3Sub: "Security that operates with surgical precision—eliminating vectors before exploit.",
+        stage4Title: "Fortress-Level Confidence.",
+        stage4Sub: "Operate in hostile digital environments without compromise."
+    },
+    systems: {
+        id: "systems",
+        name: "Systems Administration",
+        tagline: "High-Availability. Cloud Velocity. Unrivaled.",
+        color: "#2B57FF",
+        colorRgb: "43, 87, 255",
+        gradient: "linear-gradient(135deg, #050A18 0%, #0d1a45 50%, #0B0B0F 100%)",
+        stage1Title: "Orchestrating Cloud Velocity.",
+        stage1Sub: "Automated multi-cloud infrastructure, Linux kernel optimization, and resilient enterprise DevOps.",
+        stage2Title: "Hyper-scalable server clusters.",
+        stage2Sub: "Kubernetes orchestration, automated failovers, and low-overhead server management.",
+        stage3Title: "Engineered operational mastery.",
+        stage3Sub: "Continuous integration pipelines that turn complex infrastructure into seamless execution.",
+        stage4Title: "Peak Infrastructure Performance.",
+        stage4Sub: "Powering enterprise workloads at global velocity."
+    }
+};
+
+let currentPillarKey = "network";
+
+function switchPillar(key) {
+    if (!PILLARS[key]) return;
+    currentPillarKey = key;
+    const data = PILLARS[key];
+
+    // 1. Morph Root CSS Variables
+    document.documentElement.style.setProperty('--theme-accent', data.color);
+    document.documentElement.style.setProperty('--theme-accent-rgb', data.colorRgb);
+    document.documentElement.style.setProperty('--theme-gradient', data.gradient);
+
+    // 2. Update Switcher Pills Active State
+    document.querySelectorAll('.pillar-pill').forEach(btn => {
+        if (btn.dataset.pillar === key) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // 3. Update Text Content on Hero Stages
+    const s1Title = document.getElementById('stage1Title');
+    const s1Sub = document.getElementById('stage1Sub');
+    const s2Title = document.getElementById('stage2Title');
+    const s2Sub = document.getElementById('stage2Sub');
+    const s3Title = document.getElementById('stage3Title');
+    const s3Sub = document.getElementById('stage3Sub');
+    const s4Title = document.getElementById('stage4Title');
+    const s4Sub = document.getElementById('stage4Sub');
+
+    if (s1Title) s1Title.textContent = data.stage1Title;
+    if (s1Sub) s1Sub.textContent = data.stage1Sub;
+    if (s2Title) s2Title.textContent = data.stage2Title;
+    if (s2Sub) s2Sub.textContent = data.stage2Sub;
+    if (s3Title) s3Title.textContent = data.stage3Title;
+    if (s3Sub) s3Sub.textContent = data.stage3Sub;
+    if (s4Title) s4Title.textContent = data.stage4Title;
+    if (s4Sub) s4Sub.textContent = data.stage4Sub;
+}
+
+function initPillarSwitcher() {
+    const pills = document.querySelectorAll('.pillar-pill');
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            switchPillar(pill.dataset.pillar);
+        });
+    });
 }
 
 // ==========================================
-// 2. Mobile Navigation Toggle
+// 2. Interactive Canvas 3D Particle Scrollytelling Engine
 // ==========================================
-function initMobileNav() {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.sub-nav-links');
-    
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('mobile-open');
-            hamburger.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', navLinks.classList.contains('mobile-open'));
+function initCanvasScrollytelling() {
+    const canvas = document.getElementById('scrollyCanvas');
+    const wrapper = document.getElementById('scrollyWrapper');
+    if (!canvas || !wrapper) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    // Create 3D Particle Array
+    const particleCount = 140;
+    const particles = [];
+    for (let i = 0; i < particleCount; i++) {
+        particles.push({
+            x: (Math.random() - 0.5) * 2000,
+            y: (Math.random() - 0.5) * 2000,
+            z: (Math.random() - 0.5) * 2000,
+            radius: Math.random() * 2.5 + 1
         });
     }
+
+    let scrollProgress = 0;
+
+    function render() {
+        // Calculate scroll progress relative to scrollyWrapper
+        const rect = wrapper.getBoundingClientRect();
+        const maxScroll = rect.height - window.innerHeight;
+        if (maxScroll > 0) {
+            scrollProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
+        }
+
+        // Trigger Overlay Text Active States based on scroll thresholds
+        const stages = [
+            { id: 'stage1', start: 0.00, end: 0.22 },
+            { id: 'stage2', start: 0.25, end: 0.48 },
+            { id: 'stage3', start: 0.52, end: 0.75 },
+            { id: 'stage4', start: 0.78, end: 1.00 }
+        ];
+
+        stages.forEach(st => {
+            const el = document.getElementById(st.id);
+            if (el) {
+                if (scrollProgress >= st.start && scrollProgress <= st.end) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            }
+        });
+
+        // Draw Canvas Particle Projection
+        ctx.clearRect(0, 0, width, height);
+
+        const currentData = PILLARS[currentPillarKey] || PILLARS.network;
+        const colorRgb = currentData.colorRgb;
+
+        const rotationAngle = scrollProgress * Math.PI * 4;
+        const cosAngle = Math.cos(rotationAngle);
+        const sinAngle = Math.sin(rotationAngle);
+        const focalLength = 400;
+
+        ctx.lineWidth = 0.5;
+
+        // Render particles and connecting matrix lines
+        for (let i = 0; i < particleCount; i++) {
+            const p = particles[i];
+
+            // 3D rotation transform
+            const rx = p.x * cosAngle - p.z * sinAngle;
+            const rz = p.x * sinAngle + p.z * cosAngle + 800 - (scrollProgress * 200);
+            const ry = p.y + Math.sin(scrollProgress * Math.PI * 2 + i) * 50;
+
+            if (rz > 0) {
+                const scale = focalLength / rz;
+                const projX = width / 2 + rx * scale;
+                const projY = height / 2 + ry * scale;
+
+                const alpha = Math.min(Math.max((1 - rz / 1600), 0.1), 0.85);
+
+                // Draw Particle Dot
+                ctx.beginPath();
+                ctx.arc(projX, projY, Math.max(p.radius * scale, 0.8), 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${colorRgb}, ${alpha})`;
+                ctx.fill();
+
+                // Draw Connecting Network Lines to Neighbor Nodes
+                for (let j = i + 1; j < particleCount; j += 6) {
+                    const p2 = particles[j];
+                    const rx2 = p2.x * cosAngle - p2.z * sinAngle;
+                    const rz2 = p2.x * sinAngle + p2.z * cosAngle + 800 - (scrollProgress * 200);
+                    const ry2 = p2.y + Math.sin(scrollProgress * Math.PI * 2 + j) * 50;
+
+                    if (rz2 > 0) {
+                        const projX2 = width / 2 + rx2 * scale;
+                        const projY2 = height / 2 + ry2 * scale;
+                        const dist = Math.hypot(projX - projX2, projY - projY2);
+
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(projX, projY);
+                            ctx.lineTo(projX2, projY2);
+                            ctx.strokeStyle = `rgba(${colorRgb}, ${0.15 * (1 - dist / 120)})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        requestAnimationFrame(render);
+    }
+
+    render();
 }
 
 // ==========================================
-// 3. Dialog Modals
+// 3. Marquee Scrolling Text
+// ==========================================
+function initMarquee() {
+    const content = document.getElementById('marqueeContent');
+    if (!content) return;
+
+    const clone = content.cloneNode(true);
+    clone.id = 'marqueeClone';
+    content.parentElement.appendChild(clone);
+
+    let position = 0;
+    const speed = 1.2;
+
+    function animate() {
+        position -= speed;
+        if (position <= -content.offsetWidth) {
+            position = 0;
+        }
+        content.style.transform = `translateX(${position}px)`;
+        clone.style.transform = `translateX(${position}px)`;
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// ==========================================
+// 4. Modals Engine
 // ==========================================
 function initModals() {
-    // Close modal when clicking outside the card
     const modals = document.querySelectorAll('.modal-overlay');
     modals.forEach(modal => {
         modal.addEventListener('click', (e) => {
@@ -67,20 +292,16 @@ function initModals() {
 
 function showModal(id) {
     const modal = document.getElementById(id);
-    if (modal) {
-        modal.classList.add('active');
-    }
+    if (modal) modal.classList.add('active');
 }
 
 function closeModal(id) {
     const modal = document.getElementById(id);
-    if (modal) {
-        modal.classList.remove('active');
-    }
+    if (modal) modal.classList.remove('active');
 }
 
 // ==========================================
-// 4. Data Initialization for 4 Team Members
+// 5. Team Members Initialization & Homepage Sync
 // ==========================================
 const DEFAULT_MEMBERS = [
     { id: "MS/ITE/25/0041", name: "Ebenezer Nana Annan", role: "Network Administrator", photo: "images/member1.jpg" },
@@ -98,14 +319,14 @@ function initMembers() {
 function syncHomepageMembers() {
     initMembers();
     const members = JSON.parse(localStorage.getItem('cav_members'));
-    
+
     members.forEach((m, i) => {
         const cards = document.querySelectorAll('.store-utility-card');
-        if (cards[i] && window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        if (cards[i] && (window.location.pathname.includes('index.html') || window.location.pathname === '/')) {
             const img = cards[i].querySelector('img');
             const name = cards[i].querySelector('h3');
             const p = cards[i].querySelector('p.caption');
-            
+
             if (img) img.src = m.photo;
             if (name) name.textContent = m.name;
             if (p) p.innerHTML = `ID: ${m.id}<br>${m.role}`;
@@ -114,7 +335,7 @@ function syncHomepageMembers() {
 }
 
 // ==========================================
-// 5. Authentication & Registration (Database Page)
+// 6. Authentication & Registration (Database Portal)
 // ==========================================
 function switchAuthTab(tab) {
     const loginCard = document.getElementById('loginCard');
@@ -143,13 +364,12 @@ function switchAuthTab(tab) {
 
 function handleLogin(event) {
     if (event) event.preventDefault();
-    
+
     const user = document.getElementById('username').value.trim();
     const pass = document.getElementById('password').value;
     const errorEl = document.getElementById('loginError');
     if (errorEl) errorEl.textContent = '';
-    
-    // Check built-in admin or registered users in localStorage
+
     const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
     const registeredUser = users.find(u => u.username === user && u.password === pass);
 
@@ -209,7 +429,7 @@ function checkAuth() {
     const dashboardSection = document.getElementById('dashboardSection');
     const logoutBtn = document.getElementById('logoutBtn');
     const userWelcome = document.getElementById('userWelcome');
-    
+
     if (authSection && dashboardSection) {
         if (isAuth) {
             authSection.style.display = 'none';
@@ -229,7 +449,7 @@ function checkAuth() {
 }
 
 // ==========================================
-// 6. Database CRUD Operations
+// 7. Database CRUD Operations & Retrieve Records
 // ==========================================
 const DEFAULT_RECORDS = [
     { id: "EMP-0041", name: "Ebenezer Nana Annan", role: "Network Administrator", dept: "Network Ops" },
@@ -254,15 +474,15 @@ function saveRecords(records) {
 function renderTable() {
     const tbody = document.getElementById('dataTableBody');
     if (!tbody) return;
-    
+
     const records = getRecords();
     tbody.innerHTML = '';
-    
+
     if (records.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No records found in database.</td></tr>';
         return;
     }
-    
+
     records.forEach(r => {
         tbody.innerHTML += `
             <tr>
@@ -300,12 +520,12 @@ function addRecord() {
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
-    
+
     if (!name || !role) {
         alert("Please fill in Name and Role fields.");
         return;
     }
-    
+
     const records = getRecords();
     records.push({
         id: 'EMP-' + Date.now().toString().slice(-4),
@@ -313,7 +533,7 @@ function addRecord() {
         role: role,
         dept: dept
     });
-    
+
     saveRecords(records);
     resetForm();
     retrieveRecords();
@@ -323,12 +543,12 @@ function editRecord(id) {
     const records = getRecords();
     const r = records.find(x => x.id === id);
     if (!r) return;
-    
+
     document.getElementById('recordId').value = r.id;
     document.getElementById('empName').value = r.name;
     document.getElementById('empRole').value = r.role;
     document.getElementById('empDepartment').value = r.dept;
-    
+
     document.getElementById('btnAdd').style.display = 'none';
     document.getElementById('btnUpdate').style.display = 'inline-block';
 }
@@ -338,10 +558,10 @@ function updateRecord() {
     const name = document.getElementById('empName').value.trim();
     const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
-    
+
     let records = getRecords();
     const idx = records.findIndex(x => x.id === id);
-    
+
     if (idx > -1) {
         records[idx] = { id, name, role, dept };
         saveRecords(records);
@@ -364,13 +584,13 @@ function resetForm() {
     document.getElementById('empName').value = '';
     document.getElementById('empRole').value = '';
     document.getElementById('empDepartment').value = 'IT Infrastructure';
-    
+
     document.getElementById('btnAdd').style.display = 'inline-block';
     document.getElementById('btnUpdate').style.display = 'none';
 }
 
 // ==========================================
-// 7. Contact Form (Validation + Storage + Success)
+// 8. Contact Form Logic (Validation + localStorage)
 // ==========================================
 function handleContactSubmit(event) {
     event.preventDefault();
@@ -383,20 +603,17 @@ function handleContactSubmit(event) {
     const emailErr = document.getElementById('emailError');
     const msgErr = document.getElementById('messageError');
 
-    // Clear previous errors
     [nameErr, emailErr, msgErr].forEach(el => el.textContent = '');
     [name, email, message].forEach(el => el.classList.remove('input-error'));
 
     let isValid = true;
 
-    // Name validation
     if (name.value.trim().length < 2) {
         nameErr.textContent = 'Name must be at least 2 characters.';
         name.classList.add('input-error');
         isValid = false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.value.trim())) {
         emailErr.textContent = 'Please enter a valid email address.';
@@ -404,7 +621,6 @@ function handleContactSubmit(event) {
         isValid = false;
     }
 
-    // Message validation
     if (message.value.trim().length < 10) {
         msgErr.textContent = 'Message must be at least 10 characters.';
         message.classList.add('input-error');
@@ -413,7 +629,6 @@ function handleContactSubmit(event) {
 
     if (!isValid) return false;
 
-    // Store in localStorage
     const submissions = JSON.parse(localStorage.getItem('cav_contact') || '[]');
     submissions.unshift({
         id: 'INQ-' + Date.now().toString().slice(-6),
@@ -424,21 +639,14 @@ function handleContactSubmit(event) {
     });
     localStorage.setItem('cav_contact', JSON.stringify(submissions));
 
-    // Show success banner
     const successBanner = document.getElementById('contactSuccess');
-    successBanner.style.display = 'flex';
+    if (successBanner) {
+        successBanner.style.display = 'flex';
+        setTimeout(() => { successBanner.style.display = 'none'; }, 5000);
+    }
 
-    // Reset form
     document.getElementById('contactForm').reset();
-
-    // Hide success after 5 seconds
-    setTimeout(() => {
-        successBanner.style.display = 'none';
-    }, 5000);
-
-    // Re-render submissions list
     renderSubmissions();
-
     return false;
 }
 
@@ -448,7 +656,6 @@ function renderSubmissions() {
     if (!section || !list) return;
 
     const submissions = JSON.parse(localStorage.getItem('cav_contact') || '[]');
-
     if (submissions.length === 0) {
         section.style.display = 'none';
         return;
@@ -456,16 +663,15 @@ function renderSubmissions() {
 
     section.style.display = 'block';
     list.innerHTML = '';
-
     submissions.forEach(s => {
         list.innerHTML += `
             <div class="submission-card">
                 <div class="submission-meta">
-                    <span class="body-strong">${s.name}</span>
+                    <span class="body-strong" style="color: var(--ink-dark);">${s.name}</span>
                     <span class="caption">${s.date}</span>
                 </div>
                 <p class="caption" style="margin-bottom: 4px;">${s.email}</p>
-                <p style="font-size: 14px;">${s.message}</p>
+                <p style="font-size: 14px; color: var(--ink-dark);">${s.message}</p>
             </div>
         `;
     });

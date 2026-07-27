@@ -7,10 +7,8 @@
     --primary: #3139fb;
     /* Arc's Electric Blue */
     --primary-focus: #1c23d1;
-    --surface-cream: #fffcec;
-    /* Arc's Warm Cream */
-    --accent-yellow: #fffadd;
-    /* Arc's Pale Yellow */
+    --surface-cream: #f8f9fc;
+    /* Cooler off-white with blue undertone - avoids AI default */
 
     /* Ethereal/Void Core Palette */
     --void-black: #050505;
@@ -71,6 +69,15 @@ body {
     letter-spacing: 0.02em;
 }
 
+/* Accessibility: Focus states for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 /* Headings (Instrument Serif Italic) */
 h1,
 h2,
@@ -106,6 +113,16 @@ h4,
     font-size: 80px;
     line-height: 1.0;
     letter-spacing: -0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.lead {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .display-lg {
@@ -205,6 +222,44 @@ h4,
     align-items: center;
 }
 
+/* Mobile Navigation */
+.hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.hamburger-line {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: var(--ink-dark);
+    border-radius: var(--radius-pill);
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 .sub-nav-links a {
     color: var(--ink-dark);
     text-decoration: none;
@@ -227,6 +282,42 @@ h4,
     border: none;
     cursor: pointer;
     transition: transform 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.button-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease-out;
+}
+
+.button-primary:hover::after {
+    left: 100%;
+}
+
+/* Button for navigation context */
+.button-nav {
+    background: transparent;
+    color: var(--ink-dark);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out;
+}
+
+.button-nav:hover {
+    background-color: rgba(49, 57, 251, 0.1);
 }
 
 .button-primary:hover {
@@ -517,6 +608,11 @@ textarea.form-input {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+.modal-close:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
 /* =========================================
    MISCELLANEOUS
    ========================================= */
@@ -635,8 +731,41 @@ textarea.form-input {
         padding: var(--spacing-xl) var(--spacing-md);
     }
 
+    .sub-nav-frosted {
+        padding: 0 var(--spacing-md);
+    }
+
     .sub-nav-links {
-        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background-color: var(--frosted-cream);
+        backdrop-filter: saturate(180%) blur(16px);
+        -webkit-backdrop-filter: saturate(180%) blur(16px);
+        flex-direction: column;
+        padding: var(--spacing-md);
+        gap: var(--spacing-sm);
+        border-bottom: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+        z-index: 85;
+    }
+
+    .sub-nav-links.mobile-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .tagline {
+        margin-right: auto;
     }
 }
 

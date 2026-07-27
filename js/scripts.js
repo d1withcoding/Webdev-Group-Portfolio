@@ -2,8 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initHeroSlideshow();
-    initMarquee();
     initModals();
+    initMobileNav();
     syncHomepageMembers();
     
     // Auth checks on specific pages
@@ -35,33 +35,19 @@ function initHeroSlideshow() {
 }
 
 // ==========================================
-// 2. Marquee Scrolling Text
+// 2. Mobile Navigation Toggle
 // ==========================================
-function initMarquee() {
-    const content = document.getElementById('marqueeContent');
-    if (!content) return;
+function initMobileNav() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.sub-nav-links');
     
-    // Clone content for seamless looping
-    const clone = content.cloneNode(true);
-    clone.id = 'marqueeClone';
-    content.parentElement.appendChild(clone);
-    
-    let position = 0;
-    const speed = 1; // Pixels per frame
-    
-    function animate() {
-        position -= speed;
-        if (position <= -content.offsetWidth) {
-            position = 0;
-        }
-        
-        content.style.transform = `translateX(${position}px)`;
-        clone.style.transform = `translateX(${position}px)`;
-        
-        requestAnimationFrame(animate);
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-open');
+            hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', navLinks.classList.contains('mobile-open'));
+        });
     }
-    
-    animate();
 }
 
 // ==========================================
@@ -128,22 +114,92 @@ function syncHomepageMembers() {
 }
 
 // ==========================================
-// 5. Authentication (Database Page)
+// 5. Authentication & Registration (Database Page)
 // ==========================================
-function handleLogin() {
-    const user = document.getElementById('username').value;
-    const pass = document.getElementById('password').value;
+function switchAuthTab(tab) {
+    const loginCard = document.getElementById('loginCard');
+    const registerCard = document.getElementById('registerCard');
+    const tabLoginBtn = document.getElementById('tabLoginBtn');
+    const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+    if (!loginCard || !registerCard) return;
+
+    if (tab === 'login') {
+        loginCard.style.display = 'block';
+        registerCard.style.display = 'none';
+        tabLoginBtn.style.background = 'rgba(255,255,255,0.15)';
+        tabLoginBtn.style.color = 'white';
+        tabRegisterBtn.style.background = 'transparent';
+        tabRegisterBtn.style.color = 'rgba(255,255,255,0.7)';
+    } else {
+        loginCard.style.display = 'none';
+        registerCard.style.display = 'block';
+        tabRegisterBtn.style.background = 'rgba(255,255,255,0.15)';
+        tabRegisterBtn.style.color = 'white';
+        tabLoginBtn.style.background = 'transparent';
+        tabLoginBtn.style.color = 'rgba(255,255,255,0.7)';
+    }
+}
+
+function handleLogin(event) {
+    if (event) event.preventDefault();
     
-    if (user === 'admin' && pass === 'admin123') {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    const errorEl = document.getElementById('loginError');
+    if (errorEl) errorEl.textContent = '';
+    
+    // Check built-in admin or registered users in localStorage
+    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
+    const registeredUser = users.find(u => u.username === user && u.password === pass);
+
+    if ((user === 'admin' && pass === 'admin123') || registeredUser) {
+        const currentUser = registeredUser ? registeredUser.fullName : 'Administrator';
         localStorage.setItem('cav_auth', 'true');
+        localStorage.setItem('cav_current_user', currentUser);
         checkAuth();
     } else {
-        alert('Invalid credentials. Hint: admin / admin123');
+        if (errorEl) errorEl.textContent = 'Invalid credentials. Hint: admin / admin123';
+        else alert('Invalid credentials. Hint: admin / admin123');
     }
+    return false;
+}
+
+function handleRegister(event) {
+    if (event) event.preventDefault();
+
+    const fullName = document.getElementById('regFullName').value.trim();
+    const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+    const errorEl = document.getElementById('regError');
+
+    if (errorEl) errorEl.textContent = '';
+
+    if (password !== confirm) {
+        if (errorEl) errorEl.textContent = 'Passkeys do not match.';
+        return false;
+    }
+
+    const users = JSON.parse(localStorage.getItem('cav_users') || '[]');
+    if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+        if (errorEl) errorEl.textContent = 'System ID / Username is already registered.';
+        return false;
+    }
+
+    users.push({ fullName, username, password });
+    localStorage.setItem('cav_users', JSON.stringify(users));
+
+    alert('Registration successful! You may now log in.');
+    switchAuthTab('login');
+    document.getElementById('username').value = username;
+    document.getElementById('password').value = password;
+    return false;
 }
 
 function handleLogout() {
     localStorage.removeItem('cav_auth');
+    localStorage.removeItem('cav_current_user');
     checkAuth();
 }
 
@@ -151,15 +207,23 @@ function checkAuth() {
     const isAuth = localStorage.getItem('cav_auth');
     const authSection = document.getElementById('authSection');
     const dashboardSection = document.getElementById('dashboardSection');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userWelcome = document.getElementById('userWelcome');
     
     if (authSection && dashboardSection) {
         if (isAuth) {
             authSection.style.display = 'none';
-            dashboardSection.style.display = 'flex'; // Use flex for the dashboard layout
+            dashboardSection.style.display = 'flex';
+            if (logoutBtn) logoutBtn.style.display = 'inline-block';
+            if (userWelcome) {
+                const currentUser = localStorage.getItem('cav_current_user') || 'Administrator';
+                userWelcome.textContent = `Authenticated Session: ${currentUser}`;
+            }
             renderTable();
         } else {
             authSection.style.display = 'flex';
             dashboardSection.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'none';
         }
     }
 }
@@ -167,8 +231,20 @@ function checkAuth() {
 // ==========================================
 // 6. Database CRUD Operations
 // ==========================================
+const DEFAULT_RECORDS = [
+    { id: "EMP-0041", name: "Ebenezer Nana Annan", role: "Network Administrator", dept: "Network Ops" },
+    { id: "EMP-0044", name: "Okyere-Darko Addai", role: "System Administrator", dept: "IT Infrastructure" },
+    { id: "EMP-0051", name: "Frank Akrasi Antwi", role: "Cyber Security Specialist", dept: "Cyber Security" },
+    { id: "EMP-0053", name: "Michael Essel", role: "IT Consultant", dept: "Administration" }
+];
+
 function getRecords() {
-    return JSON.parse(localStorage.getItem('cav_records') || '[]');
+    let raw = localStorage.getItem('cav_records');
+    if (!raw) {
+        localStorage.setItem('cav_records', JSON.stringify(DEFAULT_RECORDS));
+        return DEFAULT_RECORDS;
+    }
+    return JSON.parse(raw);
 }
 
 function saveRecords(records) {
@@ -183,14 +259,14 @@ function renderTable() {
     tbody.innerHTML = '';
     
     if (records.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No records found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No records found in database.</td></tr>';
         return;
     }
     
     records.forEach(r => {
         tbody.innerHTML += `
             <tr>
-                <td>${r.id}</td>
+                <td><strong>${r.id}</strong></td>
                 <td>${r.name}</td>
                 <td>${r.role}</td>
                 <td>${r.dept}</td>
@@ -203,13 +279,30 @@ function renderTable() {
     });
 }
 
+function retrieveRecords() {
+    renderTable();
+    const records = getRecords();
+    const statusBanner = document.getElementById('retrieveStatus');
+    const statusText = document.getElementById('retrieveStatusText');
+
+    if (statusBanner && statusText) {
+        statusText.textContent = `Successfully retrieved ${records.length} record(s) from database.`;
+        statusBanner.style.display = 'flex';
+        setTimeout(() => {
+            statusBanner.style.display = 'none';
+        }, 4000);
+    } else {
+        alert(`Retrieved ${records.length} record(s) from database.`);
+    }
+}
+
 function addRecord() {
-    const name = document.getElementById('empName').value;
-    const role = document.getElementById('empRole').value;
+    const name = document.getElementById('empName').value.trim();
+    const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
     
-    if (!name || !role || !dept) {
-        alert("Please fill all fields.");
+    if (!name || !role) {
+        alert("Please fill in Name and Role fields.");
         return;
     }
     
@@ -223,7 +316,7 @@ function addRecord() {
     
     saveRecords(records);
     resetForm();
-    renderTable();
+    retrieveRecords();
 }
 
 function editRecord(id) {
@@ -242,8 +335,8 @@ function editRecord(id) {
 
 function updateRecord() {
     const id = document.getElementById('recordId').value;
-    const name = document.getElementById('empName').value;
-    const role = document.getElementById('empRole').value;
+    const name = document.getElementById('empName').value.trim();
+    const role = document.getElementById('empRole').value.trim();
     const dept = document.getElementById('empDepartment').value;
     
     let records = getRecords();
@@ -253,7 +346,7 @@ function updateRecord() {
         records[idx] = { id, name, role, dept };
         saveRecords(records);
         resetForm();
-        renderTable();
+        retrieveRecords();
     }
 }
 
@@ -262,7 +355,7 @@ function deleteRecord(id) {
         let records = getRecords();
         records = records.filter(x => x.id !== id);
         saveRecords(records);
-        renderTable();
+        retrieveRecords();
     }
 }
 
@@ -270,7 +363,7 @@ function resetForm() {
     document.getElementById('recordId').value = '';
     document.getElementById('empName').value = '';
     document.getElementById('empRole').value = '';
-    document.getElementById('empDepartment').value = 'IT';
+    document.getElementById('empDepartment').value = 'IT Infrastructure';
     
     document.getElementById('btnAdd').style.display = 'inline-block';
     document.getElementById('btnUpdate').style.display = 'none';

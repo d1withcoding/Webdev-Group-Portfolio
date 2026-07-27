@@ -25,8 +25,13 @@
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
-            <a href="database.html" class="button-utility">Login</a>
+            <a href="database.html" class="button-nav">Login</a>
         </div>
+        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sub-nav-links">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </div>
 
     <!-- Hero Section (OLED Black) -->
@@ -41,9 +46,8 @@
         </div>
 
         <div class="tile-content hero-tile-content text-center">
-            <h1 class="hero-display">Architecting the digital future.</h1>
-            <p class="lead mt-4 mb-8">Chief Alltechs Ventures delivers high-end network architecture, unbreachable
-                cybersecurity, and expert systems administration.</p>
+            <h1 class="hero-display">We architect digital futures.</h1>
+            <p class="lead mt-4 mb-8">Enterprise network architecture, zero-trust cybersecurity, and expert systems administration that scale with your business.</p>
 
             <div class="tile-actions">
                 <a href="services.html" class="button-primary">Explore Solutions</a>
@@ -75,8 +79,8 @@
     <!-- Team Section (Warm Cream) -->
     <section class="product-tile product-tile-parchment">
         <div class="tile-content text-center">
-            <span class="tagline">The Architect Team</span>
-            <h2 class="display-lg mt-2">Meet the experts.</h2>
+            <span class="tagline">Our Architects</span>
+            <h2 class="display-lg mt-2">Meet the team.</h2>
 
             <div class="store-grid">
                 <!-- Javascript will inject data into these 4 utility cards -->
@@ -107,8 +111,8 @@
     <!-- Modals Section (Pure White) -->
     <section class="product-tile product-tile-light">
         <div class="tile-content text-center">
-            <span class="tagline">Discover More</span>
-            <h2 class="display-lg mt-2 mb-8">Inside CAV.</h2>
+            <span class="tagline">Learn More</span>
+            <h2 class="display-lg mt-2 mb-8">About our work.</h2>
 
             <div class="tile-actions" style="flex-wrap: wrap;">
                 <button onclick="showModal('missionModal')" class="button-secondary-pill">Our Mission</button>
@@ -121,31 +125,28 @@
     <!-- Modals -->
     <div id="missionModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('missionModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('missionModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">Vision 2026</span>
             <h3 class="display-md mt-2">Our Mission</h3>
-            <p class="mt-4">To deliver cutting-edge technology solutions that empower businesses to scale securely and
-                efficiently in the digital era.</p>
+            <p class="mt-4">We deliver cutting-edge technology solutions that empower businesses to scale securely and efficiently in the digital era.</p>
         </div>
     </div>
 
     <div id="whyModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('whyModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('whyModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">The Difference</span>
             <h3 class="display-md mt-2">Why Choose Us</h3>
-            <p class="mt-4">We combine industry-leading expertise with a relentless commitment to innovation. Our
-                zero-trust security architecture ensures your business never sleeps.</p>
+            <p class="mt-4">We combine industry-leading expertise with a relentless commitment to innovation. Our zero-trust security architecture ensures your business never sleeps.</p>
         </div>
     </div>
 
     <div id="approachModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('approachModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('approachModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">Methodology</span>
             <h3 class="display-md mt-2">Our Approach</h3>
-            <p class="mt-4">Consult. Architect. Deploy. Secure. We follow a rigorous 4-step framework to ensure every
-                project exceeds enterprise standards from day one.</p>
+            <p class="mt-4">We follow a rigorous 4-step framework to ensure every project exceeds enterprise standards from day one.</p>
         </div>
     </div>
 

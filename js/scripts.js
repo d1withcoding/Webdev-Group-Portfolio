@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
         userWelcome: document.getElementById('userWelcome'),
         securityStatus: document.getElementById('securityStatus'),
         csrfToken: document.getElementById('csrfToken'),
+        metricTotalRecords: document.getElementById('metricTotalRecords'),
+        metricDepartments: document.getElementById('metricDepartments'),
+        metricSession: document.getElementById('metricSession'),
+        metricLastAction: document.getElementById('metricLastAction'),
+        recordSearch: document.getElementById('recordSearch'),
         loginCard: document.getElementById('loginCard'),
         registerCard: document.getElementById('registerCard'),
         tabLoginBtn: document.getElementById('tabLoginBtn'),
@@ -55,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkAuth(DOM);
         if (localStorage.getItem('cav_logged_user')) {
             renderTable(DOM);
+            updateDashboardMetrics(DOM);
         }
     }
     
@@ -835,13 +841,14 @@ function checkAuth(DOM) {
 
     if (loggedInUser && dashboardSection && authSection) {
         authSection.style.display = 'none';
-        dashboardSection.style.display = 'flex';
+        dashboardSection.style.display = 'block';
         if (logoutBtn) logoutBtn.style.display = 'inline-flex';
         if (userWelcome) userWelcome.textContent = `Welcome back, ${loggedInUser}`;
         getCsrfToken();
         if (securityStatus) {
             securityStatus.textContent = 'Secure session: hashed login, CSRF-checked actions, prepared record operations.';
         }
+        updateDashboardMetrics(DOM);
     } else if (dashboardSection && authSection) {
         authSection.style.display = 'flex';
         dashboardSection.style.display = 'none';
@@ -972,11 +979,31 @@ function handleLogout() {
     checkAuth({});
 }
 
+function updateDashboardMetrics(DOM = {}) {
+    const total = DOM.metricTotalRecords || document.getElementById('metricTotalRecords');
+    const departments = DOM.metricDepartments || document.getElementById('metricDepartments');
+    const session = DOM.metricSession || document.getElementById('metricSession');
+    const lastAction = DOM.metricLastAction || document.getElementById('metricLastAction');
+    const records = getRecords();
+
+    if (total) total.textContent = records.length;
+    if (departments) departments.textContent = new Set(records.map(record => record.department)).size;
+    if (session) session.textContent = localStorage.getItem('cav_logged_user') ? 'Protected' : 'Locked';
+    if (lastAction) lastAction.textContent = sessionStorage.getItem('cav_last_action') || 'Ready';
+}
+
+function setLastDashboardAction(action) {
+    sessionStorage.setItem('cav_last_action', action);
+    updateDashboardMetrics();
+}
+
 function retrieveRecords() {
     if (!requireProtectedAction()) return;
     const status = document.getElementById('retrieveStatus');
     const text = document.getElementById('retrieveStatusText');
     const recordId = (document.getElementById('recordId')?.value || '').trim();
+    const searchInput = document.getElementById('recordSearch');
+    if (searchInput) searchInput.value = '';
     runPreparedRecordStatement(recordId ? 'select' : 'selectAll', recordId ? [recordId] : []);
     renderTable({}, recordId);
     if (status && text) {
@@ -986,21 +1013,35 @@ function retrieveRecords() {
             status.style.display = 'none';
         }, 3000);
     }
+    setLastDashboardAction(recordId ? 'Retrieved one' : 'Retrieved all');
 }
 
-function renderTable(DOM, requestedId = '') {
+function searchRecords(query = '') {
+    if (!localStorage.getItem('cav_logged_user')) return;
+    const normalizedQuery = query.trim();
+    renderTable({}, '', normalizedQuery);
+    setLastDashboardAction(normalizedQuery ? 'Filtered records' : 'Showing all');
+}
+
+function renderTable(DOM, requestedId = '', searchQuery = '') {
     const tbody = (DOM && DOM.dataTableBody) ? DOM.dataTableBody : document.getElementById('dataTableBody');
     if (!tbody) return;
 
     const records = getRecords();
-    const visibleRecords = requestedId ? records.filter(record => record.id.toLowerCase() === requestedId.toLowerCase()) : records;
+    const query = searchQuery.toLowerCase();
+    const visibleRecords = requestedId
+        ? records.filter(record => record.id.toLowerCase() === requestedId.toLowerCase())
+        : records.filter(record => [record.id, record.name, record.role, record.department]
+            .some(value => String(value).toLowerCase().includes(query)));
     tbody.innerHTML = '';
 
     if (!visibleRecords.length) {
         const tr = document.createElement('tr');
         const td = document.createElement('td');
         td.colSpan = 5;
-        td.textContent = 'No company record found. Clear Record ID, then choose Retrieve Record to view all records.';
+        td.textContent = searchQuery
+            ? 'No company record matches that search.'
+            : 'No company record found. Clear Record ID, then choose Retrieve Record to view all records.';
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
@@ -1071,6 +1112,7 @@ function addRecord() {
     saveRecords(records);
     resetForm();
     retrieveRecords();
+    setLastDashboardAction('Added record');
 }
 
 function editRecord(id) {
@@ -1112,6 +1154,7 @@ function updateRecord() {
     saveRecords(records);
     resetForm();
     retrieveRecords();
+    setLastDashboardAction('Updated record');
 }
 
 function deleteRecord(selectedId = '') {
@@ -1128,6 +1171,7 @@ function deleteRecord(selectedId = '') {
         saveRecords(records);
         resetForm();
         retrieveRecords();
+        setLastDashboardAction('Deleted record');
     }, 'Delete Record');
 }
 

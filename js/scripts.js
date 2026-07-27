@@ -1,13 +1,28 @@
 // ==========================================================================
 // Chief Alltechs Ventures - Luxury Scrollytelling Engine & Core Logic
-// Inspired by Maison Aura / Awwwards Aesthetics
+// with Light-Dark Mode Theme Support & Performance Optimizations
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme from localStorage or system preference
+    initTheme();
+    
+    // Initialize mobile navigation
+    initMobileNavigation();
+    
+    // Initialize scrollytelling with performance optimizations
     initCanvasScrollytelling();
+    
+    // Initialize pillar switcher
     initPillarSwitcher();
+    
+    // Initialize marquee
     initMarquee();
+    
+    // Initialize modals
     initModals();
+    
+    // Sync homepage members
     syncHomepageMembers();
     
     // Auth checks on database portal
@@ -20,7 +35,152 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('contact.html')) {
         renderSubmissions();
     }
+    
+    // Check for canvas support and add fallback class
+    if (!document.createElement('canvas').getContext) {
+        document.body.classList.add('no-canvas');
+    }
 });
+
+// ==========================================
+// THEME MANAGEMENT (Light/Dark Mode)
+// ==========================================
+
+function initTheme() {
+    // Check for saved theme preference or use system preference
+    const savedTheme = localStorage.getItem('cav_theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    // Default to dark for this luxury aesthetic
+    if (!savedTheme) {
+        theme = 'dark';
+    }
+    
+    setTheme(theme, false);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('cav_theme')) {
+            setTheme(e.matches ? 'dark' : 'light', false);
+        }
+    });
+}
+
+function setTheme(mode, save = true) {
+    const html = document.documentElement;
+    
+    // Update data-theme attribute
+    html.setAttribute('data-theme', mode);
+    
+    // Update button active states
+    const lightBtn = document.getElementById('themeLight');
+    const darkBtn = document.getElementById('themeDark');
+    
+    if (lightBtn && darkBtn) {
+        if (mode === 'light') {
+            lightBtn.classList.add('active');
+            darkBtn.classList.remove('active');
+        } else {
+            lightBtn.classList.remove('active');
+            darkBtn.classList.add('active');
+        }
+    }
+    
+    // Update theme-accent based on mode
+    const root = document.documentElement;
+    if (mode === 'light') {
+        // Use gold as primary accent for light mode
+        root.style.setProperty('--theme-accent', '#D8B36A');
+        root.style.setProperty('--theme-accent-rgb', '216, 179, 106');
+    } else {
+        // Keep existing pillar-based accent system for dark mode
+        const currentPillar = root.style.getPropertyValue('--theme-accent') || '#D8B36A';
+        root.style.setProperty('--theme-accent', currentPillar);
+    }
+    
+    // Save preference
+    if (save) {
+        localStorage.setItem('cav_theme', mode);
+    }
+}
+
+// ==========================================
+// MOBILE NAVIGATION
+// ==========================================
+
+function initMobileNavigation() {
+    const hamburgers = document.querySelectorAll('.hamburger');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay');
+    
+    hamburgers.forEach(hamburger => {
+        hamburger.addEventListener('click', () => {
+            toggleMobileNav();
+        });
+    });
+    
+    // Close when clicking on links
+    if (mobileOverlay) {
+        const links = mobileOverlay.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileNav();
+            });
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileOverlay.contains(e.target) && 
+                !Array.from(hamburgers).some(h => h.contains(e.target))) {
+                closeMobileNav();
+            }
+        });
+    }
+}
+
+function toggleMobileNav() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay');
+    
+    if (hamburger && mobileOverlay) {
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            closeMobileNav();
+        } else {
+            openMobileNav();
+        }
+    }
+}
+
+function openMobileNav() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay');
+    
+    if (hamburger && mobileOverlay) {
+        hamburger.classList.add('active');
+        mobileOverlay.classList.add('active');
+        hamburger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeMobileNav() {
+    const hamburgers = document.querySelectorAll('.hamburger');
+    const mobileOverlay = document.getElementById('mobile-nav-overlay');
+    
+    hamburgers.forEach(hamburger => {
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+    });
+    
+    if (mobileOverlay) {
+        mobileOverlay.classList.remove('active');
+    }
+    
+    document.body.style.overflow = '';
+}
 
 // ==========================================
 // 1. Pillar Data & State Machine
@@ -83,12 +243,12 @@ function switchPillar(key) {
     currentPillarKey = key;
     const data = PILLARS[key];
 
-    // 1. Morph Root CSS Variables
+    // Morph Root CSS Variables
     document.documentElement.style.setProperty('--theme-accent', data.color);
     document.documentElement.style.setProperty('--theme-accent-rgb', data.colorRgb);
     document.documentElement.style.setProperty('--theme-gradient', data.gradient);
 
-    // 2. Update Switcher Pills Active State
+    // Update Switcher Pills Active State
     document.querySelectorAll('.pillar-pill').forEach(btn => {
         if (btn.dataset.pillar === key) {
             btn.classList.add('active');
@@ -97,7 +257,7 @@ function switchPillar(key) {
         }
     });
 
-    // 3. Update Text Content on Hero Stages
+    // Update Text Content on Hero Stages
     const s1Title = document.getElementById('stage1Title');
     const s1Sub = document.getElementById('stage1Sub');
     const s2Title = document.getElementById('stage2Title');
@@ -128,23 +288,39 @@ function initPillarSwitcher() {
 
 // ==========================================
 // 2. Interactive Canvas 3D Particle Scrollytelling Engine
+// with Performance Optimizations & Accessibility
 // ==========================================
 function initCanvasScrollytelling() {
     const canvas = document.getElementById('scrollyCanvas');
     const wrapper = document.getElementById('scrollyWrapper');
     if (!canvas || !wrapper) return;
 
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+        return;
+    }
+
+    // Performance optimization: reduce particle count on mobile
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 50 : 140;
+    const connectionSkip = isMobile ? 10 : 6;
+
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
+
+    // Animation state for performance
+    let isAnimating = true;
+    let lastFrameTime = 0;
+    let animationId = null;
 
     window.addEventListener('resize', () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     });
 
-    // Create 3D Particle Array
-    const particleCount = 140;
+    // Create particles
     const particles = [];
     for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -157,15 +333,7 @@ function initCanvasScrollytelling() {
 
     let scrollProgress = 0;
 
-    function render() {
-        // Calculate scroll progress relative to scrollyWrapper
-        const rect = wrapper.getBoundingClientRect();
-        const maxScroll = rect.height - window.innerHeight;
-        if (maxScroll > 0) {
-            scrollProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
-        }
-
-        // Trigger Overlay Text Active States based on scroll thresholds
+    function updateStageClasses() {
         const stages = [
             { id: 'stage1', start: 0.00, end: 0.22 },
             { id: 'stage2', start: 0.25, end: 0.48 },
@@ -183,8 +351,32 @@ function initCanvasScrollytelling() {
                 }
             }
         });
+    }
 
-        // Draw Canvas Particle Projection
+    function render(timestamp) {
+        // Throttle frame rate for performance on mobile
+        if (isMobile && timestamp - lastFrameTime < 16) {
+            animationId = requestAnimationFrame(render);
+            return;
+        }
+        lastFrameTime = timestamp;
+
+        const rect = wrapper.getBoundingClientRect();
+        const maxScroll = rect.height - window.innerHeight;
+        if (maxScroll > 0) {
+            scrollProgress = Math.min(Math.max(-rect.top / maxScroll, 0), 1);
+        }
+
+        // Update stage classes
+        updateStageClasses();
+
+        // Only render if canvas is visible
+        const canvasRect = canvas.getBoundingClientRect();
+        if (canvasRect.width === 0 || canvasRect.height === 0) {
+            animationId = requestAnimationFrame(render);
+            return;
+        }
+
         ctx.clearRect(0, 0, width, height);
 
         const currentData = PILLARS[currentPillarKey] || PILLARS.network;
@@ -197,11 +389,9 @@ function initCanvasScrollytelling() {
 
         ctx.lineWidth = 0.5;
 
-        // Render particles and connecting matrix lines
         for (let i = 0; i < particleCount; i++) {
             const p = particles[i];
 
-            // 3D rotation transform
             const rx = p.x * cosAngle - p.z * sinAngle;
             const rz = p.x * sinAngle + p.z * cosAngle + 800 - (scrollProgress * 200);
             const ry = p.y + Math.sin(scrollProgress * Math.PI * 2 + i) * 50;
@@ -213,14 +403,12 @@ function initCanvasScrollytelling() {
 
                 const alpha = Math.min(Math.max((1 - rz / 1600), 0.1), 0.85);
 
-                // Draw Particle Dot
                 ctx.beginPath();
                 ctx.arc(projX, projY, Math.max(p.radius * scale, 0.8), 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${colorRgb}, ${alpha})`;
                 ctx.fill();
 
-                // Draw Connecting Network Lines to Neighbor Nodes
-                for (let j = i + 1; j < particleCount; j += 6) {
+                for (let j = i + 1; j < particleCount; j += connectionSkip) {
                     const p2 = particles[j];
                     const rx2 = p2.x * cosAngle - p2.z * sinAngle;
                     const rz2 = p2.x * sinAngle + p2.z * cosAngle + 800 - (scrollProgress * 200);
@@ -243,37 +431,38 @@ function initCanvasScrollytelling() {
             }
         }
 
-        requestAnimationFrame(render);
+        animationId = requestAnimationFrame(render);
     }
 
-    render();
+    // Start animation
+    animationId = requestAnimationFrame(render);
+    
+    // Pause animation when tab is not visible
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        } else {
+            animationId = requestAnimationFrame(render);
+        }
+    });
 }
 
 // ==========================================
-// 3. Marquee Scrolling Text
+// 3. Marquee Scrolling Text (CSS-based)
 // ==========================================
 function initMarquee() {
+    // Marquee is handled by CSS animation
+    // This function is kept for backwards compatibility
     const content = document.getElementById('marqueeContent');
     if (!content) return;
-
+    
+    // Clone content for seamless CSS animation
     const clone = content.cloneNode(true);
     clone.id = 'marqueeClone';
     content.parentElement.appendChild(clone);
-
-    let position = 0;
-    const speed = 1.2;
-
-    function animate() {
-        position -= speed;
-        if (position <= -content.offsetWidth) {
-            position = 0;
-        }
-        content.style.transform = `translateX(${position}px)`;
-        clone.style.transform = `translateX(${position}px)`;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
 }
 
 // ==========================================

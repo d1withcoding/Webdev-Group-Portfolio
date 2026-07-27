@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="global-nav">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" role="group" aria-label="Theme selector">
+        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+    </div>
+
+    <!-- Glassmorphic Top Navigation -->
+    <nav class="global-nav" aria-label="Main navigation">
         <a href="index.html" class="brand-logo">
             CAV.
             <span class="brand-badge">EST. 2026</span>
@@ -15,11 +26,27 @@
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
-            <a href="services.html" class="active">Services</a>
+            <a href="services.html" class="active" aria-current="page">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
         </div>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html" class="active">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="database.html">Portal Access</a></li>
+        </ul>
+    </div>
 
     <section class="product-tile product-tile-dark" style="min-height: 50vh; justify-content: center;">
         <div class="tile-content text-center">

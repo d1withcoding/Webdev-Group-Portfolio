@@ -1,6 +1,6 @@
 /* ==========================================================================
    Chief Alltechs Ventures - Luxury Scrollytelling Design System
-   Inspired by Maison Aura / Awwwards Aesthetics
+   Inspired by Maison Aura / Awwwards Aesthetics (Production Ready)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap');
@@ -97,6 +97,7 @@ body {
     color: var(--ink-light);
     overflow-x: hidden;
     transition: background 0.8s ease;
+    padding-top: 64px; /* Space for fixed nav */
 }
 
 /* Typography Hierarchy */
@@ -108,24 +109,24 @@ h1, h2, h3, h4, .font-serif {
 }
 
 .hero-display {
-    font-size: clamp(48px, 7vw, 92px);
+    font-size: clamp(44px, 6.5vw, 88px);
     letter-spacing: -0.02em;
     color: #FFFFFF;
     text-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 
 .display-lg {
-    font-size: clamp(36px, 4.5vw, 64px);
+    font-size: clamp(34px, 4vw, 60px);
     letter-spacing: -0.01em;
 }
 
 .display-md {
-    font-size: clamp(28px, 3vw, 42px);
+    font-size: clamp(26px, 2.5vw, 40px);
 }
 
 .lead {
     font-family: 'Outfit', sans-serif;
-    font-size: clamp(18px, 2vw, 22px);
+    font-size: clamp(17px, 1.8vw, 22px);
     font-weight: 300;
     color: rgba(255, 255, 255, 0.85);
     max-width: 680px;
@@ -134,7 +135,7 @@ h1, h2, h3, h4, .font-serif {
 
 .tagline {
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -148,15 +149,15 @@ h1, h2, h3, h4, .font-serif {
 }
 
 /* =========================================
-   NAVBAR (GLASSMORPHIC)
+   SINGLE GLASSMORPHIC NAVBAR (PRODUCTION READY)
    ========================================= */
 .global-nav {
     position: fixed;
     top: 0; left: 0; width: 100%;
     height: 64px;
-    background: rgba(11, 11, 15, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(11, 11, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
@@ -207,19 +208,45 @@ h1, h2, h3, h4, .font-serif {
     color: var(--theme-accent);
 }
 
-/* Sub-Nav Bar */
-.sub-nav-frosted {
-    position: sticky;
-    top: 64px;
-    z-index: 900;
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+/* Mobile Menu Toggle Button */
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+/* Mobile Nav Drawer */
+.mobile-nav-drawer {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; width: 100%;
+    background: rgba(11, 11, 15, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--glass-border);
-    padding: 12px var(--spacing-lg);
+    padding: 24px var(--spacing-lg);
+    flex-direction: column;
+    gap: 18px;
+    z-index: 999;
+}
+
+.mobile-nav-drawer.active {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+.mobile-nav-drawer a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mobile-nav-drawer a.active {
+    color: var(--theme-accent);
 }
 
 /* =========================================
@@ -227,8 +254,9 @@ h1, h2, h3, h4, .font-serif {
    ========================================= */
 .scrolly-wrapper {
     position: relative;
-    height: 400vh; /* Scroll length for 4 narrative stages */
+    height: 400vh;
     width: 100%;
+    margin-top: -64px; /* Pull flush under nav */
 }
 
 .scrolly-sticky {
@@ -303,6 +331,8 @@ h1, h2, h3, h4, .font-serif {
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-pill);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    max-width: 92vw;
+    overflow-x: auto;
 }
 
 .pillar-pill {
@@ -468,12 +498,13 @@ h1, h2, h3, h4, .font-serif {
     gap: 16px;
     justify-content: center;
     margin-top: 32px;
+    flex-wrap: wrap;
 }
 
 /* Glass & Utility Cards */
 .store-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 24px;
     max-width: 1200px;
     margin: 40px auto 0;
@@ -509,7 +540,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 .store-utility-card h3 {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 6px;
     color: #FFFFFF;
 }
@@ -726,3 +757,10 @@ textarea.form-input {
 .mb-2 { margin-bottom: 8px; }
 .mb-4 { margin-bottom: 16px; }
 .mb-8 { margin-bottom: 32px; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .global-nav .nav-links { display: none; }
+    .mobile-menu-btn { display: block; }
+    .product-tile { padding: var(--spacing-lg) var(--spacing-sm); }
+}

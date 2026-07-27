@@ -7,37 +7,52 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" role="group" aria-label="Theme selector">
+        <button onclick="setTheme('light')" id="themeLight" aria-label="Light mode">Light</button>
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <button onclick="setTheme('dark')" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
+    </div>
 
     <!-- Glassmorphic Top Navigation -->
-    <nav class="global-nav">
+    <nav class="global-nav" aria-label="Main navigation">
         <a href="index.html" class="brand-logo">
             CAV.
             <span class="brand-badge">EST. 2026</span>
         </a>
         <div class="nav-links">
-            <a href="index.html" class="active">Home</a>
+            <a href="index.html" class="active" aria-current="page">Home</a>
             <a href="about.html">About</a>
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
         </div>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </nav>
 
-    <!-- Sub-Nav Bar -->
-    <div class="sub-nav-frosted">
-        <span id="currentPillarLabel" class="tagline">CHIEF ALLTECHS VENTURES</span>
-        <div class="nav-links">
-            <a href="about.html">The Company</a>
-            <a href="services.html">Solutions</a>
-            <a href="contact.html" class="button-primary" style="padding: 6px 18px; font-size: 13px;">Inquire</a>
-        </div>
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="database.html">Portal Access</a></li>
+        </ul>
     </div>
 
     <!-- 400vh Scrollytelling Sticky Container -->
     <div id="scrollyWrapper" class="scrolly-wrapper">
         <div class="scrolly-sticky">
             <!-- HTML5 3D Matrix & Particle Canvas -->
-            <canvas id="scrollyCanvas" class="scrolly-canvas"></canvas>
+            <canvas id="scrollyCanvas" class="scrolly-canvas" role="img" aria-label="3D network topology visualization"></canvas>
             <div class="ambient-glow"></div>
 
             <!-- Stage 1 Narrative Overlay -->
@@ -104,14 +119,14 @@
         </div>
     </div>
 
-    <!-- Team Members Section (Requirement 1) -->
+    <!-- Team Members Section -->
+    <main id="main-content">
     <section class="product-tile product-tile-parchment">
         <div class="tile-content text-center">
-            <span class="tagline" style="color: var(--primary, #3139fb);">THE ARCHITECT TEAM</span>
-            <h2 class="display-lg mt-2">Meet the experts.</h2>
+            <span class="tagline">THE ARCHITECT TEAM</span>
+            <h2 class="display-lg mt-2">Meet the team.</h2>
             
             <div class="store-grid">
-                <!-- Javascript injects group members into these 4 utility cards -->
                 <div class="store-utility-card">
                     <img src="" alt="Ebenezer Nana Annan">
                     <h3 class="body-strong">Loading...</h3>
@@ -136,7 +151,7 @@
         </div>
     </section>
 
-    <!-- Modals Demonstration Section (Requirement 4) -->
+    <!-- Modals Demonstration Section -->
     <section class="product-tile product-tile-dark">
         <div class="tile-content text-center">
             <span class="tagline">DISCOVER MORE</span>
@@ -150,34 +165,35 @@
         </div>
     </section>
 
-    <!-- 3 Pop-up Dialog Modals (JavaScript Powered) -->
+    <!-- Pop-up Dialog Modals -->
     <div id="missionModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('missionModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('missionModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">VISION 2026</span>
             <h3 class="display-md mt-2">Our Mission</h3>
-            <p class="mt-4" style="color: rgba(255,255,255,0.85);">To deliver cutting-edge technology solutions that empower enterprise businesses to scale securely and efficiently in the digital era.</p>
+            <p class="mt-4">We deliver cutting-edge technology solutions that empower enterprise businesses to scale securely and efficiently in the digital era.</p>
         </div>
     </div>
 
     <div id="whyModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('whyModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('whyModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">THE CAV DIFFERENCE</span>
             <h3 class="display-md mt-2">Why Choose Us</h3>
-            <p class="mt-4" style="color: rgba(255,255,255,0.85);">We combine industry-leading expertise with a relentless commitment to innovation. Our zero-trust security architecture ensures your operations never halt.</p>
+            <p class="mt-4">We combine industry-leading expertise with a relentless commitment to innovation. Our zero-trust security architecture ensures your operations never halt.</p>
         </div>
     </div>
 
     <div id="approachModal" class="modal-overlay">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeModal('approachModal')">&times;</button>
+            <button class="modal-close" onclick="closeModal('approachModal')" aria-label="Close modal">&times;</button>
             <span class="tagline">METHODOLOGY</span>
             <h3 class="display-md mt-2">Our Approach</h3>
-            <p class="mt-4" style="color: rgba(255,255,255,0.85);">Consult. Architect. Deploy. Secure. We follow a rigorous 4-step framework to ensure every network deployment exceeds enterprise standards from day one.</p>
+            <p class="mt-4">We follow a rigorous 4-step framework to ensure every network deployment exceeds enterprise standards from day one.</p>
         </div>
     </div>
 
+    </main>
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2026 Chief Alltechs Ventures (CAV). Designed by Group Members (UCC).</p>

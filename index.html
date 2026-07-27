@@ -17,6 +17,7 @@
             <a href="services.html">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
+            <div class="theme-toggle" role="group" aria-label="Theme selector"><button onclick="setTheme('light')" id="themeLight">Light</button><button onclick="setTheme('dark')" id="themeDark">Dark</button></div>
         </div>
         <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
             <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
@@ -26,6 +27,7 @@
         <ul class="mobile-nav-links">
             <li><a href="index.html" class="active">Home</a></li><li><a href="about.html">About</a></li>
             <li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li><li><a href="database.html">Portal Access</a></li>
+            <li class="mobile-theme-control"><button class="theme-light-btn" onclick="setTheme('light')">Light mode</button><button class="theme-dark-btn" onclick="setTheme('dark')">Dark mode</button></li>
         </ul>
     </div>
 
@@ -61,6 +63,7 @@
                         <button class="swap-arrow" onclick="swapImage(1)" aria-label="Next showcase image">›</button>
                     </div>
                 </div>
+                <div class="marquee-container hero-marquee" aria-label="Company capabilities"><div id="marqueeContent" class="marquee-content"><div class="marquee-item">ROUTING & SWITCHING</div><div class="marquee-item">ZERO-TRUST SECURITY</div><div class="marquee-item">CLOUD INFRASTRUCTURE</div><div class="marquee-item">DEVOPS AUTOMATION</div><div class="marquee-item">HIGH AVAILABILITY</div><div class="marquee-item">PENETRATION TESTING</div></div></div>
             </div>
         </section>
 
@@ -69,6 +72,30 @@
             <button class="pillar-pill" data-pillar="security">Cyber security</button>
             <button class="pillar-pill" data-pillar="systems">Systems administration</button>
         </div>
+
+        <section class="company-overview product-tile" aria-labelledby="company-title">
+            <div class="tile-content">
+                <div class="company-intro">
+                    <span class="tagline">ABOUT CHIEF ALLTECHS VENTURES</span>
+                    <h2 id="company-title" class="display-lg mt-2">Technology that keeps business moving.</h2>
+                    <p class="lead mt-4">Chief Alltechs Ventures is a leading IT firm dedicated to comprehensive technology solutions for businesses of all sizes. Founded by passionate technology professionals, we combine reliability, innovation, and practical expertise to solve complex digital challenges.</p>
+                    <p class="body-strong mt-4">Our team brings together network, systems, cybersecurity, hardware, consulting, and sales expertise to deliver end-to-end support for modern organisations.</p>
+                </div>
+                <div class="company-mission-grid">
+                    <div class="store-utility-card"><span class="tagline">OUR VISION</span><h3 class="display-md mt-2">Trusted partner. Transformative outcomes.</h3><p class="caption mt-2">To become the most trusted IT partner for businesses across Ghana and beyond, known for operational excellence and sustainable growth.</p></div>
+                    <div class="store-utility-card"><span class="tagline">OUR VALUES</span><h3 class="display-md mt-2">Integrity · Excellence · Innovation</h3><p class="caption mt-2">Customer focus and reliability guide every recommendation, deployment, and support engagement.</p></div>
+                </div>
+                <div class="services-heading"><span class="tagline">OUR SERVICES</span><h3 class="display-lg mt-2">Full-spectrum IT support.</h3></div>
+                <div class="services-grid">
+                    <article class="store-utility-card"><span class="tagline">01</span><h3 class="display-md mt-2">Network Administration</h3><p class="caption mt-2">LAN/WAN setup, wireless networks, network security, monitoring, and performance management.</p></article>
+                    <article class="store-utility-card"><span class="tagline">02</span><h3 class="display-md mt-2">System Administration</h3><p class="caption mt-2">Server management, operating systems, virtualization, cloud services, and optimization.</p></article>
+                    <article class="store-utility-card"><span class="tagline">03</span><h3 class="display-md mt-2">Cyber Security</h3><p class="caption mt-2">Vulnerability assessments, penetration testing, firewalls, intrusion detection, and training.</p></article>
+                    <article class="store-utility-card"><span class="tagline">04</span><h3 class="display-md mt-2">Hardware Installation</h3><p class="caption mt-2">Procurement, installation, configuration, and maintenance for servers, workstations, and networking equipment.</p></article>
+                    <article class="store-utility-card"><span class="tagline">05</span><h3 class="display-md mt-2">IT Consulting</h3><p class="caption mt-2">Technology investment, digital transformation, IT governance, and process optimization guidance.</p></article>
+                    <article class="store-utility-card"><span class="tagline">06</span><h3 class="display-md mt-2">General Sales</h3><p class="caption mt-2">Computers, servers, networking equipment, security solutions, and licensed software with support.</p></article>
+                </div>
+            </div>
+        </section>
 
         <section id="team-portfolios" class="member-portfolio-section">
             <div class="tile-content text-center">
@@ -83,7 +110,6 @@
                 </div>
             </div>
         </section>
-        <section class="marquee-container" aria-label="Company capabilities"><div id="marqueeContent" class="marquee-content"><div class="marquee-item">ROUTING & SWITCHING</div><div class="marquee-item">ZERO-TRUST SECURITY</div><div class="marquee-item">CLOUD INFRASTRUCTURE</div><div class="marquee-item">DEVOPS AUTOMATION</div><div class="marquee-item">HIGH AVAILABILITY</div><div class="marquee-item">PENETRATION TESTING</div></div></section>
     </main>
 
     <div id="briefModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="briefTitle"><div class="modal-card text-left"><button class="modal-close" onclick="closeModal('briefModal')" aria-label="Close modal">×</button><span class="tagline">COMPANY BRIEF</span><h2 id="briefTitle" class="display-md mt-2 mb-4">CAV at a glance.</h2><p>Chief Alltechs Ventures delivers enterprise network architecture, cybersecurity, and systems administration for organisations across Ghana and beyond.</p></div></div>

@@ -11,13 +11,6 @@
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" role="group" aria-label="Theme selector">
-        <button onclick="setTheme('light', true)" id="themeLight" aria-label="Light mode">Light</button>
-        <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <button onclick="setTheme('dark', true)" id="themeDark" class="active" aria-label="Dark mode">Dark</button>
-    </div>
-
     <!-- Glassmorphic Top Navigation -->
     <nav class="global-nav" aria-label="Main navigation">
         <a href="index.html" class="brand-logo">
@@ -30,6 +23,7 @@
             <a href="services.html" class="active" aria-current="page">Services</a>
             <a href="contact.html">Contact</a>
             <a href="database.html" class="button-utility">Portal Access</a>
+            <div class="theme-toggle" role="group" aria-label="Theme selector"><button onclick="setTheme('light')" id="themeLight">Light</button><button onclick="setTheme('dark')" id="themeDark">Dark</button></div>
         </div>
         <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav-overlay">
             <span class="hamburger-line"></span>
@@ -46,6 +40,7 @@
             <li><a href="services.html" class="active">Services</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="database.html">Portal Access</a></li>
+            <li class="mobile-theme-control"><button class="theme-light-btn" onclick="setTheme('light')">Light mode</button><button class="theme-dark-btn" onclick="setTheme('dark')">Dark mode</button></li>
         </ul>
     </div>
 

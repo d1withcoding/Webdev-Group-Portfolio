@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Serif:ital@0;1&display=swap');
 
 :root,
-[data-theme="dark"],
 [data-theme="light"] {
     color-scheme: light;
     --theme-accent: #143A72;
@@ -43,6 +42,29 @@
     
     --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
     --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --theme-accent: #67D7D0;
+    --theme-accent-rgb: 103, 215, 208;
+    --theme-gradient: linear-gradient(135deg, #0B203A 0%, #143A72 100%);
+    --accent-gold: #67D7D0;
+    --void-black: #07111F;
+    --void-surface: #0B1B2F;
+    --void-card: #10233E;
+    --surface-cream: #0B1B2F;
+    --accent-cyan: #67D7D0;
+    --accent-blue: #8CB4FF;
+    --ink-dark: #F5FAFF;
+    --ink-light: #F5FAFF;
+    --ink-muted: #9BB0C8;
+    --divider-dark: rgba(255, 255, 255, 0.12);
+    --divider-light: rgba(255, 255, 255, 0.12);
+    --glass-bg: rgba(11, 27, 47, 0.90);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.26), 0 2px 8px rgba(0, 0, 0, 0.16);
+    --shadow-glow: 0 18px 40px rgba(var(--theme-accent-rgb), 0.18);
 }
 
 ::selection {
@@ -201,7 +223,7 @@ h1, h2, h3, h4, .font-serif {
 
 .theme-toggle button.active {
     background: var(--theme-accent);
-    color: #000000;
+    color: #FFFFFF;
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
@@ -1411,4 +1433,26 @@ body, button, input, select, textarea, .brand-logo, .tagline, .lead, .caption,
     .hero-gallery-content .hero-display { font-size: 42px; }
     .hero-gallery-footer { align-items: flex-start; flex-direction: column; }
     .hero-gallery .image-swap-controls { align-self: flex-end; }
+}
+
+.hero-marquee { margin-top: 52px; border-color: rgba(255,255,255,0.18); background: rgba(7,22,43,0.24); border-radius: 999px; padding: 12px 0; }
+.hero-marquee .marquee-content { color: #FFFFFF; }
+.hero-marquee .marquee-item::before { content: '✦'; color: var(--theme-accent); margin-right: 12px; }
+.company-overview { background: var(--void-surface); text-align: left; }
+.company-intro { max-width: 780px; margin-bottom: 56px; }
+.company-intro .lead { color: var(--ink-light); }
+.company-mission-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 88px; }
+.services-heading { margin-bottom: 26px; }
+.services-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.services-grid .store-utility-card { min-height: 230px; }
+.mobile-theme-control { display: none; }
+
+@media (max-width: 768px) {
+    .hero-marquee { margin-top: 38px; }
+    .company-mission-grid, .services-grid { grid-template-columns: 1fr; }
+    .company-intro { margin-bottom: 42px; }
+    .services-heading { margin-top: 56px; }
+    .mobile-theme-control { display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid var(--glass-border); }
+    .mobile-theme-control button { flex: 1; border: 1px solid var(--glass-border); border-radius: 999px; background: transparent; color: var(--ink-light); padding: 10px 8px; font: inherit; }
+    .mobile-theme-control button:hover { border-color: var(--theme-accent); color: var(--theme-accent); }
 }

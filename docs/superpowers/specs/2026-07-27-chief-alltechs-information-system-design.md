@@ -34,7 +34,7 @@ The home page will display the supplied images in this order:
 The interface is coursework-first: each assessed function is easy to identify and use, with visual refinement applied consistently.
 
 - **Typography:** Instrument Serif for headings; Bricolage Grotesque for body copy, navigation, labels, forms, and table content.
-- **Palette:** warm paper backgrounds, near-black ink, and restrained gold accents.
+- **Palette:** modern SaaS white and soft neutral surfaces, near-black ink, and a single navy-blue accent. Navy is reserved for primary actions, active navigation, key data states, and small emphasis details.
 - **Layout:** a detached floating navigation pill, spacious editorial sections, responsive single-column mobile fallbacks, and asymmetric home-page profile/gallery composition.
 - **Components:** important cards, forms, gallery frames, and data panels use nested double-bezel surfaces for tactile depth. Buttons use pill shapes and custom spring-like motion.
 - **Motion:** `IntersectionObserver` entry reveals and transform/opacity-only transitions. All motion honors reduced-motion preferences.
